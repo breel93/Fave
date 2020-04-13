@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="Preference settings">
+        <MultiSelectListPreference
+            android:defaultValue="@array/empty_array"
+            android:entries="@array/pref_sources_option_labels"
+            android:entryValues="@array/pref_sources_option_values"
+            android:key="@string/pref_source_key"
+            android:title="@string/pref_source_label" />
+
+
+        <ListPreference
+            android:defaultValue="@string/us"
+            android:entries="@array/pref_country_option_label"
+            android:entryValues="@array/pref_country_option_value"
+            android:key="@string/country_key"
+            android:title="@string/country_label"
+            android:summary="@string/country_label_all"
+            />
+
+        <ListPreference
+            android:defaultValue="@string/pref_everything_sort_by_all_value"
+            android:entries="@array/pref_everything_sort_by_labels"
+            android:entryValues="@array/pref_everything_sort_by_values"
+            android:key="@string/pref_everything_sort_by_key"
+            android:title="@string/pref_everything_sort_by_label"
+            android:summary="@string/pref_everything_sort_by_label_all"/>
+
+
+<!--        <ListPreference-->
+<!--            android:defaultValue="@string/lan_en"-->
+<!--            android:entries="@array/pref_lang_option_label"-->
+<!--            android:entryValues="@array/pref_lang_option_value"-->
+<!--            android:key="@string/language_key"-->
+<!--            android:title="@string/language_label"-->
+<!--            android:summary="@string/language_label_all"-->
+<!--            />-->
+    </PreferenceCategory >
+
+
+    <PreferenceCategory android:title="@string/pref_skin_title"
+        app:iconSpaceReserved="false">
+        <SwitchPreference android:title="Night Mode"
+            android:key="@string/pref_theme_key"
+            android:defaultValue="@string/pref_theme_true_value"
+            android:checked="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

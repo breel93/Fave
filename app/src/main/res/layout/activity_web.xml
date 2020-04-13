@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.WebActivity"
+        android:background="?attr/backgroundcolor"
+        >
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/zeroDP"
+            android:layout_marginStart="@dimen/zeroDP"
+            android:layout_marginTop="@dimen/zeroDP"
+            android:background="?attr/actionbarcolor"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                layout="@layout/fave_bar"
+                />
+        </com.google.android.material.appbar.AppBarLayout>
+        <ProgressBar
+            android:id="@+id/webLoadingProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twoDP"
+            android:layout_marginTop="@dimen/eightDP"
+            android:layout_marginEnd="@dimen/twoDP"
+            android:visibility="visible"
+            android:indeterminateBehavior="repeat"
+            android:progressBackgroundTint="@color/progresstint"
+            android:indeterminateOnly="true"
+            android:indeterminateTint="@color/colorAccent"
+            android:layout_marginBottom="@dimen/twoDP"
+            app:layout_constraintBottom_toTopOf="@+id/webView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/eightDP"
+            android:layout_marginTop="@dimen/fourDP"
+            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginBottom="@dimen/eightDP"
+            android:background="?attr/backgroundcolor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/webLoadingProgress">
+
+        </WebView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

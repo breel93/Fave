@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/fourDP"
+        android:layout_margin="@dimen/twoDP"
+        android:elevation="@dimen/threeDP"
+        android:padding="@dimen/twoDP">
+        <TextView
+            android:id="@+id/searchText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="something"
+            android:textColor="@color/black"
+            android:layout_margin="@dimen/threeDP"/>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

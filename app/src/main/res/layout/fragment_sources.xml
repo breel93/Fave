@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.sources.SourcesFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="@dimen/zeroDP"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/minusOneDP"
+            android:layout_marginTop="@dimen/twoDP"
+            android:layout_marginEnd="@dimen/minusOneDP"
+            android:layout_marginBottom="@dimen/twoDP"
+            android:background="?attr/backgroundcolor"
+            android:padding="@dimen/twoDP"
+            app:layout_constraintBottom_toTopOf="@+id/sourcesList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/quickChooseList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/backgroundcolor" />
+
+        </androidx.cardview.widget.CardView>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:shimmer_duration="800"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+                <include layout="@layout/sources_shimmer_layout"/>
+
+                <include layout="@layout/sources_shimmer_layout"/>
+
+                <include layout="@layout/sources_shimmer_layout"/>
+                <include layout="@layout/sources_shimmer_layout"/>
+                <include layout="@layout/sources_shimmer_layout"/>
+                <include layout="@layout/sources_shimmer_layout"/>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sourcesList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            tools:listitem="@layout/source_item" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
