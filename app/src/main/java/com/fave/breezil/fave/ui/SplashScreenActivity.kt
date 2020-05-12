@@ -1,33 +1,46 @@
+/**
+ *  Designed and developed by Fave
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package com.fave.breezil.fave.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.ui.main.MainActivity
 
 class SplashScreenActivity : BaseActivity() {
-    private var sharedPreferences: SharedPreferences? = null
+  private var sharedPreferences: SharedPreferences? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        setContentView(R.layout.activity_splash_screen)
+    setContentView(R.layout.activity_splash_screen)
 
-        Handler().postDelayed({
-            val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, SPLASH_TIME_OUT.toLong())
-    }
+    Handler().postDelayed({
+      val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
+      startActivity(intent)
+      finish()
+    }, SPLASH_TIME_OUT.toLong())
+  }
 
-    companion object {
+  companion object {
 
-        private const val SPLASH_TIME_OUT = 3000
-    }
+    private const val SPLASH_TIME_OUT = 3000
+  }
 }

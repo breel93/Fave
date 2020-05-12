@@ -1,45 +1,46 @@
+/**
+ *  Designed and developed by Fave
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package com.fave.breezil.fave.ui.main.bookmark
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-
-import com.fave.breezil.fave.db.AppDatabase
-import com.fave.breezil.fave.model.BookMark
+import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.repository.BookMarkRepository
-
 import javax.inject.Inject
 
 class BookMarkViewModel @Inject
-constructor(application: Application) : AndroidViewModel(application) {
-    private val bookMarkRepository: BookMarkRepository = BookMarkRepository(application)
-    val bookmarkList: LiveData<List<BookMark>>
-    private val appDatabase: AppDatabase
-    private var bookMark: LiveData<BookMark>? = null
+constructor(private val bookMarkRepository: BookMarkRepository, application: Application) :
+  AndroidViewModel(application) {
 
-    init {
+  val bookmarkList: LiveData<List<Article>> = bookMarkRepository.getBookMarks()
 
-        bookmarkList = bookMarkRepository.allBookMarks
+  fun insert(article: Article) {
+    bookMarkRepository.insertBookMark(article)
+  }
 
-        appDatabase = AppDatabase.getAppDatabase(this.getApplication())
-    }
+//  fun insertIt(article: Article) : LiveData<String>{
+//    return bookMarkRepository.insertBookMark(article).observe
+//  }
 
-    fun insert(bookMark: BookMark) {
-        bookMarkRepository.insert(bookMark)
-    }
+  fun delete(article: Article) {
+    bookMarkRepository.deleteBookMark(article)
+  }
 
-    fun delete(bookMark: BookMark) {
-        bookMarkRepository.delete(bookMark)
-    }
-
-    fun deleteAll() {
-        bookMarkRepository.deleteAllBookMark()
-    }
-
-    fun getBookMarkById(bookMarkId: Int): LiveData<BookMark> {
-        bookMark = appDatabase.bookMarkDao().getMovieById(bookMarkId)
-        return bookMark as LiveData<BookMark>
-    }
-
-
+  fun deleteAll() {
+    bookMarkRepository.deleteAllBookMark()
+  }
 }

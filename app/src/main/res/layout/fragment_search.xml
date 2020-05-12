@@ -21,12 +21,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <androidx.appcompat.widget.SearchView
-                android:background="?attr/actionbarcolor"
                 android:id="@+id/searchView"
-                android:theme="@style/AppTheme.PopupOverlay"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
+                android:background="@drawable/round_rectangle"
+                android:theme="@style/AppTheme.PopupOverlay"
                 app:iconifiedByDefault="false"
-                android:layout_height="wrap_content"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:minHeight="?attr/actionBarSize" />
         </com.google.android.material.appbar.AppBarLayout>
 

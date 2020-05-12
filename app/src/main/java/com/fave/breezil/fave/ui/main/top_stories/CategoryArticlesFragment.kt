@@ -1,232 +1,225 @@
+/**
+ *  Designed and developed by Fave
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package com.fave.breezil.fave.ui.main.top_stories
 
-
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.*
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import android.view.View
+import android.view.ViewGroup
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.callbacks.ArticleClickListener
-import com.fave.breezil.fave.callbacks.ArticleLongClickListener
-import com.fave.breezil.fave.callbacks.FragmentClosedListener
-import com.fave.breezil.fave.callbacks.SeeMoreClickListener
+import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
+import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
+import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
 import com.fave.breezil.fave.databinding.FragmentCategoryArticlesBinding
-import com.fave.breezil.fave.model.Articles
+import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.ui.adapter.ArticleRecyclerViewAdapter
 import com.fave.breezil.fave.ui.adapter.QuickCategoryRecyclerAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
-import com.fave.breezil.fave.ui.main.MainActivity
 import com.fave.breezil.fave.utils.Constant.Companion.CATEGORYNAME
-import dagger.android.support.AndroidSupportInjection
-import java.util.*
+import dagger.android.support.DaggerFragment
+import java.util.Collections
+import java.util.Arrays
 import javax.inject.Inject
-
-
-
-
-
-
 
 /**
  * A simple [Fragment] subclass.
  *
  */
 
-class CategoryArticlesFragment : Fragment() {
+class CategoryArticlesFragment : DaggerFragment() {
 
-    lateinit var binding: FragmentCategoryArticlesBinding
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private  var articleAdapter: ArticleRecyclerViewAdapter? = null
-    private  var quickCategoryRecyclerAdapter : QuickCategoryRecyclerAdapter? = null
-    lateinit var quickCategoryList: List<String>
+  lateinit var binding: FragmentCategoryArticlesBinding
 
+  @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
+  private var articleAdapter: ArticleRecyclerViewAdapter? = null
+  private var quickCategoryRecyclerAdapter: QuickCategoryRecyclerAdapter? = null
+  lateinit var quickCategoryList: List<String>
 
-    lateinit var viewModel: MainViewModel
+  lateinit var viewModel: MainViewModel
 
-    private var country: String? = null
+  private var country: String? = null
 
-    lateinit var sharedPreferences: SharedPreferences
-    
+  lateinit var sharedPreferences: SharedPreferences
 
-
-    private var fragmentClosedListener: FragmentClosedListener? = null
-
-    private val category: String?
-        get() = if (arguments!!.getString(CATEGORYNAME) != null) {
-            arguments!!.getString(CATEGORYNAME)
-        } else {
-            null
-        }
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-        try {
-            this.fragmentClosedListener = context as FragmentClosedListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException("$context must implement FragmentClosedListener")
-        }
-
+  private val category: String?
+    get() = if (arguments!!.getString(CATEGORYNAME) != null) {
+      arguments!!.getString(CATEGORYNAME)
+    } else {
+      null
     }
 
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setHasOptionsMenu(true)
+  }
+
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    // Inflate the layout for this fragment
+    binding =
+      DataBindingUtil.inflate(inflater, R.layout.fragment_category_articles, container, false)
+    viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
+    country =
+      sharedPreferences.getString(getString(R.string.country_key), getString(R.string.blank))
+
+    setUpAdapter()
+    setUpViewModel(category!!)
+
+    binding.shimmerViewContainer.startShimmer()
+    binding.swipeRefresh.setOnRefreshListener { refresh(category!!) }
+
+    return binding.root
+  }
+
+  private fun setUpAdapter() {
+
+    val seeMoreClickListener = object : SeeMoreClickListener {
+      override fun showMoreCategory(category: String) {
+        refresh(category)
+      }
     }
+    val articleClickListener = object : ArticleClickListener {
+      override fun showDetails(article: Article) {
+        val descriptionBottomSheetFragment = DescriptionBottomSheetFragment.getArticles(article)
+        descriptionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
+      }
+    }
+    val articleLongClickListener = object : ArticleLongClickListener {
+      override fun doSomething(article: Article) {
+        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article)
+        actionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
+      }
+    }
+    articleAdapter =
+      ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_articles, container, false)
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
+    val textArray = resources.getStringArray(R.array.category_list)
+    quickCategoryList = Arrays.asList(*textArray)
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        country = sharedPreferences.getString(getString(R.string.country_key), getString(R.string.blank))
+    val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+    quickCategoryRecyclerAdapter =
+      QuickCategoryRecyclerAdapter(quickCategoryList, seeMoreClickListener)
+    binding.quickChooseList.layoutManager = layoutManager
+    binding.quickChooseList.adapter = quickCategoryRecyclerAdapter
+    Collections.shuffle(quickCategoryList)
+    quickCategoryRecyclerAdapter!!.setList(quickCategoryList)
+  }
 
-        setUpAdapter()
-        setUpViewModel(category!!)
-        
+  private fun setUpViewModel(category: String) {
+    binding.swipeRefresh.visibility = View.VISIBLE
+    binding.swipeRefresh.setColorSchemeResources(
+      R.color.colorAccent, R.color.colorPrimary,
+      R.color.colorblue, R.color.hotPink
+    )
+
+    viewModel.articleList.removeObservers(viewLifecycleOwner)
+
+    viewModel.setParameter(
+      country!!,
+      getString(R.string.blank),
+      category,
+      getString(R.string.blank)
+    )
+    viewModel.articleList.observe(viewLifecycleOwner, Observer {
+      if (it != null) {
+        articleAdapter!!.submitList(it)
+        binding.articleCategoryList.adapter = articleAdapter
+        articleAdapter!!.notifyDataSetChanged()
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+      }
+    })
+    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
+      if (networkState != null) {
+        articleAdapter!!.setNetworkState(networkState)
+      }
+    })
+
+    if (binding.swipeRefresh != null) {
+      binding.swipeRefresh.isRefreshing = false
+    }
+  }
+
+  companion object {
+    fun getCategory(category: String): CategoryArticlesFragment {
+      val fragment = CategoryArticlesFragment()
+      val args = Bundle()
+      args.putString(CATEGORYNAME, category)
+      fragment.arguments = args
+      return fragment
+    }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    menu.clear()
+    inflater.inflate(R.menu.second_menu, menu)
+    super.onCreateOptionsMenu(menu, inflater)
+  }
+
+  private fun refresh(category: String) {
+    binding.swipeRefresh.visibility = View.VISIBLE
+    binding.swipeRefresh.setColorSchemeResources(
+      R.color.colorAccent, R.color.colorPrimary,
+      R.color.colorblue, R.color.hotPink
+    )
+
+    (activity as AppCompatActivity).supportActionBar!!.title = category
+    viewModel.setParameter(
+      country!!,
+      getString(R.string.blank),
+      category,
+      getString(R.string.blank)
+    )
+    viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
+      if (it != null) {
+        articleAdapter!!.submitList(it)
+        binding.articleCategoryList.adapter = articleAdapter
+        articleAdapter!!.notifyDataSetChanged()
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+      } else {
         binding.shimmerViewContainer.startShimmer()
-        binding.swipeRefresh.setOnRefreshListener { refresh(category!!) }
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+      }
+    })
+    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
+      if (networkState != null) {
+        articleAdapter!!.setNetworkState(networkState)
+      }
+    })
 
-
-        return binding.root
+    if (binding.swipeRefresh != null) {
+      binding.swipeRefresh.isRefreshing = false
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        fragmentClosedListener!!.closeFragment()
-    }
-
-
-    private fun setUpAdapter() {
-
-        val seeMoreClickListener  = object : SeeMoreClickListener {
-            override fun showMoreCategory(category: String) {
-                refresh(category)
-            }
-
-        }
-        val articleClickListener = object : ArticleClickListener {
-            override fun showDetails(article: Articles) {
-                val descriptionBottomSheetFragment = DescriptionBottomSheetFragment.getArticles(article)
-                descriptionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
-            }
-        }
-        val articleLongClickListener = object : ArticleLongClickListener {
-            override fun doSomething(article: Articles) {
-                val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article)
-                actionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
-            }
-        }
-        articleAdapter = ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
-
-
-
-        val textArray = resources.getStringArray(R.array.category_list)
-        quickCategoryList = Arrays.asList(*textArray)
-
-        val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        quickCategoryRecyclerAdapter = QuickCategoryRecyclerAdapter(quickCategoryList,seeMoreClickListener )
-        binding.quickChooseList.layoutManager = layoutManager
-        binding.quickChooseList.adapter = quickCategoryRecyclerAdapter
-        Collections.shuffle(quickCategoryList)
-        quickCategoryRecyclerAdapter!!.setList(quickCategoryList)
-
-    }
-
-    private fun setUpViewModel(category:String){
-        binding.swipeRefresh.visibility = View.VISIBLE
-        binding.swipeRefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,
-                R.color.colorblue, R.color.hotPink)
-
-
-        viewModel.articlesList.removeObservers(viewLifecycleOwner)
-
-        viewModel.setParameter(country!!,getString(R.string.blank),category,getString(R.string.blank))
-        viewModel.articlesList.observe(viewLifecycleOwner, Observer {
-            if(it != null) {
-                articleAdapter!!.submitList(it)
-                binding.articleCategoryList.adapter = articleAdapter
-                articleAdapter!!.notifyDataSetChanged()
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-            }
-        })
-        viewModel.getNetworkState().observe(viewLifecycleOwner, Observer{ networkState ->
-            if (networkState != null) {
-                articleAdapter!!.setNetworkState(networkState)
-            }
-        })
-
-        if (binding.swipeRefresh != null) {
-            binding.swipeRefresh.isRefreshing = false
-        }
-    }
-
-    companion object {
-        fun getCategory(category: String): CategoryArticlesFragment {
-            val fragment = CategoryArticlesFragment()
-            val args = Bundle()
-            args.putString(CATEGORYNAME, category)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.second_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-
-
-    private fun refresh(category: String){
-        binding.swipeRefresh.visibility = View.VISIBLE
-        binding.swipeRefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,
-                R.color.colorblue, R.color.hotPink)
-
-        (activity as AppCompatActivity).supportActionBar!!.title = category
-        viewModel.setParameter( country!!,getString(R.string.blank),category,getString(R.string.blank))
-        viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
-            if(it != null) {
-                articleAdapter!!.submitList(it)
-                binding.articleCategoryList.adapter = articleAdapter
-                articleAdapter!!.notifyDataSetChanged()
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-            }else{
-                binding.shimmerViewContainer.startShimmer()
-                binding.shimmerViewContainer.visibility = View.VISIBLE
-            }
-
-        })
-        viewModel.getNetworkState().observe(viewLifecycleOwner, Observer{ networkState ->
-            if (networkState != null) {
-                articleAdapter!!.setNetworkState(networkState)
-            }
-        })
-
-
-        if (binding.swipeRefresh != null) {
-            binding.swipeRefresh.isRefreshing = false
-        }
-    }
-
-
+  }
 }

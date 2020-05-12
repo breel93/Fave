@@ -1,83 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+  <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="?attr/backgroundcolor"
+      tools:context=".ui.main.top_stories.CategoryArticlesFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.top_stories.CategoryArticlesFragment">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="@dimen/zeroDP"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/minusOneDP"
-            android:layout_marginTop="@dimen/twoDP"
-            android:layout_marginBottom="@dimen/twoDP"
-            android:background="?attr/backgroundcolor"
-            android:padding="@dimen/twoDP"
-            app:layout_constraintBottom_toTopOf="@+id/swipeRefresh"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+      <include layout="@layout/fave_bar" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/quickChooseList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/backgroundcolor" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="@dimen/zeroDP"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/minusOneDP"
+        android:layout_marginTop="@dimen/twoDP"
+        android:layout_marginBottom="@dimen/twoDP"
+        android:background="?attr/backgroundcolor"
+        android:padding="@dimen/twoDP"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
-        </androidx.cardview.widget.CardView>
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/quickChooseList"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="?attr/backgroundcolor" />
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            app:shimmer_duration="800"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-                <include layout="@layout/shimmer_feeds_layout"/>
+    </androidx.cardview.widget.CardView>
 
-                <include layout="@layout/shimmer_feeds_layout"/>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:shimmer_duration="800">
 
-                <include layout="@layout/shimmer_feeds_layout"/>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@android:color/white"
+          android:orientation="vertical">
 
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
+        <include layout="@layout/shimmer_feeds_layout" />
+
+        <include layout="@layout/shimmer_feeds_layout" />
+
+        <include layout="@layout/shimmer_feeds_layout" />
+
+      </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            android:visibility="gone"
-            >
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zeroDP"
-                android:id="@+id/articleCategoryList"
-                tools:listitem="@layout/parent_main_item"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
-              />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/articleCategoryList"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/zeroDP"
+          app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/cardView"
+          app:spanCount="2"
+          tools:listitem="@layout/parent_main_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,60 +1,101 @@
+/**
+ *  Designed and developed by Fave
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package com.fave.breezil.fave.repository
 
-import android.app.Application
 import androidx.lifecycle.LiveData
-import android.os.AsyncTask
+import androidx.lifecycle.MutableLiveData
+import com.fave.breezil.fave.db.ArticleDao
+import com.fave.breezil.fave.model.Article
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-import com.fave.breezil.fave.db.AppDatabase
-import com.fave.breezil.fave.db.BookMarkDao
-import com.fave.breezil.fave.model.BookMark
+@Singleton
+class BookMarkRepository @Inject
+constructor(private val articleDao: ArticleDao) {
+  private val isSuccessful = MutableLiveData<String>()
+  fun getBookMarks(): LiveData<List<Article>> {
+    return articleDao.allBookMarks
+  }
 
-class BookMarkRepository(application: Application) {
-    private val bookMarkDao: BookMarkDao
-    val allBookMarks: LiveData<List<BookMark>>
-
-    init {
-        val database = AppDatabase.getAppDatabase(application)
-        bookMarkDao = database.bookMarkDao()
-        allBookMarks = bookMarkDao.allBookMarks
-
-
-    }
-
-    fun insert(bookMark: BookMark) {
-        InsertBookMark(bookMarkDao).execute(bookMark)
-    }
-
-    fun delete(bookMark: BookMark) {
-        DeleteBookMark(bookMarkDao).execute(bookMark)
-    }
-
-    fun deleteAllBookMark() {
-        DeleteAllBookMarks(bookMarkDao).execute()
-    }
-
-    private class InsertBookMark(private val bookMarkDao: BookMarkDao) : AsyncTask<BookMark, Void, Void>() {
-
-        override fun doInBackground(vararg bookMarks: BookMark): Void? {
-            bookMarkDao.insert(bookMarks[0])
-            return null
+  fun insertBookMark(article: Article): MutableLiveData<String> {
+    Completable.fromAction { articleDao.insert(article) }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(object : CompletableObserver {
+        override fun onComplete() {
+          isSuccessful.postValue("Successful")
         }
-    }
 
-
-    private class DeleteBookMark(private val bookMarkDao: BookMarkDao) : AsyncTask<BookMark, Void, Void>() {
-
-        override fun doInBackground(vararg bookMarks: BookMark): Void? {
-            bookMarkDao.delete(bookMarks[0])
-            return null
+        override fun onSubscribe(d: Disposable) {
+          d.dispose()
         }
-    }
 
-    private class DeleteAllBookMarks(private val bookMarkDao: BookMarkDao) : AsyncTask<Void, Void, Void>() {
-
-        override fun doInBackground(vararg voids: Void): Void? {
-            bookMarkDao.deleteAllBookMarks()
-            return null
+        override fun onError(e: Throwable) {
+          isSuccessful.postValue(e.message)
         }
-    }
+      })
+    return isSuccessful
+  }
 
+  fun deleteBookMark(article: Article): MutableLiveData<String> {
+    Completable.fromAction { articleDao.delete(article) }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(
+        object : CompletableObserver {
+          override fun onComplete() {
+            isSuccessful.postValue("successful")
+          }
+
+          override fun onSubscribe(d: Disposable) {
+            d.dispose()
+          }
+
+          override fun onError(e: Throwable) {
+            isSuccessful.postValue(e.message)
+          }
+        }
+      )
+    return isSuccessful
+  }
+
+  fun deleteAllBookMark(): MutableLiveData<String> {
+    Completable.fromAction { articleDao.deleteAllArticle() }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(
+        object : CompletableObserver {
+          override fun onComplete() {
+            isSuccessful.postValue("successful")
+          }
+
+          override fun onSubscribe(d: Disposable) {
+            d.dispose()
+          }
+
+          override fun onError(e: Throwable) {
+            isSuccessful.postValue(e.message)
+          }
+        }
+      )
+    return isSuccessful
+  }
 }

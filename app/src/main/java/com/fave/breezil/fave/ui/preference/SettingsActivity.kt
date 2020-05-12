@@ -1,56 +1,59 @@
+/**
+ *  Designed and developed by Fave
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package com.fave.breezil.fave.ui.preference
 
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import com.fave.breezil.fave.databinding.ActivitySettingsBinding
+import androidx.databinding.DataBindingUtil
 import com.fave.breezil.fave.R
+import com.fave.breezil.fave.databinding.ActivitySettingsBinding
 import com.fave.breezil.fave.ui.BaseActivity
-import com.fave.breezil.fave.utils.helpers.BottomNavigationHelper
-
+import dagger.android.AndroidInjection
+import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+class SettingsActivity : BaseActivity() {
 
-class SettingsActivity : BaseActivity(), HasSupportFragmentInjector {
+  lateinit var binding: ActivitySettingsBinding
+  var toolbar: Toolbar? = null
 
-    lateinit var binding: ActivitySettingsBinding
-    var toolbar: Toolbar? = null
+  @Inject
+  lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+  override fun onCreate(savedInstanceState: Bundle?) {
+    AndroidInjection.inject(this)
+    super.onCreate(savedInstanceState)
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
+    toolbar = binding.root.findViewById(R.id.mainToolbar) as Toolbar
+    setSupportActionBar(toolbar)
+    supportActionBar!!.title = "Preference"
+    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        toolbar = binding.root.findViewById(R.id.mainToolbar) as Toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Preference"
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    binding.aboutText.setOnClickListener { startActivity(Intent(this, AboutActivity::class.java)) }
+  }
 
-        binding.aboutText.setOnClickListener { startActivity(Intent(this, AboutActivity::class.java)) }
-
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    super.onOptionsItemSelected(item)
+    if (item.itemId == android.R.id.home) {
+      onBackPressed()
+      return true
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
-        if(item.itemId == android.R.id.home){
-            onBackPressed()
-            return true
-        }
-        return false
-    }
-
-
-
-    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment>? {
-        return dispatchingAndroidInjector
-    }
+    return false
+  }
 }
