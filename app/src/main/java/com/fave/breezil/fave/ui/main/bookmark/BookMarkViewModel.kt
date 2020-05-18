@@ -28,19 +28,15 @@ constructor(private val bookMarkRepository: BookMarkRepository, application: App
 
   val bookmarkList: LiveData<List<Article>> = bookMarkRepository.getBookMarks()
 
-  fun insert(article: Article) {
-    bookMarkRepository.insertBookMark(article)
+  fun insert(article: Article): LiveData<String> {
+    return bookMarkRepository.insertBookMark(article)
   }
 
-//  fun insertIt(article: Article) : LiveData<String>{
-//    return bookMarkRepository.insertBookMark(article).observe
-//  }
-
-  fun delete(article: Article) {
-    bookMarkRepository.deleteBookMark(article)
+  fun delete(article: Article): LiveData<String> {
+    return bookMarkRepository.deleteBookMark(article)
   }
 
-  fun deleteAll() {
-    bookMarkRepository.deleteAllBookMark()
+  fun deleteAll(): LiveData<String> {
+    return bookMarkRepository.deleteAllBookMark()
   }
 }

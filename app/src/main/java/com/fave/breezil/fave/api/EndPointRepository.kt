@@ -15,8 +15,8 @@
 */
 package com.fave.breezil.fave.api
 
+import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
 import com.fave.breezil.fave.model.ArticleResult
-import com.fave.breezil.fave.utils.Constant.Companion.API_KEY
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +32,7 @@ constructor(private val newsApi: NewsApi) {
     pageSize: Int,
     page: Int
   ): Single<ArticleResult> {
-    return newsApi.getHeadline(country, sources, category, query, pageSize, page, API_KEY)
+    return newsApi.getHeadline(country, sources, category, query, pageSize, page, NEWS_API_KEY)
       .retry(3)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
@@ -57,7 +57,7 @@ constructor(private val newsApi: NewsApi) {
       language,
       pageSize,
       page,
-      API_KEY
+      NEWS_API_KEY
     )
       .retry(3)
       .subscribeOn(Schedulers.io())

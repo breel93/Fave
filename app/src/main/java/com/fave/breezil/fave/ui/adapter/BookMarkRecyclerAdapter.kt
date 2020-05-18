@@ -80,7 +80,6 @@ class BookMarkRecyclerAdapter(
         longClickListener.doSomething(article)
         true
       }
-
       circularProgressDrawable = CircularProgressDrawable(context)
       circularProgressDrawable.strokeWidth = 12f
       circularProgressDrawable.centerRadius = 60f
@@ -97,7 +96,6 @@ class BookMarkRecyclerAdapter(
             .error(R.drawable.placeholder)
         )
         .into(binding.articleImage)
-
 //            binding.articleTitle.text = bookMark.title
       binding.sourcesText.text = article.source!!.name
       binding.articleTitle.text = Html.fromHtml(article.title, null, HtmlTagHandler())
@@ -108,13 +106,14 @@ class BookMarkRecyclerAdapter(
 
     private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
       override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-        return oldItem.title == newItem.title
+        return oldItem.id == newItem.id
       }
 
       override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-        return (oldItem.title == newItem.title &&
-            oldItem.description == newItem.description &&
-            oldItem.publishedAt == newItem.publishedAt)
+//        return (oldItem.title == newItem.title &&
+//            oldItem.description == newItem.description &&
+//            oldItem.publishedAt == newItem.publishedAt)
+        return oldItem == newItem
       }
     }
   }

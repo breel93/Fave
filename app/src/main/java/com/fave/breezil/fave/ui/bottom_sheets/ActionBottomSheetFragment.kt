@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentActionBottomSheetBinding
@@ -116,12 +117,21 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
       if (title != null && description != null && url != null && urlToImage != null &&
         publishedAt != null
       ) {
-        bookMarkViewModel.insert(article)
-        Toast.makeText(
-          this@ActionBottomSheetFragment.mContext,
-          R.string.saved_bookmark,
-          Toast.LENGTH_SHORT
-        ).show()
+        bookMarkViewModel.insert(article).observe(viewLifecycleOwner, Observer {
+          if (it == "Successful") {
+            Toast.makeText(
+              this@ActionBottomSheetFragment.mContext,
+              R.string.saved_bookmark,
+              Toast.LENGTH_SHORT
+            ).show()
+          } else {
+            Toast.makeText(
+              this@ActionBottomSheetFragment.mContext,
+              it,
+              Toast.LENGTH_SHORT
+            ).show()
+          }
+        })
       } else {
         Toast.makeText(
           this@ActionBottomSheetFragment.mContext,

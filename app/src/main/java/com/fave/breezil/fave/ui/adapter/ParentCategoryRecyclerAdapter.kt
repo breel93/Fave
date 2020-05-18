@@ -16,9 +16,12 @@
 package com.fave.breezil.fave.ui.adapter
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.fave.breezil.fave.databinding.BreakingNewsListBinding
 import com.fave.breezil.fave.databinding.ParentMainItemBinding
@@ -29,6 +32,7 @@ import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
 import com.fave.breezil.fave.utils.Constant.Companion.ONE
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
+import kotlin.collections.ArrayList
 
 class ParentCategoryRecyclerAdapter(
   private val mContext: Context,
@@ -43,6 +47,9 @@ class ParentCategoryRecyclerAdapter(
   private var mParentList = ArrayList<ParentModel>()
 
   private var mArticles = ArrayList<Article>()
+  val duration = 10
+  val pixelsToMove = 30
+  private val mHandler = Handler(Looper.getMainLooper())
 
   override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): RecyclerView.ViewHolder {
     val layoutInflater = LayoutInflater.from(viewGroup.context)
@@ -82,7 +89,6 @@ class ParentCategoryRecyclerAdapter(
 
   fun setList(parentModelArrayList: ArrayList<ParentModel>) {
     mParentList = parentModelArrayList
-    //        notifyDataSetChanged();
   }
 
   inner class ParentViewHolder(var binding: ParentMainItemBinding) :
@@ -109,7 +115,7 @@ class ParentCategoryRecyclerAdapter(
     }
   }
 
-  inner class BreakingNewsViewHolder(var binding: BreakingNewsListBinding) :
+  inner class BreakingNewsViewHolder(private var binding: BreakingNewsListBinding) :
     RecyclerView.ViewHolder(binding.root) {
     internal fun bind(articles: List<Article>) {
       val breakingNewsRecyclerAdapter = BreakingNewsRecyclerAdapter(
@@ -117,15 +123,43 @@ class ParentCategoryRecyclerAdapter(
         articleClickListener, articleLongClickListener
       )
       binding.breakingNewsList.setHasFixedSize(true)
-      binding.breakingNewsList.layoutManager = LinearLayoutManager(
+      val linearLayoutManager = LinearLayoutManager(
         mContext,
         LinearLayoutManager.HORIZONTAL, false
       )
+      binding.breakingNewsList.layoutManager = linearLayoutManager
       binding.breakingNewsList.adapter = breakingNewsRecyclerAdapter
       breakingNewsRecyclerAdapter.submitList(articles)
+
+      val time = 10000 // it's the delay time for sliding between items in recyclerview
+
+      // The LinearSnapHelper will snap the center of the target child view to the center of the attached RecyclerView ,
+      // it's optional if you want , you can use it
+      val linearSnapHelper = LinearSnapHelper()
+      if (binding.breakingNewsList.onFlingListener == null)
+        linearSnapHelper.attachToRecyclerView(binding.breakingNewsList)
+
+//      Timer().schedule(object : TimerTask() {
+//        override fun run() {
+//          if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < breakingNewsRecyclerAdapter.itemCount - 1) {
+//              if (binding.breakingNewsList.onFlingListener == null)
+//                linearSnapHelper.attachToRecyclerView(binding.breakingNewsList)
+//              if(binding.breakingNewsList.onFlingListener != null){
+//                linearLayoutManager.smoothScrollToPosition(
+//                  binding.breakingNewsList,
+//                  RecyclerView.State(),
+//                  linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
+//                )
+//              }
+//          } else if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == breakingNewsRecyclerAdapter.itemCount - 1) {
+//            if(binding.breakingNewsList.onFlingListener == null)
+//              linearSnapHelper.attachToRecyclerView(binding.breakingNewsList)
+//            linearLayoutManager.smoothScrollToPosition( binding.breakingNewsList, RecyclerView.State(), 0)
+//          }
+//        }
+//      }, 0, time.toLong())
     }
   }
-
   companion object {
     private const val TYPE_BREAKING_NEWS = ZERO
     private const val TYPE_ITEM = ONE

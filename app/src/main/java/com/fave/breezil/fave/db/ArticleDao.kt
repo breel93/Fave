@@ -17,7 +17,6 @@ package com.fave.breezil.fave.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Transaction
 import androidx.room.Query
 import androidx.room.Insert
 import androidx.room.Delete
@@ -28,8 +27,8 @@ import com.fave.breezil.fave.model.Article
 @Dao
 interface ArticleDao {
 
-  @get:Transaction
-  @get:Query("SELECT * FROM article_table ORDER BY id")
+//  @get:Transaction
+  @get:Query("SELECT * FROM article_table ORDER BY id DESC")
   val allBookMarks: LiveData<List<Article>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)

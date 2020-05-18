@@ -17,7 +17,7 @@ package com.fave.breezil.fave.repository.headlines
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
-import com.fave.breezil.fave.BuildConfig.API_KEY
+import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
 import com.fave.breezil.fave.api.NewsApi
 import com.fave.breezil.fave.model.Sources
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,7 +37,7 @@ internal constructor(private val newsApi: NewsApi) {
     language: String,
     country: String
   ): MutableLiveData<List<Sources>> {
-    newsApi.getSources(category, language, country, API_KEY)
+    newsApi.getSources(category, language, country, NEWS_API_KEY)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe({

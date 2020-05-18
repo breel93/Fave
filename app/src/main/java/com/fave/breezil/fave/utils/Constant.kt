@@ -29,7 +29,7 @@ import kotlin.collections.shuffle
 
 class Constant {
   companion object {
-    const val API_KEY = BuildConfig.API_KEY
+    const val NEWS_API_KEY = BuildConfig.NEWS_API_KEY
     const val BASE_URL = BuildConfig.BASE_URL
     const val ARTICLE = "article"
     const val ARTICLE_TITLE = "article_title"

@@ -89,7 +89,9 @@ class BookMarkedFragment : DaggerFragment() {
   private fun setUpViewModel() {
     bookMarkViewModel = ViewModelProvider(this, viewModelFactory).get(BookMarkViewModel::class.java)
     bookMarkViewModel.bookmarkList.observe(viewLifecycleOwner, Observer { article ->
-      article?.let { adapter.submitList(article) }
+      adapter.submitList(article)
+      Toast.makeText(activity, article.size.toString(), Toast.LENGTH_SHORT)
+        .show()
     })
   }
 

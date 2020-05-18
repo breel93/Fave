@@ -38,7 +38,6 @@ class ChildRecyclerViewAdapter(
   ListAdapter<Article, ChildRecyclerViewAdapter.ChildViewHolder>(DIFF_CALLBACK) {
 
   internal lateinit var binding: ChildMainItemBinding
-  private var mArticleList: ArrayList<Article>? = null
   internal lateinit var circularProgressDrawable: CircularProgressDrawable
 
   override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ChildViewHolder {

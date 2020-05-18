@@ -53,10 +53,12 @@ class AppModule {
   internal fun provideDb(app: Application): AppDatabase {
     val migration12: Migration = object : Migration(1, 2) {
       override fun migrate(database: SupportSQLiteDatabase) {
+        database.beginTransaction()
       }
     }
-    return Room.databaseBuilder(app, AppDatabase::class.java, FAVE_DB)
-      .addMigrations(migration12)
+    return Room.databaseBuilder(app.applicationContext,
+      AppDatabase::class.java, FAVE_DB)
+//      .addMigrations(migration12)
       .build()
   }
 

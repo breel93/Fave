@@ -17,13 +17,12 @@ package com.fave.breezil.fave.ui.main.top_stories
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -42,7 +41,6 @@ import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.utils.Constant.Companion.CATEGORYNAME
 import dagger.android.support.DaggerFragment
 import java.util.Collections
-import java.util.Arrays
 import javax.inject.Inject
 
 /**
@@ -111,20 +109,20 @@ class CategoryArticlesFragment : DaggerFragment() {
     val articleClickListener = object : ArticleClickListener {
       override fun showDetails(article: Article) {
         val descriptionBottomSheetFragment = DescriptionBottomSheetFragment.getArticles(article)
-        descriptionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
+        descriptionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }
     val articleLongClickListener = object : ArticleLongClickListener {
       override fun doSomething(article: Article) {
         val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article)
-        actionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
+        actionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }
     articleAdapter =
       ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
 
     val textArray = resources.getStringArray(R.array.category_list)
-    quickCategoryList = Arrays.asList(*textArray)
+    quickCategoryList = listOf(*textArray)
 
     val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
     quickCategoryRecyclerAdapter =
@@ -192,8 +190,6 @@ class CategoryArticlesFragment : DaggerFragment() {
       R.color.colorAccent, R.color.colorPrimary,
       R.color.colorblue, R.color.hotPink
     )
-
-    (activity as AppCompatActivity).supportActionBar!!.title = category
     viewModel.setParameter(
       country!!,
       getString(R.string.blank),

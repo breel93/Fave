@@ -15,7 +15,6 @@
 */
 package com.fave.breezil.fave.repository.headlines
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.fave.breezil.fave.api.EndPointRepository
@@ -36,8 +35,7 @@ import javax.inject.Singleton
 class HeadlineDataSource @Inject
 constructor(
   private var endpointRepository: EndPointRepository,
-  private val compositeDisposable: CompositeDisposable,
-  application: Application
+  private val compositeDisposable: CompositeDisposable
 ) : PageKeyedDataSource<Int, Article>(),
   PaginationListener<ArticleResult, Article> {
 

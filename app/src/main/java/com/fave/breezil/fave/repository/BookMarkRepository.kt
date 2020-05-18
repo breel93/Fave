@@ -45,7 +45,6 @@ constructor(private val articleDao: ArticleDao) {
         }
 
         override fun onSubscribe(d: Disposable) {
-          d.dispose()
         }
 
         override fun onError(e: Throwable) {
@@ -66,7 +65,6 @@ constructor(private val articleDao: ArticleDao) {
           }
 
           override fun onSubscribe(d: Disposable) {
-            d.dispose()
           }
 
           override fun onError(e: Throwable) {
@@ -88,7 +86,6 @@ constructor(private val articleDao: ArticleDao) {
           }
 
           override fun onSubscribe(d: Disposable) {
-            d.dispose()
           }
 
           override fun onError(e: Throwable) {

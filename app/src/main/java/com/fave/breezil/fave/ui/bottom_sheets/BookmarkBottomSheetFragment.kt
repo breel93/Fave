@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentBookmarkBottomSheetBinding
@@ -34,6 +35,8 @@ import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TITLE
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_URL
 import com.fave.breezil.fave.utils.Constant.Companion.BOOKMARK
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,6 +51,8 @@ class BookmarkBottomSheetFragment : BottomSheetDialogFragment() {
   private var mContext: Context? = null
   lateinit var bookMarkViewModel: BookMarkViewModel
   lateinit var binding: FragmentBookmarkBottomSheetBinding
+  @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
 
   private val article: Article?
     get() = if (arguments!!.getParcelable<Article>(BOOKMARK) != null) {
@@ -64,12 +69,15 @@ class BookmarkBottomSheetFragment : BottomSheetDialogFragment() {
     // Inflate the layout for this fragment
     binding =
       DataBindingUtil.inflate(inflater, R.layout.fragment_bookmark_bottom_sheet, container, false)
-    bookMarkViewModel = ViewModelProvider(this).get(BookMarkViewModel::class.java)
+    bookMarkViewModel = ViewModelProvider(this, viewModelFactory).get(BookMarkViewModel::class.java)
     this.mContext = activity
     updateUi(this.article!!)
     return binding.root
   }
-
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+    AndroidSupportInjection.inject(this)
+  }
   private fun updateUi(article: Article) {
     binding.fullArticle.setOnClickListener { startWeb(article) }
     binding.shareArticle.setOnClickListener { startSharing(article) }
@@ -91,13 +99,21 @@ class BookmarkBottomSheetFragment : BottomSheetDialogFragment() {
 //        val alertDialog = builder.create()
 //        alertDialog.setTitle(getString(R.string.delete_bookmark))
 //        alertDialog.show()
-    bookMarkViewModel.delete(article)
-
-    Toast.makeText(
-      mContext,
-      resources.getString(R.string.bookmark_deleted), Toast.LENGTH_SHORT
-    ).show()
-
+    bookMarkViewModel.delete(article).observe(viewLifecycleOwner, Observer {
+      if (it == "Successful") {
+        Toast.makeText(
+          this@BookmarkBottomSheetFragment.mContext,
+          R.string.bookmark_deleted,
+          Toast.LENGTH_SHORT
+        ).show()
+      } else {
+        Toast.makeText(
+          this@BookmarkBottomSheetFragment.mContext,
+          it,
+          Toast.LENGTH_SHORT
+        ).show()
+      }
+    })
     dismiss()
   }
 
