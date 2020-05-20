@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
   <FrameLayout
-      android:id="@+id/parent_container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="?attr/backgroundcolor">
-
-
+      android:id="@+id/parent_container">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/backgroundcolor">
-
-
-      <FrameLayout
-          android:id="@+id/main_container"
-          android:layout_width="@dimen/zeroDP"
-          android:layout_height="@dimen/zeroDP"
-          app:layout_constraintBottom_toTopOf="@+id/bottomNavViewBar"
+        android:layout_height="match_parent">
+      <com.google.android.material.appbar.AppBarLayout
+          android:id="@+id/appBarLayout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:visibility="visible"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent">
+        <include layout="@layout/fave_bar" />
+      </com.google.android.material.appbar.AppBarLayout>
 
-        <com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
-            android:id="@+id/mainViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-      </FrameLayout>
-
-
+      <com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
+          android:id="@+id/mainViewPager"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+          app:layout_constraintBottom_toTopOf="@id/bottomNavViewBar"/>
       <com.google.android.material.bottomnavigation.BottomNavigationView
           android:id="@+id/bottomNavViewBar"
           android:layout_width="@dimen/zeroDP"
@@ -40,15 +36,70 @@
           app:itemIconTint="@drawable/item_color"
           app:itemTextColor="@drawable/item_color"
           app:labelVisibilityMode="labeled"
+          app:layout_constraintTop_toBottomOf="@id/mainViewPager"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:menu="@menu/bottomnavigationmenu">
-
       </com.google.android.material.bottomnavigation.BottomNavigationView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
   </FrameLayout>
 
+
+
 </layout>
 
+<!--   <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/parent_container"
+            app:layout_constraintTop_toTopOf="parent">
+                <include layout="@layout/fave_bar" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <FrameLayout
+            android:id="@+id/parent_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="?attr/backgroundcolor">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+              <com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
+                  android:id="@+id/mainViewPager"
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintBottom_toTopOf="@id/bottomNavViewBar"/>
+
+              <com.google.android.material.bottomnavigation.BottomNavigationView
+                  android:id="@+id/bottomNavViewBar"
+                  android:layout_width="@dimen/zeroDP"
+                  android:layout_height="@dimen/fiftyDP"
+                  android:background="?attr/backgroundcolor"
+                  app:itemIconTint="@drawable/item_color"
+                  app:itemTextColor="@drawable/item_color"
+                  app:labelVisibilityMode="labeled"
+                  app:layout_constraintTop_toBottomOf="@id/mainViewPager"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:menu="@menu/bottomnavigationmenu">
+              </com.google.android.material.bottomnavigation.BottomNavigationView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+-->

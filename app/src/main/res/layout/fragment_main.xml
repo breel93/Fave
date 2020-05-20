@@ -9,16 +9,6 @@
       android:layout_marginTop="1dp"
       tools:context=".ui.main.top_stories.MainFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-      <include layout="@layout/fave_bar" />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
@@ -28,7 +18,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintTop_toTopOf="parent"
         app:shimmer_duration="800">
 
       <LinearLayout
@@ -54,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/mainRecyclerView"

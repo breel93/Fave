@@ -17,24 +17,24 @@ package com.fave.breezil.fave.ui.main.top_stories
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
-import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
-import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
 import com.fave.breezil.fave.databinding.FragmentMainBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.model.ParentModel
 import com.fave.breezil.fave.ui.adapter.ParentCategoryRecyclerAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
+import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
+import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
+import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
@@ -58,7 +58,7 @@ class MainFragment : DaggerFragment() {
   private var country: String? = null
   private var sortBy: String? = null
 
-  lateinit var sharedPreferences: SharedPreferences
+  private lateinit var sharedPreferences: SharedPreferences
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -168,12 +168,13 @@ class MainFragment : DaggerFragment() {
         parentCategoryRecyclerAdapter.notifyDataSetChanged()
       }
     })
-    binding.swipeRefresh?.let {
+    binding.swipeRefresh.let {
       binding.swipeRefresh.isRefreshing = false
     }
 
-//    if (binding.swipeRefresh != null) {
-//      binding.swipeRefresh.isRefreshing = false
-//    }
+    if (binding.swipeRefresh != null) {
+      binding.swipeRefresh.isRefreshing = false
+    }
   }
+
 }

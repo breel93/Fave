@@ -1,60 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context=".ui.preference.SettingsActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.preference.SettingsActivity">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="?attr/backgroundcolor">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/backgroundcolor"
-        >
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/zeroDP"
-            android:layout_marginStart="@dimen/zeroDP"
-            android:layout_marginTop="@dimen/zeroDP"
-            android:background="?attr/actionbarcolor"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/zeroDP"
+        android:layout_marginTop="@dimen/zeroDP"
+        android:layout_marginEnd="@dimen/zeroDP"
+        android:background="?attr/actionbarcolor"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <include
-                layout="@layout/fave_bar"
-                />
-        </com.google.android.material.appbar.AppBarLayout>
+      <include layout="@layout/fave_bar" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:layout_width="@dimen/zeroDP"
-            android:layout_height="@dimen/zeroDP"
-            android:layout_marginTop="@dimen/zeroDP"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+    <LinearLayout
+        android:layout_width="@dimen/zeroDP"
+        android:layout_height="@dimen/zeroDP"
+        android:layout_marginTop="@dimen/zeroDP"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-            <fragment
-                android:id="@+id/prefSettingsFragment"
-                android:name="com.fave.breezil.fave.ui.preference.PrefFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tenDP"
-                android:layout_marginTop="@dimen/tenDP" />
+      <fragment
+          android:id="@+id/prefSettingsFragment"
+          android:name="com.fave.breezil.fave.ui.preference.PrefFragment"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/tenDP"
+          android:layout_marginTop="@dimen/tenDP" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/about"
-                android:textSize="@dimen/twentyySP"
-                android:textColor="@color/colorAccent"
-                android:layout_marginTop="@dimen/twentyDP"
-                android:layout_marginStart="@dimen/twentyDP"
-                android:id="@+id/aboutText"/>
-        </LinearLayout>
+      <TextView
+          android:id="@+id/aboutText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/twentyDP"
+          android:layout_marginTop="@dimen/twentyDP"
+          android:text="@string/about"
+          android:textColor="@color/colorAccent"
+          android:textSize="@dimen/twentyySP" />
+    </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

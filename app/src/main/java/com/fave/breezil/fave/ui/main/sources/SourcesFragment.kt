@@ -18,9 +18,9 @@ package com.fave.breezil.fave.ui.main.sources
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -80,13 +80,11 @@ class SourcesFragment : DaggerFragment() {
   }
 
   private fun setUpAdapter() {
-
     val seeMoreClickListener = object : SeeMoreClickListener {
       override fun showMoreCategory(category: String) {
         viewSource(category)
       }
     }
-
     val sourcesClickListener = object : SourcesClickListener {
       override fun showDetails(sources: Sources) {
         val fragment = SourceDetailFragment.getSource(sources)
@@ -103,7 +101,6 @@ class SourcesFragment : DaggerFragment() {
           .commit()
       }
     }
-
     sourceRecyclerAdapter = SourceRecyclerAdapter(sourcesClickListener)
 
     val textArray = resources.getStringArray(R.array.category_list)
@@ -130,9 +127,6 @@ class SourcesFragment : DaggerFragment() {
         binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
       }
-//      if (it != null) {
-//
-//      }
     })
   }
 
@@ -144,8 +138,10 @@ class SourcesFragment : DaggerFragment() {
   }
 
   fun viewSource(source: String) {
-    viewModel.getSourcesList(source, "", "").observe(viewLifecycleOwner, Observer {
+    viewModel.getSourcesList(source, "", "")
+      .observe(viewLifecycleOwner, Observer {
       it?.let { sourceRecyclerAdapter!!.submitList(it) }
     })
   }
+
 }

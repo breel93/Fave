@@ -16,11 +16,9 @@
 package com.fave.breezil.fave.ui.main.sources
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.LayoutInflater
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -70,7 +68,7 @@ class SourceDetailFragment : DaggerFragment() {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_source_detail, container, false)
     binding.sourceArticleList.setHasFixedSize(true)
-    viewModel = ViewModelProviders.of(this, viewModelFactory).get(LookUpViewModel::class.java)
+    viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
 
     setHasOptionsMenu(true)
     setUpAdapter()
@@ -78,6 +76,10 @@ class SourceDetailFragment : DaggerFragment() {
 
     binding.swipeRefresh.setOnRefreshListener { setUpViewModel(sources!!.id) }
     return binding.root
+  }
+
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
   }
 
   private fun setUpAdapter() {
@@ -129,11 +131,6 @@ class SourceDetailFragment : DaggerFragment() {
     }
   }
 
-  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-    menu.clear()
-    inflater.inflate(R.menu.second_menu, menu)
-    super.onCreateOptionsMenu(menu, inflater)
-  }
 
   companion object {
     fun getSource(sources: Sources): SourceDetailFragment {
@@ -144,4 +141,13 @@ class SourceDetailFragment : DaggerFragment() {
       return fragment
     }
   }
+
+//  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//    super.onOptionsItemSelected(item)
+//    if (item.itemId == android.R.id.home) {
+//      activity!!.onBackPressed()
+//      return true
+//    }
+//    return false
+//  }
 }

@@ -58,7 +58,7 @@ class AppModule {
     }
     return Room.databaseBuilder(app.applicationContext,
       AppDatabase::class.java, FAVE_DB)
-//      .addMigrations(migration12)
+      .addMigrations(migration12)
       .build()
   }
 

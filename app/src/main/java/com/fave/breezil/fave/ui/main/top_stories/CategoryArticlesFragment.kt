@@ -17,12 +17,10 @@ package com.fave.breezil.fave.ui.main.top_stories
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.*
 import androidx.preference.PreferenceManager
-import android.view.View
-import android.view.ViewGroup
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -45,7 +43,6 @@ import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
- *
  */
 
 class CategoryArticlesFragment : DaggerFragment() {
@@ -76,14 +73,14 @@ class CategoryArticlesFragment : DaggerFragment() {
     setHasOptionsMenu(true)
   }
 
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
     // Inflate the layout for this fragment
-    binding =
-      DataBindingUtil.inflate(inflater, R.layout.fragment_category_articles, container, false)
+    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_articles, container, false)
     viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
@@ -99,11 +96,15 @@ class CategoryArticlesFragment : DaggerFragment() {
     return binding.root
   }
 
-  private fun setUpAdapter() {
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+  }
 
+  private fun setUpAdapter() {
     val seeMoreClickListener = object : SeeMoreClickListener {
       override fun showMoreCategory(category: String) {
         refresh(category)
+        (activity as AppCompatActivity).supportActionBar!!.title = category
       }
     }
     val articleClickListener = object : ArticleClickListener {
@@ -168,6 +169,7 @@ class CategoryArticlesFragment : DaggerFragment() {
     }
   }
 
+
   companion object {
     fun getCategory(category: String): CategoryArticlesFragment {
       val fragment = CategoryArticlesFragment()
@@ -178,11 +180,6 @@ class CategoryArticlesFragment : DaggerFragment() {
     }
   }
 
-  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-    menu.clear()
-    inflater.inflate(R.menu.second_menu, menu)
-    super.onCreateOptionsMenu(menu, inflater)
-  }
 
   private fun refresh(category: String) {
     binding.swipeRefresh.visibility = View.VISIBLE
@@ -218,4 +215,8 @@ class CategoryArticlesFragment : DaggerFragment() {
       binding.swipeRefresh.isRefreshing = false
     }
   }
+
+
+
+
 }

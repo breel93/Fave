@@ -17,10 +17,10 @@ package com.fave.breezil.fave.ui.main.bookmark
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -63,6 +63,7 @@ class BookMarkedFragment : DaggerFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
+
     setUpAdapter()
     setUpViewModel()
   }
@@ -90,8 +91,6 @@ class BookMarkedFragment : DaggerFragment() {
     bookMarkViewModel = ViewModelProvider(this, viewModelFactory).get(BookMarkViewModel::class.java)
     bookMarkViewModel.bookmarkList.observe(viewLifecycleOwner, Observer { article ->
       adapter.submitList(article)
-      Toast.makeText(activity, article.size.toString(), Toast.LENGTH_SHORT)
-        .show()
     })
   }
 

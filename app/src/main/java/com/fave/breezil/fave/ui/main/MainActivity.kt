@@ -12,16 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 package com.fave.breezil.fave.ui.main
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.opengl.Visibility
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.preference.PreferenceManager
+import androidx.viewpager.widget.ViewPager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.ActivityMainBinding
 import com.fave.breezil.fave.ui.BaseActivity
@@ -35,6 +39,7 @@ import com.fave.breezil.fave.ui.preference.SettingsActivity
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
 import com.fave.breezil.fave.utils.helpers.BottomNavigationHelper
 import com.fave.breezil.fave.utils.helpers.FadeOutTransformation
+import com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
 import dagger.android.AndroidInjection
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
@@ -45,6 +50,7 @@ class MainActivity : BaseActivity() {
   lateinit var sharedPreferences: SharedPreferences
 
   private var source: String = ""
+  private var toolbar : Toolbar? = null
 
   var mainViewPagerAdapter: PagerAdapter? = null
 
@@ -71,6 +77,40 @@ class MainActivity : BaseActivity() {
     val editor = preferences.edit()
     editor.putString(getString(R.string.source), source)
     editor.apply()
+    toolbar = binding.root.findViewById(R.id.mainToolbar) as Toolbar
+    setSupportActionBar(toolbar)
+    updateToolbarTitle(binding.mainViewPager)
+  }
+
+  private fun updateToolbarTitle(viewPager: NonSwipeableViewPager){
+    viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+      override fun onPageScrollStateChanged(state: Int) {
+      }
+
+      override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+      }
+
+      override fun onPageSelected(position: Int) {
+        when(position){
+          0 -> {
+            supportActionBar!!.title = "Top Stories"
+            toolbar!!.visibility = View.VISIBLE
+          }
+          1 ->{
+            toolbar!!.visibility = View.GONE
+          }
+          2->{
+            supportActionBar!!.title = "Sources"
+            toolbar!!.visibility = View.VISIBLE
+          }
+          3->{
+            supportActionBar!!.title = "BookMarked"
+            toolbar!!.visibility = View.VISIBLE
+          }
+        }
+      }
+
+    })
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -131,64 +171,4 @@ class MainActivity : BaseActivity() {
     }
   }
 
-//    fun loadCategoryFragment(category: String) {
-//        binding.fragmentContainer.visibility = View.VISIBLE
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        toolbar!!.title = category
-//        toolbar!!.setNavigationOnClickListener{
-//            onBackPressed()
-//        }
-//        val categoryArticlesFragment = CategoryArticlesFragment.getCategory(category)
-//        supportFragmentManager
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.fragment_slide_in, R.anim.fragment_slide_out,
-//                        R.anim.fragment_pop_slide_in, R.anim.fragment_pop_slide_out)
-//                .replace(R.id.fragment_container, categoryArticlesFragment)
-//                .addToBackStack("fragment")
-//                .commit()
-//    }
-//    private fun loadSearchFragment() {
-//        binding.fragmentContainer.visibility = View.VISIBLE
-//        supportActionBar!!.hide()
-//        val searchFragment = SearchFragment()
-//        supportFragmentManager
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.fragment_slide_in, R.anim.fragment_slide_out,
-//                        R.anim.fragment_pop_slide_in, R.anim.fragment_pop_slide_out)
-//                .replace(R.id.fragment_container, searchFragment)
-//                .addToBackStack("fragment")
-//                .commit()
-//    }
-//
-//    fun loadSourcesDetailFragment(sources: Sources) {
-//        binding.fragmentContainer.visibility = View.VISIBLE
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        toolbar!!.title = sources.name
-//        toolbar!!.setNavigationOnClickListener{
-//            onBackPressed()
-//        }
-//        val sourceDetailFragment = SourceDetailFragment.getSource(sources)
-//        supportFragmentManager
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.fragment_slide_in, R.anim.fragment_slide_out,
-//                        R.anim.fragment_pop_slide_in, R.anim.fragment_pop_slide_out)
-//                .replace(R.id.fragment_container, sourceDetailFragment)
-//                .addToBackStack("fragment")
-//                .commit()
-//    }
-//
-//    private fun toolbarTitle() : String{
-//        return when(binding.mainViewPager.currentItem){
-//            0 -> "Fave"
-//            1 -> "Feeds"
-//            2->"Sources"
-//            else -> "Bookmarks"
-//        }
-//    }
-//    override fun closeFragment() {
-//        binding.fragmentContainer.visibility = View.GONE
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-//        supportActionBar!!.show()
-//        toolbar!!.title = toolbarTitle()
-//    }
 }

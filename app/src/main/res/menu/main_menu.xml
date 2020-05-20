@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-     <item
-    android:id="@+id/preference"
-    android:icon="@drawable/ic_settings"
-    android:title="@string/preference"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+      android:id="@+id/preference"
+      android:icon="@drawable/ic_settings"
+      android:title="@string/preference" />
 
-     <item
-         android:id="@+id/about"
-         android:title="@string/about"/>
-
-     <item
-         android:id="@+id/search"
-         android:icon="@drawable/ic_search"
-         app:showAsAction="always"
-         android:title="search"/>
+  <item
+      android:id="@+id/about"
+      android:title="@string/about" />
 </menu>

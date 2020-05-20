@@ -38,12 +38,11 @@ class ParentCategoryRecyclerAdapter(
   private val mContext: Context,
   private val articleClickListener: ArticleClickListener,
   private val articleLongClickListener: ArticleLongClickListener,
-  private val seeMoreClickListener: SeeMoreClickListener
-) //        this.mParentList = mParentList;
+  private val seeMoreClickListener: SeeMoreClickListener)
   : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   internal lateinit var binding: ParentMainItemBinding
-  internal lateinit var breakingNewBinding: BreakingNewsListBinding
+  private lateinit var breakingNewBinding: BreakingNewsListBinding
   private var mParentList = ArrayList<ParentModel>()
 
   private var mArticles = ArrayList<Article>()
