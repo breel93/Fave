@@ -15,7 +15,7 @@
 */
 package com.fave.breezil.fave.ui.preference
 
-import android.content.Intent
+
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -33,8 +33,7 @@ import com.fave.breezil.fave.R
 import java.util.Objects
 import kotlin.collections.ArrayList
 
-class PrefFragment : PreferenceFragmentCompat(),
-  SharedPreferences.OnSharedPreferenceChangeListener {
+class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
   private var mSourcePref: MultiSelectListPreference? = null
 
@@ -63,12 +62,12 @@ class PrefFragment : PreferenceFragmentCompat(),
 
   override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
     if (key != getString(R.string.pref_source_key)) {
-//            updateSummary(findPreference(key))
-//            updateNightMode(findPreference(key))
+      updateSummary(findPreference(key)!!)
+      updateNightMode(findPreference(key)!!)
       activity!!.recreate()
     } else {
-//            updateMultiSummary(findPreference(key),
-//                    sharedPreferences.getStringSet(getString(R.string.pref_source_key), null))
+      updateMultiSummary(findPreference(key)!!,
+        sharedPreferences.getStringSet(getString(R.string.pref_source_key), null))
     }
   }
 
@@ -141,9 +140,4 @@ class PrefFragment : PreferenceFragmentCompat(),
     super.onStop()
   }
 
-  private fun restartActivity() {
-    val intent = Intent(activity, SettingsActivity::class.java)
-    startActivity(intent)
-    activity!!.finish()
-  }
 }

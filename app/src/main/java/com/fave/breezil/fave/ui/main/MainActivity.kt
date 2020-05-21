@@ -15,9 +15,7 @@
  */
 package com.fave.breezil.fave.ui.main
 
-import android.content.Intent
 import android.content.SharedPreferences
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -34,8 +32,7 @@ import com.fave.breezil.fave.ui.main.bookmark.BookMarkedFragment
 import com.fave.breezil.fave.ui.main.sources.SourcesFragment
 import com.fave.breezil.fave.ui.main.top_stories.MainFragment
 import com.fave.breezil.fave.ui.main.top_stories.SearchFragment
-import com.fave.breezil.fave.ui.preference.AboutActivity
-import com.fave.breezil.fave.ui.preference.SettingsActivity
+import com.fave.breezil.fave.ui.preference.SettingsFragment
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
 import com.fave.breezil.fave.utils.helpers.BottomNavigationHelper
 import com.fave.breezil.fave.utils.helpers.FadeOutTransformation
@@ -123,12 +120,20 @@ class MainActivity : BaseActivity() {
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     super.onOptionsItemSelected(item)
     if (item.itemId == R.id.preference) {
-      val intent = Intent(this@MainActivity, SettingsActivity::class.java)
-      startActivity(intent)
+      val fragment = SettingsFragment()
+      supportFragmentManager.beginTransaction()
+        .setCustomAnimations(
+          R.anim.fragment_slide_in,
+          R.anim.fragment_slide_out,
+          R.anim.fragment_pop_slide_in,
+          R.anim.fragment_pop_slide_out
+        )
+        .add(R.id.parent_container, fragment)
+        .addToBackStack("fragment")
+        .commit()
     }
     if (item.itemId == R.id.about) {
-      val intent = Intent(this@MainActivity, AboutActivity::class.java)
-      startActivity(intent)
+
     }
     return true
   }

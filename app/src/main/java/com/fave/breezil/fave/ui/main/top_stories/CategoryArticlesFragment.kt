@@ -89,6 +89,7 @@ class CategoryArticlesFragment : DaggerFragment() {
 
     setUpAdapter()
     setUpViewModel(category!!)
+    goBack()
 
     binding.shimmerViewContainer.startShimmer()
     binding.swipeRefresh.setOnRefreshListener { refresh(category!!) }
@@ -96,9 +97,6 @@ class CategoryArticlesFragment : DaggerFragment() {
     return binding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-  }
 
   private fun setUpAdapter() {
     val seeMoreClickListener = object : SeeMoreClickListener {
@@ -135,6 +133,7 @@ class CategoryArticlesFragment : DaggerFragment() {
   }
 
   private fun setUpViewModel(category: String) {
+    binding.categoryText.text = category
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
       R.color.colorAccent, R.color.colorPrimary,
@@ -182,6 +181,7 @@ class CategoryArticlesFragment : DaggerFragment() {
 
 
   private fun refresh(category: String) {
+    binding.categoryText.text = category
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
       R.color.colorAccent, R.color.colorPrimary,
@@ -217,6 +217,10 @@ class CategoryArticlesFragment : DaggerFragment() {
   }
 
 
-
+  fun goBack(){
+    binding.backPressed.setOnClickListener{
+      fragmentManager!!.popBackStack();
+    }
+  }
 
 }

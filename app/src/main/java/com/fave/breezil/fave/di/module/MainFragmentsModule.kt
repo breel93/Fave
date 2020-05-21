@@ -21,6 +21,7 @@ import com.fave.breezil.fave.ui.main.sources.SourcesFragment
 import com.fave.breezil.fave.ui.main.top_stories.CategoryArticlesFragment
 import com.fave.breezil.fave.ui.main.top_stories.MainFragment
 import com.fave.breezil.fave.ui.main.top_stories.SearchFragment
+import com.fave.breezil.fave.ui.preference.SettingsFragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -45,4 +46,7 @@ abstract class MainFragmentsModule {
 
   @ContributesAndroidInjector
   internal abstract fun contributeSourceDetailFragment(): SourceDetailFragment
+
+  @ContributesAndroidInjector
+  internal abstract fun contributeSourceSettingsFragment(): SettingsFragment
 }

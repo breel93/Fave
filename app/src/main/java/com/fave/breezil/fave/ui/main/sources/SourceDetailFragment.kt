@@ -73,13 +73,10 @@ class SourceDetailFragment : DaggerFragment() {
     setHasOptionsMenu(true)
     setUpAdapter()
     setUpViewModel(sources!!.id)
+    goBack()
 
     binding.swipeRefresh.setOnRefreshListener { setUpViewModel(sources!!.id) }
     return binding.root
-  }
-
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
   }
 
   private fun setUpAdapter() {
@@ -102,6 +99,7 @@ class SourceDetailFragment : DaggerFragment() {
   }
 
   private fun setUpViewModel(source: String) {
+    binding.sourceText.text = source
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
       R.color.colorAccent, R.color.colorPrimary,
@@ -142,12 +140,9 @@ class SourceDetailFragment : DaggerFragment() {
     }
   }
 
-//  override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//    super.onOptionsItemSelected(item)
-//    if (item.itemId == android.R.id.home) {
-//      activity!!.onBackPressed()
-//      return true
-//    }
-//    return false
-//  }
+  fun goBack(){
+    binding.backPressed.setOnClickListener{
+      fragmentManager!!.popBackStack();
+    }
+  }
 }

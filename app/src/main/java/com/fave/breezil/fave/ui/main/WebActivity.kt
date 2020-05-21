@@ -32,7 +32,6 @@ import androidx.databinding.DataBindingUtil
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.ActivityWebBinding
 import com.fave.breezil.fave.ui.BaseActivity
-import com.fave.breezil.fave.ui.preference.SettingsActivity
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TITLE
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_URL
 import com.fave.breezil.fave.utils.helpers.HtmlTagHandler
@@ -115,10 +114,6 @@ class WebActivity : BaseActivity() {
   // Option menu selected
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     super.onOptionsItemSelected(item)
-    if (item.itemId == R.id.preference) {
-      val intent = Intent(this@WebActivity, SettingsActivity::class.java)
-      startActivity(intent)
-    }
     if (item.itemId == android.R.id.home) {
       onBackPressed()
       return true

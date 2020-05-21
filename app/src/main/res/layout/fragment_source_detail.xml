@@ -22,16 +22,17 @@
             android:id="@+id/backPressed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/fiveDP"
+            android:layout_marginStart="@dimen/tenDP"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_arrow_back" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/sourceText"
             android:layout_gravity="center_vertical"
-            android:textSize="@dimen/twentyTwoSP"
-            android:layout_marginStart="@dimen/tenDP"
-            android:text="Category"/>
+            android:textSize="@dimen/eighteenSP"
+            android:layout_marginStart="@dimen/twentyDP"
+            android:text="CNN"/>
       </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>

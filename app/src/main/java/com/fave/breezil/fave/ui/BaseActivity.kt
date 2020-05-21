@@ -15,10 +15,11 @@
 */
 package com.fave.breezil.fave.ui
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.fave.breezil.fave.R
 import dagger.android.support.DaggerAppCompatActivity
 
@@ -27,6 +28,7 @@ open class BaseActivity : DaggerAppCompatActivity() {
 
   private var themeMode: Boolean = false
 
+  @SuppressLint("SourceLockedOrientationActivity")
   override fun onCreate(savedInstanceState: Bundle?) {
 
     super.onCreate(savedInstanceState)

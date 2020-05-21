@@ -19,7 +19,6 @@ import android.app.Application
 import com.fave.breezil.fave.Fave
 import com.fave.breezil.fave.di.module.MainActivityModule
 import com.fave.breezil.fave.di.module.AppModule
-import com.fave.breezil.fave.di.module.SettingsActivityModule
 import com.fave.breezil.fave.di.module.SplashActivityModule
 import com.fave.breezil.fave.di.module.ActionBottomSheetModule
 import com.fave.breezil.fave.di.module.ViewModelModule
@@ -34,7 +33,6 @@ import javax.inject.Singleton
   modules = [AndroidInjectionModule::class,
     AppModule::class,
     MainActivityModule::class,
-    SettingsActivityModule::class,
     SplashActivityModule::class,
     ActionBottomSheetModule::class,
     ViewModelModule::class]
