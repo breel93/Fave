@@ -9,11 +9,12 @@ import androidx.databinding.DataBindingUtil
 
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentSettingsBinding
+import dagger.android.support.DaggerFragment
 
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsFragment : Fragment() {
+class SettingsFragment : DaggerFragment() {
   lateinit var binding: FragmentSettingsBinding
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,

@@ -89,10 +89,9 @@ class Constant {
 
       val sourceSet = HashSet<String>()
       sourceSet.add(context.getString(R.string.pref_sources_all_value))
-//
-//                val entries = ArrayList((
-//                        sharedPreferences.getStringSet(context.getString(R.string.pref_source_key), sourceSet)))
-      val entries = ""
+
+      val sharedSet = sharedPreferences.getStringSet(context.getString(R.string.pref_source_key),sourceSet)
+      val entries = arrayListOf<String>(sharedSet.toString())
       val selectedSources = StringBuilder()
 
       for (i in entries.indices) {
@@ -103,11 +102,16 @@ class Constant {
         selectedSources.deleteCharAt(selectedSources.length - ONE)
       }
 
-      return if (selectedSources.isEmpty()) {
-        DEFAULT_SOURCE
-      } else {
+      return if (!selectedSources.isBlank() && selectedSources.isNotEmpty() && selectedSources.isNullOrEmpty()) {
         selectedSources.toString()
+      } else {
+
+        DEFAULT_SOURCE
       }
+    }
+
+    fun getCountry(context: Context, sharedPreferences: SharedPreferences): String? {
+      return sharedPreferences.getString(context.getString(R.string.country_key),context.getString(R.string.us))
     }
   }
 }

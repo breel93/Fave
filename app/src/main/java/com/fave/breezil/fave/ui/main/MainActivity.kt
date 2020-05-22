@@ -33,6 +33,7 @@ import com.fave.breezil.fave.ui.main.sources.SourcesFragment
 import com.fave.breezil.fave.ui.main.top_stories.MainFragment
 import com.fave.breezil.fave.ui.main.top_stories.SearchFragment
 import com.fave.breezil.fave.ui.preference.SettingsFragment
+import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
 import com.fave.breezil.fave.utils.helpers.BottomNavigationHelper
 import com.fave.breezil.fave.utils.helpers.FadeOutTransformation
@@ -175,5 +176,6 @@ class MainActivity : BaseActivity() {
       }
     }
   }
+
 
 }

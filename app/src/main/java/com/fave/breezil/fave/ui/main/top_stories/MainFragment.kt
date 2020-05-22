@@ -17,7 +17,9 @@ package com.fave.breezil.fave.ui.main.top_stories
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -33,6 +35,7 @@ import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
+import com.fave.breezil.fave.utils.Constant.Companion.getCountry
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
@@ -66,8 +69,7 @@ class MainFragment : DaggerFragment() {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-    country =
-      sharedPreferences.getString(getString(R.string.country_key), getString(R.string.blank))
+    country = getCountry(requireContext(), sharedPreferences)
     sortBy = sharedPreferences.getString(
       getString(R.string.pref_everything_sort_by_key),
       getString(R.string.blank)
@@ -131,10 +133,6 @@ class MainFragment : DaggerFragment() {
       R.color.colorAccent, R.color.colorPrimary,
       R.color.colorblue, R.color.hotPink
     )
-
-    viewModel.getCategoryList(context!!, mArrayList, country!!, "", "")
-      ?.removeObservers(viewLifecycleOwner)
-
     viewModel.getCategoryList(context!!, mArrayList, country!!, "", "")
       ?.observe(viewLifecycleOwner, Observer {
         if (it && ::parentCategoryRecyclerAdapter.isInitialized) {
@@ -147,13 +145,6 @@ class MainFragment : DaggerFragment() {
         }
       })
 
-    viewModel.getBreakingNewList(
-      sourcesPreferenceList(context!!, sharedPreferences),
-      sortBy,
-      todayDate,
-      twoDaysAgoDate,
-      getString(R.string.blank)
-    ).removeObservers(viewLifecycleOwner)
     viewModel.getBreakingNewList(
       sourcesPreferenceList(context!!, sharedPreferences),
       sortBy,
