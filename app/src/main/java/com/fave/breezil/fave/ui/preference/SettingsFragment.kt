@@ -21,13 +21,14 @@ class SettingsFragment : DaggerFragment() {
     savedInstanceState: Bundle?
   ): View? {
     // Inflate the layout for this fragment
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container,
+      false)
     goBack()
     return binding.root
   }
-  fun goBack(){
+  private fun goBack(){
     binding.backPressed.setOnClickListener{
-      fragmentManager!!.popBackStack();
+      fragmentManager!!.popBackStack()
     }
   }
 }

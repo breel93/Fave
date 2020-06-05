@@ -41,7 +41,6 @@ open class BaseActivity : DaggerAppCompatActivity() {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     themeMode = sharedPreferences!!.getBoolean(getString(R.string.pref_theme_key), false)
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
     setAppTheme(themeMode)
   }
 

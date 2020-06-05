@@ -30,10 +30,13 @@ import com.fave.breezil.fave.R
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.databinding.ArticleItemBinding
+import com.fave.breezil.fave.databinding.BreakingNewsItemBinding
 import com.fave.breezil.fave.databinding.ItemNetworkStateBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.repository.NetworkState
 import com.fave.breezil.fave.utils.Constant.Companion.ONE
+import com.fave.breezil.fave.utils.Constant.Companion.THREE
+import com.fave.breezil.fave.utils.Constant.Companion.TWO
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
 import com.fave.breezil.fave.utils.helpers.HtmlTagHandler
 
@@ -46,30 +49,46 @@ class ArticleRecyclerViewAdapter(
 
   internal lateinit var circularProgressDrawable: CircularProgressDrawable
   private var networkState: NetworkState? = null
+  private var article: Article? = null
 
   internal lateinit var binding: ArticleItemBinding
   private var networkStateBinding: ItemNetworkStateBinding? = null
+  private lateinit var headerBinding: BreakingNewsItemBinding
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
     val layoutInflater = LayoutInflater.from(parent.context)
-    return if (viewType == TYPE_PROGRESS) {
-      networkStateBinding = ItemNetworkStateBinding.inflate(layoutInflater, parent, false)
-      NetworkStateItemViewHolder(networkStateBinding!!)
-    } else {
-      binding = ArticleItemBinding.inflate(layoutInflater, parent, false)
+    return when (viewType) {
+      TYPE_PROGRESS -> {
+        networkStateBinding = ItemNetworkStateBinding.inflate(layoutInflater, parent, false)
+        NetworkStateItemViewHolder(networkStateBinding!!)
+      }
+      TYPE_HEADER -> {
+        headerBinding = BreakingNewsItemBinding.inflate(layoutInflater, parent, false)
+        HeadListViewHolder(headerBinding)
+      }
+      else -> {
+        binding = ArticleItemBinding.inflate(layoutInflater, parent, false)
 
-      ArticleHolder(binding)
+        ArticleHolder(binding)
+      }
     }
   }
 
   override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
 
-    if (viewHolder is ArticleHolder) {
-      val article = getItem(position)
+    when (viewHolder) {
+      is ArticleHolder -> {
+        val article = getItem(position)
 
-      viewHolder.bind(article, articleClickListener, articleLongClickListener)
-    } else {
-      (viewHolder as NetworkStateItemViewHolder).bindView(networkState)
+        viewHolder.bind(article, articleClickListener, articleLongClickListener)
+      }
+      is HeadListViewHolder -> {
+        val article = getItem(position)
+        viewHolder.bind(article, articleClickListener, articleLongClickListener)
+      }
+      else -> {
+        (viewHolder as NetworkStateItemViewHolder).bindView(networkState)
+      }
     }
   }
 
@@ -81,10 +100,17 @@ class ArticleRecyclerViewAdapter(
     return if (hasExtraRow() && position == itemCount - ONE) {
       TYPE_PROGRESS
     } else {
-      TYPE_ITEM
+      if(position< ONE){
+        TYPE_HEADER
+      }else{
+        TYPE_ITEM
+      }
     }
   }
 
+  fun setFirstArticle(article: Article){
+    this.article = article
+  }
   fun setNetworkState(newNetworkState: NetworkState) {
     val previousState = this.networkState
     val previousExtraRow = hasExtraRow()
@@ -146,6 +172,48 @@ class ArticleRecyclerViewAdapter(
     }
   }
 
+  inner class HeadListViewHolder internal constructor(private val binding: BreakingNewsItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(
+      article: Article?,
+      articleClickListener: ArticleClickListener,
+      articleLongClickListener: ArticleLongClickListener
+    ) {
+      itemView.setOnClickListener { articleClickListener.showDetails(article!!) }
+      itemView.setOnLongClickListener {
+        articleLongClickListener.doSomething(article!!)
+        true
+      }
+
+      if (article!!.title != null) {
+        binding.articleTitle.text = Html.fromHtml(article.title, null, HtmlTagHandler())
+      }
+
+      circularProgressDrawable = CircularProgressDrawable(context)
+      circularProgressDrawable.strokeWidth = 12f
+      circularProgressDrawable.centerRadius = 60f
+      circularProgressDrawable.setColorSchemeColors(
+        R.color.colorAccent, R.color.colorPrimary,
+        R.color.colorblue, R.color.hotPink
+      )
+      circularProgressDrawable.start()
+
+      Glide.with(context)
+        .load(article.urlToImage)
+        .apply(
+          RequestOptions()
+            .placeholder(circularProgressDrawable)
+            .error(R.drawable.placeholder)
+        )
+        .into(binding.articleImage)
+
+      if (article.source != null) {
+        binding.sourcesText.text = article.source!!.name
+      }
+    }
+  }
+
+
   inner class NetworkStateItemViewHolder internal constructor(private val binding: ItemNetworkStateBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -164,10 +232,12 @@ class ArticleRecyclerViewAdapter(
     }
   }
 
+
   companion object {
 
-    private const val TYPE_PROGRESS = ZERO
-    private const val TYPE_ITEM = ONE
+    const val TYPE_PROGRESS = ZERO
+    const val TYPE_ITEM = ONE
+    const val TYPE_HEADER = TWO
 
     private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
       override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {

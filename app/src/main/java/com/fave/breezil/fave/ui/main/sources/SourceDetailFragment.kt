@@ -16,14 +16,14 @@
 package com.fave.breezil.fave.ui.main.sources
 
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
@@ -92,9 +92,20 @@ class SourceDetailFragment : DaggerFragment() {
         actionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }
-
     articleAdapter =
       ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
+    val layoutGridManager = GridLayoutManager(context, 2)
+
+    layoutGridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+      override fun getSpanSize(position: Int): Int {
+        return when (articleAdapter!!.getItemViewType(position)) {
+          ArticleRecyclerViewAdapter.TYPE_HEADER -> 2
+          ArticleRecyclerViewAdapter.TYPE_ITEM -> 1
+          else -> 1
+        }
+      }
+    }
+    binding.sourceArticleList.layoutManager = layoutGridManager
     binding.sourceArticleList.adapter = articleAdapter
   }
 
@@ -116,11 +127,11 @@ class SourceDetailFragment : DaggerFragment() {
     )
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
       it?.let { articleAdapter!!.submitList(it) }
+      if(it.size > 0){
+        articleAdapter!!.setFirstArticle(it[1]!!)
+      }
     })
     viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
-//      if (networkState != null) {
-//        articleAdapter!!.setNetworkState(networkState)
-//      }
       networkState?.let { articleAdapter!!.setNetworkState(networkState) }
     })
 

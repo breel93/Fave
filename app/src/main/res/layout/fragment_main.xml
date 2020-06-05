@@ -26,13 +26,9 @@
           android:layout_height="wrap_content"
           android:background="@android:color/white"
           android:orientation="vertical">
-
         <include layout="@layout/main_shimmer_layout" />
-
         <include layout="@layout/main_shimmer_layout" />
-
         <include layout="@layout/main_shimmer_layout" />
-
       </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -40,6 +36,8 @@
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/threeDP"
+        android:layout_marginEnd="@dimen/threeDP"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

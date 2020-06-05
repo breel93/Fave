@@ -4,8 +4,8 @@
 
   <com.google.android.material.card.MaterialCardView
       android:layout_width="match_parent"
-      android:layout_height="330dp"
-      app:cardCornerRadius="@dimen/twoDP">
+      android:layout_height="250dp"
+      app:cardCornerRadius="@dimen/fifteenDP">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
           android:id="@+id/article_image"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:scaleType="fitXY"
+          android:scaleType="centerCrop"
           android:src="@drawable/placeholder"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
 
       <androidx.constraintlayout.widget.ConstraintLayout
           android:layout_width="match_parent"
-          android:layout_height="150dp"
+          android:layout_height="120dp"
           android:background="@drawable/foreground_gradient"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"

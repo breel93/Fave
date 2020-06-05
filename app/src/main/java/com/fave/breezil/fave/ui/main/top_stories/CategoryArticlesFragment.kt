@@ -25,6 +25,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
@@ -117,8 +118,21 @@ class CategoryArticlesFragment : DaggerFragment() {
         actionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }
+
     articleAdapter =
       ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
+    val layoutGridManager = GridLayoutManager(context, 2)
+
+    layoutGridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+      override fun getSpanSize(position: Int): Int {
+        return when (articleAdapter!!.getItemViewType(position)) {
+          ArticleRecyclerViewAdapter.TYPE_HEADER -> 2
+          ArticleRecyclerViewAdapter.TYPE_ITEM -> 1
+          else -> 1
+        }
+      }
+    }
+    binding.articleCategoryList.layoutManager = layoutGridManager
 
     val textArray = resources.getStringArray(R.array.category_list)
     quickCategoryList = listOf(*textArray)
@@ -150,11 +164,15 @@ class CategoryArticlesFragment : DaggerFragment() {
     )
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
       if (it != null) {
+
         articleAdapter!!.submitList(it)
         binding.articleCategoryList.adapter = articleAdapter
         articleAdapter!!.notifyDataSetChanged()
         binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
+        if(it.size > 0){
+          articleAdapter!!.setFirstArticle(it[1]!!)
+        }
       }
     })
     viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->

@@ -40,7 +40,7 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     setPreferencesFromResource(R.xml.preferences, rootKey)
     PreferenceManager.setDefaultValues(
-      Objects.requireNonNull<FragmentActivity>(activity),
+      requireActivity(),
       R.xml.preferences,
       false
     )
@@ -48,7 +48,6 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
     val preferenceGroup = preferenceScreen.getPreference(0) as PreferenceGroup
 
     mSourcePref = preferenceGroup.getPreference(0) as MultiSelectListPreference
-
     initSummary(preferenceScreen)
   }
 
@@ -64,7 +63,7 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
     if (key != getString(R.string.pref_source_key)) {
       updateSummary(findPreference(key)!!)
       updateNightMode(findPreference(key)!!)
-      activity!!.recreate()
+      requireActivity().recreate()
     } else {
       updateMultiSummary(findPreference(key)!!,
         sharedPreferences.getStringSet(getString(R.string.pref_source_key), null))
@@ -81,7 +80,7 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
       updateMultiSummary(
         p,
         PreferenceManager.getDefaultSharedPreferences(
-          Objects.requireNonNull<FragmentActivity>(activity)
+          activity
         )
           .getStringSet(getString(R.string.pref_source_key), null)
       )

@@ -26,6 +26,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentSearchBinding
 import com.fave.breezil.fave.model.Article
@@ -40,6 +42,7 @@ import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
+
 
 /**
  * A simple [Fragment] subclass.
@@ -118,7 +121,20 @@ class SearchFragment : DaggerFragment() {
         actionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
       }
     }
+    val layoutManager = GridLayoutManager(context, 2)
     adapter = ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
+
+    layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+      override fun getSpanSize(position: Int): Int {
+        return when (adapter!!.getItemViewType(position)) {
+          ArticleRecyclerViewAdapter.TYPE_HEADER -> 2
+          ArticleRecyclerViewAdapter.TYPE_ITEM -> 1
+          else -> 1
+        }
+      }
+    }
+    binding.articleSearchList.layoutManager = layoutManager
+
   }
 
   private fun setUpViewModel() {
@@ -146,6 +162,9 @@ class SearchFragment : DaggerFragment() {
         adapter!!.notifyDataSetChanged()
         binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
+        if (it.size > 0) {
+          adapter!!.setFirstArticle(it[1]!!)
+        }
       }
     })
     viewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
