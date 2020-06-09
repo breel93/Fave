@@ -37,6 +37,7 @@ import com.fave.breezil.fave.ui.adapter.ArticleRecyclerViewAdapter
 import com.fave.breezil.fave.ui.adapter.QuickCategoryRecyclerAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
+import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.CATEGORYNAME
 import dagger.android.support.DaggerFragment
 import java.util.Collections
@@ -53,9 +54,6 @@ class CategoryArticlesFragment : DaggerFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private var articleAdapter: ArticleRecyclerViewAdapter? = null
-  private var quickCategoryRecyclerAdapter: QuickCategoryRecyclerAdapter? = null
-  lateinit var quickCategoryList: List<String>
-
   lateinit var viewModel: MainViewModel
 
   private var country: String? = null
@@ -93,19 +91,14 @@ class CategoryArticlesFragment : DaggerFragment() {
     goBack()
 
     binding.shimmerViewContainer.startShimmer()
-    binding.swipeRefresh.setOnRefreshListener { refresh(category!!) }
+    binding.swipeRefresh.setOnRefreshListener { setUpViewModel(category!!) }
 
     return binding.root
   }
 
 
   private fun setUpAdapter() {
-    val seeMoreClickListener = object : SeeMoreClickListener {
-      override fun showMoreCategory(category: String) {
-        refresh(category)
-        (activity as AppCompatActivity).supportActionBar!!.title = category
-      }
-    }
+
     val articleClickListener = object : ArticleClickListener {
       override fun showDetails(article: Article) {
         val descriptionBottomSheetFragment = DescriptionBottomSheetFragment.getArticles(article)
@@ -114,11 +107,10 @@ class CategoryArticlesFragment : DaggerFragment() {
     }
     val articleLongClickListener = object : ArticleLongClickListener {
       override fun doSomething(article: Article) {
-        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article)
+        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article, ARTICLE_TYPE)
         actionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }
-
     articleAdapter =
       ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
     val layoutGridManager = GridLayoutManager(context, 2)
@@ -133,17 +125,6 @@ class CategoryArticlesFragment : DaggerFragment() {
       }
     }
     binding.articleCategoryList.layoutManager = layoutGridManager
-
-    val textArray = resources.getStringArray(R.array.category_list)
-    quickCategoryList = listOf(*textArray)
-
-    val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-    quickCategoryRecyclerAdapter =
-      QuickCategoryRecyclerAdapter(quickCategoryList, seeMoreClickListener)
-    binding.quickChooseList.layoutManager = layoutManager
-    binding.quickChooseList.adapter = quickCategoryRecyclerAdapter
-    Collections.shuffle(quickCategoryList)
-    quickCategoryRecyclerAdapter!!.setList(quickCategoryList)
   }
 
   private fun setUpViewModel(category: String) {
@@ -164,7 +145,6 @@ class CategoryArticlesFragment : DaggerFragment() {
     )
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
       if (it != null) {
-
         articleAdapter!!.submitList(it)
         binding.articleCategoryList.adapter = articleAdapter
         articleAdapter!!.notifyDataSetChanged()
@@ -197,45 +177,7 @@ class CategoryArticlesFragment : DaggerFragment() {
     }
   }
 
-
-  private fun refresh(category: String) {
-    binding.categoryText.text = category
-    binding.swipeRefresh.visibility = View.VISIBLE
-    binding.swipeRefresh.setColorSchemeResources(
-      R.color.colorAccent, R.color.colorPrimary,
-      R.color.colorblue, R.color.hotPink
-    )
-    viewModel.setParameter(
-      country!!,
-      getString(R.string.blank),
-      category,
-      getString(R.string.blank)
-    )
-    viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
-      if (it != null) {
-        articleAdapter!!.submitList(it)
-        binding.articleCategoryList.adapter = articleAdapter
-        articleAdapter!!.notifyDataSetChanged()
-        binding.shimmerViewContainer.stopShimmer()
-        binding.shimmerViewContainer.visibility = View.GONE
-      } else {
-        binding.shimmerViewContainer.startShimmer()
-        binding.shimmerViewContainer.visibility = View.VISIBLE
-      }
-    })
-    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
-      if (networkState != null) {
-        articleAdapter!!.setNetworkState(networkState)
-      }
-    })
-
-    if (binding.swipeRefresh != null) {
-      binding.swipeRefresh.isRefreshing = false
-    }
-  }
-
-
-  fun goBack(){
+  private fun goBack(){
     binding.backPressed.setOnClickListener{
       fragmentManager!!.popBackStack();
     }

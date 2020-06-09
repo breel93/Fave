@@ -29,11 +29,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentActionBottomSheetBinding
 import com.fave.breezil.fave.model.Article
-import com.fave.breezil.fave.ui.main.WebActivity
 import com.fave.breezil.fave.ui.main.bookmark.BookMarkViewModel
+import com.fave.breezil.fave.ui.main.top_stories.MainFragment
+import com.fave.breezil.fave.ui.main.top_stories.WebFragment
+import com.fave.breezil.fave.utils.BrowserUtils
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE
-import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TITLE
-import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_URL
+import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
+import com.fave.breezil.fave.utils.Constant.Companion.BOOKMARK_TYPE
+import com.fave.breezil.fave.utils.Constant.Companion.TYPE
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -53,10 +56,18 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
+  private lateinit var viewModel: BookMarkViewModel
 
   private val article: Article?
     get() = if (arguments!!.getParcelable<Article>(ARTICLE) != null) {
       arguments!!.getParcelable(ARTICLE)
+    } else {
+      null
+    }
+
+  private val type: String?
+    get() = if (arguments!!.getString(TYPE) != null) {
+      arguments!!.getString(TYPE)
     } else {
       null
     }
@@ -67,11 +78,13 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
     savedInstanceState: Bundle?
   ): View? {
     // Inflate the layout for this fragment
+
     binding =
       DataBindingUtil.inflate(inflater, R.layout.fragment_action_bottom_sheet, container, false)
     this.mContext = activity
-
-    updateUi(this.article!!)
+    viewModel = ViewModelProvider(this, viewModelFactory)
+      .get(BookMarkViewModel::class.java)
+    updateUi(this.article!!, type!!)
     return binding.root
   }
 
@@ -80,13 +93,16 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
     AndroidSupportInjection.inject(this)
   }
 
-  private fun updateUi(article: Article) {
+  private fun updateUi(article: Article, type: String) {
+    if(type == ARTICLE_TYPE){
+      binding.deleteBookmark.visibility = View.GONE
+    }else if(type == BOOKMARK_TYPE){
+      binding.bookMarkArticle.visibility = View.GONE
+    }
     binding.fullArticle.setOnClickListener { startWeb(article) }
     binding.shareArticle.setOnClickListener { startSharing(article) }
-    binding.bookMarkArticle.setOnClickListener {
-
-      startbookMark(article)
-    }
+    binding.bookMarkArticle.setOnClickListener { startbookMark(article) }
+    binding.deleteBookmark.setOnClickListener{deleteBookMark(article)}
   }
 
   private fun startSharing(article: Article) {
@@ -112,12 +128,10 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
       val publishedAt = article.publishedAt
       val source = article.source!!.name
 
-      val bookMarkViewModel = ViewModelProvider(this, viewModelFactory)
-        .get(BookMarkViewModel::class.java)
       if (title != null && description != null && url != null && urlToImage != null &&
         publishedAt != null
       ) {
-        bookMarkViewModel.insert(article).observe(viewLifecycleOwner, Observer {
+        viewModel.insert(article).observe(viewLifecycleOwner, Observer {
           if (it == "Successful") {
             Toast.makeText(
               this@ActionBottomSheetFragment.mContext,
@@ -146,20 +160,51 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
   private fun startWeb(article: Article) {
     val activity = activity
     if (activity != null && isAdded) {
-
-      val webIntent = Intent(context, WebActivity::class.java)
-      webIntent.putExtra(ARTICLE_TITLE, article.title)
-      webIntent.putExtra(ARTICLE_URL, article.url)
-      startActivity(webIntent)
+      BrowserUtils.launchBrowser(
+        context!!,
+        article.url!!
+      ) {
+        val fragment = WebFragment.getArticles(article)
+        fragmentManager!!.beginTransaction()
+          .setCustomAnimations(
+            R.anim.fragment_slide_in,
+            R.anim.fragment_slide_out,
+            R.anim.fragment_pop_slide_in,
+            R.anim.fragment_pop_slide_out
+          )
+          .add(R.id.parent_container, fragment)
+          .hide(MainFragment())
+          .addToBackStack("fragment")
+          .commit()
+      }
     }
+    dismiss()
+  }
+  private fun deleteBookMark(article: Article){
+    viewModel.delete(article).observe(viewLifecycleOwner, Observer {
+      if (it == "Successful") {
+        Toast.makeText(
+          this@ActionBottomSheetFragment.mContext,
+          R.string.bookmark_deleted,
+          Toast.LENGTH_SHORT
+        ).show()
+      } else {
+        Toast.makeText(
+          this@ActionBottomSheetFragment.mContext,
+          it,
+          Toast.LENGTH_SHORT
+        ).show()
+      }
+    })
     dismiss()
   }
 
   companion object {
-    fun getArticles(article: Article): ActionBottomSheetFragment {
+    fun getArticles(article: Article, type : String ): ActionBottomSheetFragment {
       val fragment = ActionBottomSheetFragment()
       val args = Bundle()
       args.putParcelable(ARTICLE, article)
+      args.putString(TYPE, type)
       fragment.arguments = args
       return fragment
     }

@@ -12,7 +12,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,28 +39,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="@dimen/zeroDP"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/minusOneDP"
-        android:layout_marginTop="@dimen/twoDP"
-        android:layout_marginBottom="@dimen/twoDP"
-        android:background="?attr/backgroundcolor"
-        android:padding="@dimen/twoDP"
-        app:layout_constraintBottom_toTopOf="@+id/swipeRefresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
-
-      <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/quickChooseList"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="?attr/backgroundcolor" />
-
-    </androidx.cardview.widget.CardView>
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
@@ -70,7 +48,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:shimmer_duration="800">
 
       <LinearLayout
@@ -98,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/articleCategoryList"
@@ -107,7 +85,7 @@
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/cardView"
+          app:layout_constraintTop_toTopOf="parent"
           tools:listitem="@layout/parent_main_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

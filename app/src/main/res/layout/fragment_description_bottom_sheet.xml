@@ -15,7 +15,7 @@
             android:layout_marginStart="@dimen/eightDP"
             android:layout_marginTop="@dimen/eightDP"
             android:layout_marginBottom="@dimen/eightDP"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/articleTitle"

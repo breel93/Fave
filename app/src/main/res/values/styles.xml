@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundcolor">#fcfcfc</item>
+        <item name="backgroundcolor">@color/colorSmokeWhite</item>
         <item name="cardbackground">#ffffff</item>
         <item name="android:textColorSecondary">@color/black</item>
         <item name="textcolor">#808080</item>

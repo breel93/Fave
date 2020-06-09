@@ -29,10 +29,11 @@ import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentBookmarkedBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.ui.adapter.BookMarkRecyclerAdapter
-import com.fave.breezil.fave.ui.bottom_sheets.BookmarkBottomSheetFragment
+import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
+import com.fave.breezil.fave.utils.Constant.Companion.BOOKMARK_TYPE
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ import javax.inject.Inject
 class BookMarkedFragment : DaggerFragment() {
 
   lateinit var adapter: BookMarkRecyclerAdapter
-  lateinit var bookMarkViewModel: BookMarkViewModel
+  private lateinit var bookMarkViewModel: BookMarkViewModel
   lateinit var binding: FragmentBookmarkedBinding
 
   @Inject
@@ -78,7 +79,7 @@ class BookMarkedFragment : DaggerFragment() {
 
     val bookMarkLongClickListener = object : ArticleLongClickListener {
       override fun doSomething(article: Article) {
-        val bookmarkBottomSheetFragment = BookmarkBottomSheetFragment.getBookmark(article)
+        val bookmarkBottomSheetFragment = ActionBottomSheetFragment.getArticles(article,BOOKMARK_TYPE)
         bookmarkBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }

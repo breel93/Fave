@@ -56,7 +56,7 @@ internal constructor(private val newsApi: NewsApi) {
       val parentModel = ParentModel()
       val articles = ArrayList<Article>()
       parentModel.title = item
-      newsApi.getHeadlines(country, sources, item, query, 7, 1, NEWS_API_KEY)
+      newsApi.getHeadlines(country, sources, item, query, 3, 1, NEWS_API_KEY)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({

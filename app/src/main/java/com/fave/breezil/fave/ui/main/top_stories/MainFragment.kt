@@ -35,6 +35,8 @@ import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
+import com.fave.breezil.fave.utils.Constant
+import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.getCountry
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
@@ -99,7 +101,9 @@ class MainFragment : DaggerFragment() {
     }
     val articleLongClickListener = object : ArticleLongClickListener {
       override fun doSomething(article: Article) {
-        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article)
+        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article,
+          ARTICLE_TYPE
+        )
         actionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }

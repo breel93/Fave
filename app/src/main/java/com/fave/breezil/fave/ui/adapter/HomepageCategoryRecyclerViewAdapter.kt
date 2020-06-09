@@ -25,34 +25,35 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.fave.breezil.fave.R
+import com.fave.breezil.fave.databinding.CategoryItemBinding
 import com.fave.breezil.fave.databinding.ChildMainItemBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 
-class ChildRecyclerViewAdapter(
+class HomepageCategoryRecyclerViewAdapter(
   private val mContext: Context,
   private val articleClickListener: ArticleClickListener,
   private val articleLongClickListener: ArticleLongClickListener
 ) :
-  ListAdapter<Article, ChildRecyclerViewAdapter.ChildViewHolder>(DIFF_CALLBACK) {
+  ListAdapter<Article, HomepageCategoryRecyclerViewAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
 
-  internal lateinit var binding: ChildMainItemBinding
+  internal lateinit var binding: CategoryItemBinding
   internal lateinit var circularProgressDrawable: CircularProgressDrawable
 
-  override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ChildViewHolder {
+  override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): CategoryViewHolder {
     val layoutInflater = LayoutInflater.from(viewGroup.context)
-    binding = ChildMainItemBinding.inflate(layoutInflater, viewGroup, false)
-    return ChildViewHolder(binding)
+    binding = CategoryItemBinding.inflate(layoutInflater, viewGroup, false)
+    return CategoryViewHolder(binding)
   }
 
-  override fun onBindViewHolder(childViewHolder: ChildViewHolder, i: Int) {
+  override fun onBindViewHolder(childViewHolder: CategoryViewHolder, i: Int) {
 
     val articles = getItem(i)
     childViewHolder.bind(articles, articleClickListener, articleLongClickListener)
   }
 
-  inner class ChildViewHolder(var binding: ChildMainItemBinding) :
+  inner class CategoryViewHolder(var binding: CategoryItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(

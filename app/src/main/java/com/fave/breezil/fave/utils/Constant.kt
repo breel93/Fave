@@ -32,6 +32,9 @@ class Constant {
     const val NEWS_API_KEY = BuildConfig.NEWS_API_KEY
     const val BASE_URL = BuildConfig.BASE_URL
     const val ARTICLE = "article"
+    const val TYPE = "TYPE"
+    const val ARTICLE_TYPE = "article_type"
+    const val BOOKMARK_TYPE = "bookmark_type"
     const val ARTICLE_TITLE = "article_title"
     const val ARTICLE_URL = "article_url"
     const val BOOKMARK = "bookmark"

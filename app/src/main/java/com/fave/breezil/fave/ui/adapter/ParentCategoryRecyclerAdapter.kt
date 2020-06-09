@@ -98,17 +98,17 @@ class ParentCategoryRecyclerAdapter(
 
       val articles = parentModel.articles
 
-      val childRecyclerAdapter = ChildRecyclerViewAdapter(
+      val homepageCategoryRecyclerViewAdapter = HomepageCategoryRecyclerViewAdapter(
         mContext,
         articleClickListener, articleLongClickListener
       )
       binding.parentRecyclerView.setHasFixedSize(true)
       binding.parentRecyclerView.layoutManager = LinearLayoutManager(
         mContext,
-        LinearLayoutManager.HORIZONTAL, false
+        LinearLayoutManager.VERTICAL, false
       )
-      binding.parentRecyclerView.adapter = childRecyclerAdapter
-      childRecyclerAdapter.submitList(articles)
+      binding.parentRecyclerView.adapter = homepageCategoryRecyclerViewAdapter
+      homepageCategoryRecyclerViewAdapter.submitList(articles)
 
       binding.parentRecyclerView.isNestedScrollingEnabled = true
     }
@@ -138,25 +138,6 @@ class ParentCategoryRecyclerAdapter(
       if (binding.breakingNewsList.onFlingListener == null)
         linearSnapHelper.attachToRecyclerView(binding.breakingNewsList)
 
-//      Timer().schedule(object : TimerTask() {
-//        override fun run() {
-//          if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < breakingNewsRecyclerAdapter.itemCount - 1) {
-//              if (binding.breakingNewsList.onFlingListener == null)
-//                linearSnapHelper.attachToRecyclerView(binding.breakingNewsList)
-//              if(binding.breakingNewsList.onFlingListener != null){
-//                linearLayoutManager.smoothScrollToPosition(
-//                  binding.breakingNewsList,
-//                  RecyclerView.State(),
-//                  linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
-//                )
-//              }
-//          } else if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == breakingNewsRecyclerAdapter.itemCount - 1) {
-//            if(binding.breakingNewsList.onFlingListener == null)
-//              linearSnapHelper.attachToRecyclerView(binding.breakingNewsList)
-//            linearLayoutManager.smoothScrollToPosition( binding.breakingNewsList, RecyclerView.State(), 0)
-//          }
-//        }
-//      }, 0, time.toLong())
     }
   }
   companion object {

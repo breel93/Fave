@@ -16,7 +16,6 @@
 package com.fave.breezil.fave.di.module
 
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
-import com.fave.breezil.fave.ui.bottom_sheets.BookmarkBottomSheetFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -24,7 +23,4 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActionBottomSheetModule {
   @ContributesAndroidInjector
   internal abstract fun contributeActionBottomSheetFragment(): ActionBottomSheetFragment
-
-  @ContributesAndroidInjector
-  internal abstract fun contributeBookmarkBottomSheetFragment(): BookmarkBottomSheetFragment
 }

@@ -34,6 +34,8 @@ import com.fave.breezil.fave.ui.adapter.ArticleRecyclerViewAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.main.look_up.LookUpViewModel
+import com.fave.breezil.fave.utils.Constant
+import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.SOURCENAME
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
@@ -88,7 +90,7 @@ class SourceDetailFragment : DaggerFragment() {
     }
     val articleLongClickListener = object : ArticleLongClickListener {
       override fun doSomething(article: Article) {
-        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article)
+        val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article, ARTICLE_TYPE)
         actionBottomSheetFragment.show(childFragmentManager, getString(R.string.show))
       }
     }
