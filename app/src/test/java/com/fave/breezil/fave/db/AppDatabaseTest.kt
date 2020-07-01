@@ -1,21 +1,27 @@
 package com.fave.breezil.fave.db
 
+import androidx.room.Room
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.After
 import org.junit.Before
-import org.junit.Test
+import org.junit.runner.RunWith
 
-import org.junit.Assert.*
-import org.junit.Rule
-
+@RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
-//  @Rule
-//  @JvmField
-//  val countingTaskExecutorRule = CountingTaskExecutorRule()
+
+  protected var db: AppDatabase? = null
 
   @Before
-  fun setUp() {
+  fun initDb() {
+    db = Room.inMemoryDatabaseBuilder(
+        InstrumentationRegistry.getInstrumentation().context,
+      AppDatabase::class.java
+    ).build()
   }
 
-  @Test
-  fun articleDao() {
+  @After
+  fun closeDb() {
+    db!!.close()
   }
 }

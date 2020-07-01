@@ -56,17 +56,6 @@ class BookMarkRecyclerAdapter(
     return getItem(position)
   }
 
-//    fun submitList(list: List<DebitCard>) {
-//        val oldList = differ.currentList
-//        if (oldList.isEmpty()) {
-//            differ.submitList(list)
-//        } else {
-//            val container = mutableListOf<DebitCard>()
-//            list.forEach { if(container.contains(it).not()) container.add(it) }
-//            oldList.forEach { if(container.contains(it).not())container.add(it) }
-//            differ.submitList(container)
-//        }
-//    }
 
   inner class BookMarkHolder(var binding: ArticleItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -96,7 +85,6 @@ class BookMarkRecyclerAdapter(
             .error(R.drawable.placeholder)
         )
         .into(binding.articleImage)
-//            binding.articleTitle.text = bookMark.title
       binding.sourcesText.text = article.source!!.name
       binding.articleTitle.text = Html.fromHtml(article.title, null, HtmlTagHandler())
     }
@@ -110,9 +98,6 @@ class BookMarkRecyclerAdapter(
       }
 
       override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-//        return (oldItem.title == newItem.title &&
-//            oldItem.description == newItem.description &&
-//            oldItem.publishedAt == newItem.publishedAt)
         return oldItem == newItem
       }
     }
