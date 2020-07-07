@@ -4,6 +4,7 @@
   <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:background="?attr/backgroundcolor"
       android:id="@+id/parent_container">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
 
       <com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
           android:id="@+id/mainViewPager"
+          android:background="?attr/backgroundcolor"
           android:layout_width="match_parent"
           android:layout_height="0dp"
           app:layout_behavior="@string/appbar_scrolling_view_behavior"

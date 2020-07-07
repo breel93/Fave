@@ -70,6 +70,7 @@ ext.versions = [
         //test
         junit                       : '4.12',
         espresso                    : '3.2.0',
+        arch_core_testing           : '2.1.0',
         mockitoVersion              : '3.2.4',
         mockitoKotlin               : '2.2.0',
         robolectric                 : '4.3.1',

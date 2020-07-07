@@ -15,16 +15,15 @@
 */
 package com.fave.breezil.fave.ui.main.bookmark
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.repository.BookMarkRepository
 import javax.inject.Inject
 
 class BookMarkViewModel @Inject
-constructor(private val bookMarkRepository: BookMarkRepository, application: Application) :
-  AndroidViewModel(application) {
+constructor(private val bookMarkRepository: BookMarkRepository) :
+  ViewModel() {
 
   val bookmarkList: LiveData<List<Article>> = bookMarkRepository.getBookMarks()
 

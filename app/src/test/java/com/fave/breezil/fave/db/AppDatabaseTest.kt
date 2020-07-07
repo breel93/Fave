@@ -8,16 +8,15 @@ import org.junit.Before
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AppDatabaseTest {
+abstract class AppDatabaseTest {
 
   protected var db: AppDatabase? = null
 
   @Before
   fun initDb() {
     db = Room.inMemoryDatabaseBuilder(
-        InstrumentationRegistry.getInstrumentation().context,
-      AppDatabase::class.java
-    ).build()
+      InstrumentationRegistry.getInstrumentation().context,
+      AppDatabase::class.java).allowMainThreadQueries().build()
   }
 
   @After

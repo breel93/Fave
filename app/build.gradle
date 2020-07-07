@@ -134,6 +134,7 @@ dependencies {
 
     // For instrumentation testing
     testImplementation 'androidx.test:core:' + versions.androidxCore
+    testImplementation 'androidx.arch.core:core-testing:' + versions.arch_core_testing
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:$' + versions.espresso

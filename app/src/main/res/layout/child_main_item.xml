@@ -6,6 +6,7 @@
       android:layout_width="200dp"
       android:layout_height="200dp"
       android:layout_marginEnd="2dp"
+      app:cardBackgroundColor="?attr/cardbackground"
       app:cardCornerRadius="@dimen/twoDP">
 
     <LinearLayout
@@ -32,7 +33,7 @@
           android:layout_marginTop="5dp"
           android:layout_marginEnd="@dimen/eightDP"
           android:text="@string/cnn"
-          android:textColor="@color/dark"
+          android:textColor="?attr/secondarytextcolor"
           android:textSize="@dimen/tenSP" />
 
       <TextView
@@ -45,7 +46,7 @@
           android:ellipsize="end"
           android:maxLines="3"
           android:text="@string/dummy_text"
-          android:textColor="@color/dark"
+          android:textColor="?attr/primarytextcolor"
           android:textSize="@dimen/twelveSP" />
     </LinearLayout>
   </com.google.android.material.card.MaterialCardView>

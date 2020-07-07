@@ -44,4 +44,5 @@ data class Article(
   @IgnoredOnParcel
   @PrimaryKey(autoGenerate = true)
   var id: Int = 0
+
 }

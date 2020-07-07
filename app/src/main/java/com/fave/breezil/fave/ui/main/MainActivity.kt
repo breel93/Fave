@@ -76,6 +76,7 @@ class MainActivity : BaseActivity() {
     editor.putString(getString(R.string.source), source)
     editor.apply()
     toolbar = binding.root.findViewById(R.id.mainToolbar) as Toolbar
+    toolbar!!.setTitleTextColor(resources.getColor(R.color.colorAccent))
     setSupportActionBar(toolbar)
     updateToolbarTitle(binding.mainViewPager)
   }

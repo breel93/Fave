@@ -33,6 +33,9 @@ interface ArticleDao {
   @Query("DELETE FROM article_table")
   fun deleteAllArticle()
 
+  @Query("SELECT * FROM article_table where id = :id")
+  fun getArticleById(id : Int) : Article
+
   @Delete
   fun delete(article: Article)
 }

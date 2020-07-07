@@ -1,26 +1,34 @@
 package com.fave.breezil.fave.api
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
 import com.fave.breezil.fave.RxTrampolineSchedulerRule
 import com.fave.breezil.fave.model.ArticleResult
-import com.nhaarman.mockitokotlin2.*
+import com.fave.breezil.fave.util.MockTestUtil
 import io.reactivex.Single
+import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
 
-@RunWith(JUnit4::class)
+@RunWith(MockitoJUnitRunner::class)
 class EndPointRepositoryTest {
-  @Rule
-  @JvmField
-  var testSchedulerRule = RxTrampolineSchedulerRule()
+
+  @get:Rule
+  var testSchedulerRule = InstantTaskExecutorRule()
+
+  @get:Rule
+  var rule = RxTrampolineSchedulerRule()
 
   private lateinit var repository: EndPointRepository
 
@@ -38,23 +46,27 @@ class EndPointRepositoryTest {
 
   @Test
   fun `should display success message on success`(){
-    val articleResult = ArticleResult("200",2, anyString(),ArrayList())
-    val mockCall = mock<Single<ArticleResult>>{
-    }
-//    Mockito.`when`(prefs.getApiKey()).thenReturn(key)
-//
-//    val animal = Animal("cow",null,null,null,null,null,null)
-//
-//    val animalList = listOf(animal)
-//
-//    val testSingle = Single.just(animalList)
-//
-//    Mockito.`when`(animalService.getAnimals(key)).thenReturn(testSingle)
-//    whenever(api.getFollowings).thenReturn(Observable.just(item))
-    repository.getEverything("query","","",
-      "","","",5,2).test().values().first()
+    val mockTestUtil = MockTestUtil()
+    val mockResult: ArticleResult = mockTestUtil.mockArticleResponse()
 
+//    `when`(newsApi.getHeadline(
+//      "us","","technology",
+//      "",5,1, NEWS_API_KEY)).thenReturn(Single.just(mockResult))
+    `when`(newsApi.getHeadline(
+      anyString(),anyString(),anyString(),
+      anyString(), anyInt(), anyInt(), anyString())).thenReturn(Single.just(mockResult))
 
+    //act
+    val data = repository.getHeadline("us","","technology",
+      "",5,1)
+
+    //assert
+    verify{ newsApi.getHeadline("us","","technology",
+      "",5,1, NEWS_API_KEY) }
+
+//    val testObserver: TestObserver<T> = TestObserver<Any?>()
+//    data.subscribe(testObserver)
+//    testObserver.assertNoErrors()
   }
 
   @Test
@@ -65,3 +77,4 @@ class EndPointRepositoryTest {
   fun getEverything() {
   }
 }
+

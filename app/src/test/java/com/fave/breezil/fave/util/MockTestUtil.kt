@@ -6,10 +6,10 @@ import com.fave.breezil.fave.model.Source
 import java.util.*
 
 class MockTestUtil {
-  public fun mockArticleResponse() : ArticleResult {
+  fun mockArticleResponse() : ArticleResult {
     return ArticleResult("ok", 4, "", mockArticleList())
   }
-  public fun mockArticleList(): List<Article>{
+  fun mockArticleList(): List<Article>{
     val articleList : List<Article>  = ArrayList<Article>()
     val article = Article ( "PlayStation Plus Free Games for July 2020 - IGN Daily Fix - IGN",
       "In today’s IGN Daily Fix, Sydnee Goodman talks PlayStation Plus free games for July 2020 and reports that an Xbox Series S (aka Project Lockhart) announcemen...",
@@ -47,7 +47,7 @@ class MockTestUtil {
     return articleList
   }
 
-  public fun mockArticle() :Article{
+  fun mockArticle() :Article{
     return Article ( "A Wild Apple ARM Benchmark Appears - Gizmodo",
       "Apple developers have supposedly started receiving their Apple ARM transition kits, and now a few benchmark numbers of those dev kits have also appeared in the wild. Spotted by 9to5Mac, benchmarks for the Developer Transition Kit seemed to have surfaced on Ge…",
       "https://www.youtube.com/watch?v=9SHwHJYIT7Q",
@@ -55,6 +55,19 @@ class MockTestUtil {
       "2020-06-29T21:01:00Z",
       Source( "Gizmodo.com"))
   }
+
+  fun mockArticle(id:Int) :Article{
+    val article = Article("A Wild Apple ARM Benchmark Appears - Gizmodo",
+      "Apple developers have supposedly started receiving their Apple ARM transition kits, and now a few benchmark numbers of those dev kits have also appeared in the wild. Spotted by 9to5Mac, benchmarks for the Developer Transition Kit seemed to have surfaced on Ge…",
+      "https://www.youtube.com/watch?v=9SHwHJYIT7Q",
+      "https://gizmodo.com/a-wild-apple-arm-benchmark-appears-1844204355",
+      "2020-06-29T21:01:00Z",
+      Source( "Gizmodo.com"))
+    article.id = id
+    return article
+  }
+
+
 
 
 }
