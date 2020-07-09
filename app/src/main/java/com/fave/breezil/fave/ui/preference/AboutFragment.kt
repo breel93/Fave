@@ -2,13 +2,11 @@ package com.fave.breezil.fave.ui.preference
 
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.databinding.ActivityAboutBinding
 import com.fave.breezil.fave.databinding.FragmentAboutBinding
 import dagger.android.support.DaggerFragment
 import mehdi.sakout.aboutpage.AboutPage
