@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="?attr/backgroundcolor"
+      android:id="@+id/parent_container">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+      <com.google.android.material.appbar.AppBarLayout
+          android:id="@+id/appBarLayout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:visibility="visible"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mainToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="80dp"
+            android:background="?attr/actionbarcolor"
+            android:theme="@style/Toolbar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
+      </com.google.android.material.appbar.AppBarLayout>
+
+      <com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
+          android:id="@+id/mainViewPager"
+          android:background="?attr/backgroundcolor"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+          app:layout_constraintBottom_toTopOf="@id/bottomNavViewBar"/>
+      <com.google.android.material.bottomnavigation.BottomNavigationView
+          android:id="@+id/bottomNavViewBar"
+          android:layout_width="@dimen/zeroDP"
+          android:layout_height="80dp"
+          android:background="?attr/backgroundcolor"
+          app:itemIconTint="@drawable/item_color"
+          app:itemTextColor="@drawable/item_color"
+          android:minHeight="80dp"
+          app:labelVisibilityMode="labeled"
+          app:layout_constraintTop_toBottomOf="@id/mainViewPager"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:menu="@menu/bottomnavigationmenu">
+      </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </FrameLayout>
+
+
+
+</layout>
+

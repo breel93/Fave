@@ -32,6 +32,7 @@ import com.fave.breezil.fave.ui.main.bookmark.BookMarkedFragment
 import com.fave.breezil.fave.ui.main.sources.SourcesFragment
 import com.fave.breezil.fave.ui.main.top_stories.MainFragment
 import com.fave.breezil.fave.ui.main.top_stories.SearchFragment
+import com.fave.breezil.fave.ui.preference.AboutFragment
 import com.fave.breezil.fave.ui.preference.SettingsFragment
 import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
@@ -135,7 +136,17 @@ class MainActivity : BaseActivity() {
         .commit()
     }
     if (item.itemId == R.id.about) {
-
+      val fragment = AboutFragment()
+      supportFragmentManager.beginTransaction()
+        .setCustomAnimations(
+          R.anim.fragment_slide_in,
+          R.anim.fragment_slide_out,
+          R.anim.fragment_pop_slide_in,
+          R.anim.fragment_pop_slide_out
+        )
+        .add(R.id.parent_container, fragment)
+        .addToBackStack("about_fragment")
+        .commit()
     }
     return true
   }

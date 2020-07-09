@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.top_stories.WebFragment">
-
-  <!-- TODO: Update blank fragment layout -->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="?attr/backgroundcolor"
+      tools:context=".ui.preference.SettingsFragment">
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/appBarLayout"
       android:layout_width="match_parent"
@@ -24,38 +23,27 @@ xmlns:tools="http://schemas.android.com/tools">
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="@dimen/tenDP"
+          android:textColor="?attr/secondarytextcolor"
           android:layout_gravity="center_vertical"
           android:src="@drawable/ic_arrow_back" />
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
-          android:id="@+id/articleTitleText"
           android:textSize="@dimen/eighteenSP"
+          android:textColor="?attr/secondarytextcolor"
           android:layout_marginStart="@dimen/twentyDP"
-          android:text="Category"/>
+          android:text="Preference"/>
     </LinearLayout>
 
   </com.google.android.material.appbar.AppBarLayout>
-
-  <ProgressBar
-      android:id="@+id/articleProgressBar"
-      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:indeterminate="true"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
-
-  <WebView
-      android:id="@+id/articleWebView"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/articleProgressBar" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/aboutLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

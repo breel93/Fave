@@ -1,0 +1,67 @@
+package com.fave.breezil.fave.ui.preference
+
+import android.os.Bundle
+import android.view.Gravity
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.fave.breezil.fave.R
+import com.fave.breezil.fave.databinding.ActivityAboutBinding
+import com.fave.breezil.fave.databinding.FragmentAboutBinding
+import dagger.android.support.DaggerFragment
+import mehdi.sakout.aboutpage.AboutPage
+import mehdi.sakout.aboutpage.Element
+import java.util.*
+
+
+class AboutFragment : DaggerFragment() {
+
+  lateinit var binding: FragmentAboutBinding
+
+  private val copyRights: Element
+    get() {
+      val copyRightsElement = Element()
+      val copyrights =
+        String.format(getString(R.string.copy_right), Calendar.getInstance().get(Calendar.YEAR))
+      copyRightsElement.title = copyrights
+      copyRightsElement.iconDrawable = R.drawable.ic_copyright_black_24dp
+      copyRightsElement.iconTint = mehdi.sakout.aboutpage.R.color.about_item_icon_color
+      copyRightsElement.iconNightTint = android.R.color.white
+      copyRightsElement.gravity = Gravity.CENTER
+      return copyRightsElement
+    }
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    // Inflate the layout for this fragment
+    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
+    val aboutPage = createPage()
+    binding.aboutLayout.addView(aboutPage, 0)
+
+    goBack()
+    return binding.root
+  }
+
+  private fun createPage(): View {
+    return AboutPage(context)
+      .isRTL(false)
+      .setDescription(getString(R.string.about_description))
+      .setImage(R.mipmap.ic_launcher_round)
+      .addItem(Element().setTitle(String.format(getString(R.string.version))))
+      .addGroup(getString(R.string.contacts))
+      .addEmail(getString(R.string.email), getString(R.string.email_title))
+      .addWebsite(getString(R.string.web), getString(R.string.website))
+      .addTwitter(getString(R.string.twitter), getString(R.string.ontwitter))
+      .addGitHub(getString(R.string.github), getString(R.string.ongithub))
+      .addItem(copyRights)
+      .create()
+  }
+  private fun goBack(){
+    binding.backPressed.setOnClickListener{
+      fragmentManager!!.popBackStack();
+    }
+  }
+}

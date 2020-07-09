@@ -22,6 +22,7 @@ import com.fave.breezil.fave.ui.main.top_stories.CategoryArticlesFragment
 import com.fave.breezil.fave.ui.main.top_stories.MainFragment
 import com.fave.breezil.fave.ui.main.top_stories.SearchFragment
 import com.fave.breezil.fave.ui.main.top_stories.WebFragment
+import com.fave.breezil.fave.ui.preference.AboutFragment
 import com.fave.breezil.fave.ui.preference.SettingsFragment
 
 import dagger.Module
@@ -50,6 +51,9 @@ abstract class MainFragmentsModule {
 
   @ContributesAndroidInjector
   internal abstract fun contributeSettingsFragment(): SettingsFragment
+
+  @ContributesAndroidInjector
+  internal abstract fun contributeAboutFragment(): AboutFragment
 
   @ContributesAndroidInjector
   internal abstract fun contributeWebFragment(): WebFragment
