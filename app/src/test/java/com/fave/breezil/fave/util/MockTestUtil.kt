@@ -9,8 +9,11 @@ class MockTestUtil {
   fun mockArticleResponse() : ArticleResult {
     return ArticleResult("ok", 4, "", mockArticleList())
   }
+
+
+
   fun mockArticleList(): List<Article>{
-    val articleList : List<Article>  = ArrayList<Article>()
+    val articleList  = ArrayList<Article>()
     val article = Article ( "PlayStation Plus Free Games for July 2020 - IGN Daily Fix - IGN",
       "In today’s IGN Daily Fix, Sydnee Goodman talks PlayStation Plus free games for July 2020 and reports that an Xbox Series S (aka Project Lockhart) announcemen...",
       "https://www.youtube.com/watch?v=9SHwHJYIT7Q",
@@ -40,10 +43,10 @@ class MockTestUtil {
       "2020-06-29T20:19:24Z",
       Source( "CNBC")
     )
-    articleList.toMutableList().add(article)
-    articleList.toMutableList().add(article1)
-    articleList.toMutableList().add(article2)
-    articleList.toMutableList().add(article3)
+    articleList.add(article)
+    articleList.add(article1)
+    articleList.add(article2)
+    articleList.add(article3)
     return articleList
   }
 

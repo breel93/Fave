@@ -84,7 +84,7 @@ class BookMarkedFragment : DaggerFragment() {
       }
     }
 
-    adapter = BookMarkRecyclerAdapter(context!!, bookMarkClickListener, bookMarkLongClickListener)
+    adapter = BookMarkRecyclerAdapter(requireContext(), bookMarkClickListener, bookMarkLongClickListener)
     binding.bookmarkList.adapter = adapter
   }
 

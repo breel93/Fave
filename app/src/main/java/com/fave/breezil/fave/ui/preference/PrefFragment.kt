@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.preference
 
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -30,13 +31,18 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import androidx.preference.ListPreference
 import com.fave.breezil.fave.R
+import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
 import java.util.Objects
 import kotlin.collections.ArrayList
 
 class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
   private var mSourcePref: MultiSelectListPreference? = null
+  lateinit var applyThemesInterFace : ApplyThemesInterFace
 
+  interface ApplyThemesInterFace{
+    fun applytheme(applied: Boolean)
+  }
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     setPreferencesFromResource(R.xml.preferences, rootKey)
     PreferenceManager.setDefaultValues(
@@ -51,9 +57,21 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
     initSummary(preferenceScreen)
   }
 
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+    applyThemesInterFace = try {
+      requireActivity() as ApplyThemesInterFace
+    }catch (e: ClassCastException) {
+      throw ClassCastException(
+        context.toString()
+            + " must implement ApplyThemesInterFace "
+      )
+    }
+  }
+
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
     val listView = view.findViewById<ListView>(android.R.id.list)
     if (listView != null)
       ViewCompat.setNestedScrollingEnabled(listView, true)
@@ -63,8 +81,9 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
     if (key != getString(R.string.pref_source_key)) {
       updateSummary(findPreference(key)!!)
       updateNightMode(findPreference(key)!!)
-      requireActivity().recreate()
-    } else {
+      applyThemesInterFace.applytheme(true)
+    }
+    else {
       updateMultiSummary(findPreference(key)!!,
         sharedPreferences.getStringSet(getString(R.string.pref_source_key), null))
     }
@@ -78,10 +97,7 @@ class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPrefe
     } else {
       updateSummary(p)
       updateMultiSummary(
-        p,
-        PreferenceManager.getDefaultSharedPreferences(
-          activity
-        )
+        p, PreferenceManager.getDefaultSharedPreferences(activity)
           .getStringSet(getString(R.string.pref_source_key), null)
       )
       updateNightMode(p)

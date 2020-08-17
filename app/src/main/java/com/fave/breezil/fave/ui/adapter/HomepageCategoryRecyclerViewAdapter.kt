@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -25,11 +26,12 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.databinding.CategoryItemBinding
-import com.fave.breezil.fave.databinding.ChildMainItemBinding
+import com.fave.breezil.fave.databinding.ArticleCategoryItemBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
+import com.fave.breezil.fave.utils.getTimeAgo
+import java.util.*
 
 class HomepageCategoryRecyclerViewAdapter(
   private val mContext: Context,
@@ -38,12 +40,12 @@ class HomepageCategoryRecyclerViewAdapter(
 ) :
   ListAdapter<Article, HomepageCategoryRecyclerViewAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
 
-  internal lateinit var binding: CategoryItemBinding
+  internal lateinit var binding: ArticleCategoryItemBinding
   internal lateinit var circularProgressDrawable: CircularProgressDrawable
 
   override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): CategoryViewHolder {
     val layoutInflater = LayoutInflater.from(viewGroup.context)
-    binding = CategoryItemBinding.inflate(layoutInflater, viewGroup, false)
+    binding = ArticleCategoryItemBinding.inflate(layoutInflater, viewGroup, false)
     return CategoryViewHolder(binding)
   }
 
@@ -53,7 +55,7 @@ class HomepageCategoryRecyclerViewAdapter(
     childViewHolder.bind(articles, articleClickListener, articleLongClickListener)
   }
 
-  inner class CategoryViewHolder(var binding: CategoryItemBinding) :
+  inner class CategoryViewHolder(var binding: ArticleCategoryItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
@@ -88,6 +90,7 @@ class HomepageCategoryRecyclerViewAdapter(
 
       binding.articleTitle.text = article.title
       binding.sourcesText.text = article.source!!.name
+      binding.timeCreated.text = article.publishedAt!!.asTimeAgo(mContext.resources) + " |"
     }
   }
 
@@ -103,5 +106,8 @@ class HomepageCategoryRecyclerViewAdapter(
             oldItem.publishedAt == newItem.publishedAt)
       }
     }
+  }
+  private fun Date.asTimeAgo(resources: Resources): String {
+    return getTimeAgo(this.time, System.currentTimeMillis(), resources)
   }
 }

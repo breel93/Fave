@@ -526,7 +526,16 @@
   <string name="cnn">CNN</string>
   <string name="textview">TextView</string>
   <string name="preference">Preference</string>
-  >
+  <string name="no_active_internet">No Active Internet Connection</string>
+  <string name="response_error">An error occurred. Check your internet connection or try again.</string>
+  <string name="no_result_error">Ops! No result found, try again</string>
 
+  <string name="time_ago_just_now">just now</string>
+  <string name="time_ago_a_minute">a minute ago</string>
+  <string name="time_ago_minutes">%1$s minutes ago</string>
+  <string name="time_ago_an_hour">an hour ago</string>
+  <string name="time_ago_hours">%1$s hours ago</string>
+  <string name="time_ago_yesterday">yesterday</string>
+  <string name="time_ago_days">%1$s days ago</string>
 
 </resources>

@@ -25,12 +25,8 @@ class NetworkState(val status: Status) {
 
   companion object {
 
-    val LOADED: NetworkState
-    val LOADING: NetworkState
+    val LOADED: NetworkState = NetworkState(Status.SUCCESS)
+    val LOADING: NetworkState = NetworkState(Status.RUNNING)
 
-    init {
-      LOADED = NetworkState(Status.SUCCESS)
-      LOADING = NetworkState(Status.RUNNING)
-    }
   }
 }

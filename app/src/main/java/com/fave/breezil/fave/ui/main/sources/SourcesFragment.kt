@@ -88,7 +88,8 @@ class SourcesFragment : DaggerFragment() {
     val sourcesClickListener = object : SourcesClickListener {
       override fun showDetails(sources: Sources) {
         val fragment = SourceDetailFragment.getSource(sources)
-        fragmentManager!!.beginTransaction()
+//        fragmentManager!!.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
           .setCustomAnimations(
             R.anim.fragment_slide_in,
             R.anim.fragment_slide_out,

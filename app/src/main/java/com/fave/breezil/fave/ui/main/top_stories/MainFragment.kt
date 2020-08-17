@@ -109,7 +109,7 @@ class MainFragment : DaggerFragment() {
     val seeMoreClickListener = object : SeeMoreClickListener {
       override fun showMoreCategory(category: String) {
         val fragment = CategoryArticlesFragment.getCategory(category)
-        fragmentManager!!.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
           .setCustomAnimations(
             R.anim.fragment_slide_in,
             R.anim.fragment_slide_out,
@@ -123,11 +123,12 @@ class MainFragment : DaggerFragment() {
       }
     }
     parentCategoryRecyclerAdapter = ParentCategoryRecyclerAdapter(
-      context!!,
+      requireContext(),
       articleClickListener,
       articleLongClickListener,
       seeMoreClickListener
     )
+    binding.mainRecyclerView.adapter = parentCategoryRecyclerAdapter
   }
 
   private fun setupViewModel() {
@@ -136,20 +137,15 @@ class MainFragment : DaggerFragment() {
       R.color.colorAccent, R.color.colorPrimary,
       R.color.colorblue, R.color.hotPink
     )
-    viewModel.getCategoryList(context!!, mArrayList, country!!, "", "")
+    viewModel.getCategoryList(requireContext(), mArrayList, country!!, "", "")
       ?.observe(viewLifecycleOwner, Observer {
         if (it && ::parentCategoryRecyclerAdapter.isInitialized) {
-          binding.mainRecyclerView.adapter = parentCategoryRecyclerAdapter
           parentCategoryRecyclerAdapter.setList(mArrayList)
-
-          parentCategoryRecyclerAdapter.notifyDataSetChanged()
-          binding.shimmerViewContainer.stopShimmer()
           binding.shimmerViewContainer.visibility = View.GONE
         }
       })
-
     viewModel.getBreakingNewList(
-      sourcesPreferenceList(context!!, sharedPreferences),
+      sourcesPreferenceList(requireContext(), sharedPreferences),
       sortBy,
       todayDate,
       twoDaysAgoDate,
@@ -161,10 +157,6 @@ class MainFragment : DaggerFragment() {
       }
     })
     binding.swipeRefresh.let {
-      binding.swipeRefresh.isRefreshing = false
-    }
-
-    if (binding.swipeRefresh != null) {
       binding.swipeRefresh.isRefreshing = false
     }
   }

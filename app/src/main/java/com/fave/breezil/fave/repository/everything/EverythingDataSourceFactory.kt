@@ -31,7 +31,7 @@ constructor(val everythingDataSource: EverythingDataSource) : DataSource.Factory
     return everythingDataSource
   }
 
-  fun getMutableEverythingDataSourceMutableLivate(): MutableLiveData<EverythingDataSource> {
+  fun getEverythingDataSourceMutableLivate(): MutableLiveData<EverythingDataSource> {
     return everythingDataSourceMutableLiveData
   }
 }

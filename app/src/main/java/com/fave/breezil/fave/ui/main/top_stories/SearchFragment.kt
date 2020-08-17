@@ -17,7 +17,7 @@ package com.fave.breezil.fave.ui.main.top_stories
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,13 +31,13 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentSearchBinding
 import com.fave.breezil.fave.model.Article
+import com.fave.breezil.fave.repository.NetworkState
 import com.fave.breezil.fave.ui.adapter.ArticleRecyclerViewAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.main.look_up.LookUpViewModel
-import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
@@ -55,12 +55,12 @@ class SearchFragment : DaggerFragment() {
   lateinit var binding: FragmentSearchBinding
 
   internal var adapter: ArticleRecyclerViewAdapter? = null
-  lateinit var viewModel: LookUpViewModel
+  private lateinit var viewModel: LookUpViewModel
 
   private var sortBy: String? = null
   private var source: String = ""
 
-  lateinit var sharedPreferences: SharedPreferences
+  private lateinit var sharedPreferences: SharedPreferences
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -74,18 +74,12 @@ class SearchFragment : DaggerFragment() {
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
     viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
-    sortBy = sharedPreferences.getString(
-      getString(R.string.pref_everything_sort_by_key),
-      getString(R.string.blank)
-    )
+    sortBy = sharedPreferences.getString(getString(R.string.pref_everything_sort_by_key), getString(R.string.blank))
     binding.shimmerViewContainer.startShimmer()
-
     setUpAdapter()
     setUpViewModel()
     search()
-
     binding.swipeRefresh.setOnRefreshListener { setUpViewModel() }
-
     return binding.root
   }
 
@@ -109,23 +103,20 @@ class SearchFragment : DaggerFragment() {
   }
 
   private fun setUpAdapter() {
-
     val articleClickListener = object : ArticleClickListener {
       override fun showDetails(article: Article) {
         val descriptionBottomSheetFragment = DescriptionBottomSheetFragment.getArticles(article)
-        descriptionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
+        descriptionBottomSheetFragment.show(requireActivity().supportFragmentManager, getString(R.string.show))
       }
     }
-
     val articleLongClickListener = object : ArticleLongClickListener {
       override fun doSomething(article: Article) {
         val actionBottomSheetFragment = ActionBottomSheetFragment.getArticles(article, ARTICLE_TYPE)
-        actionBottomSheetFragment.show(fragmentManager!!, getString(R.string.show))
+        actionBottomSheetFragment.show(requireActivity().supportFragmentManager, getString(R.string.show))
       }
     }
-    val layoutManager = GridLayoutManager(context, 2)
-    adapter = ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
-
+    val layoutManager = GridLayoutManager(requireContext(), 2)
+    adapter = ArticleRecyclerViewAdapter(requireContext(), articleClickListener, articleLongClickListener)
     layoutManager.spanSizeLookup = object : SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
         return when (adapter!!.getItemViewType(position)) {
@@ -136,80 +127,91 @@ class SearchFragment : DaggerFragment() {
       }
     }
     binding.articleSearchList.layoutManager = layoutManager
-
+    binding.articleSearchList.adapter = adapter
   }
 
   private fun setUpViewModel() {
+    setupLoading()
     binding.swipeRefresh.visibility = View.VISIBLE
-    binding.swipeRefresh.setColorSchemeResources(
-      R.color.colorAccent, R.color.colorPrimary,
-      R.color.colorblue, R.color.hotPink
-    )
-
+    binding.swipeRefresh.setColorSchemeResources(R.color.colorAccent, R.color.hotPink)
     if (!isAdded) {
       return
     }
     viewModel.setParameter(
       getString(R.string.blank),
-      sourcesPreferenceList(context!!, sharedPreferences),
+      sourcesPreferenceList(requireContext(), sharedPreferences),
       sortBy!!,
       todayDate,
       twoDaysAgoDate,
       getString(R.string.blank)
     )
     viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
-      if (it != null) {
+      it?.let {
         adapter!!.submitList(it)
-        binding.articleSearchList.adapter = adapter
-        adapter!!.notifyDataSetChanged()
-        binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
         if (it.size > 0) {
           adapter!!.setFirstArticle(it[1]!!)
         }
       }
     })
-    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
-      if (it != null) {
-        adapter!!.setNetworkState(it)
-      }
-    })
-
     val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
     val editor = preferences.edit()
     editor.putString(getString(R.string.source), source)
     editor.apply()
-
-    if (binding.swipeRefresh != null) {
-      binding.swipeRefresh.isRefreshing = false
-    }
+    binding.swipeRefresh.let { binding.swipeRefresh.isRefreshing = false }
   }
 
   private fun refresh(search: String) {
+    setupLoading()
     viewModel.setParameter(
       search,
-      sourcesPreferenceList(context!!, sharedPreferences),
-      sortBy!!,
-      todayDate,
-      twoDaysAgoDate,
-      getString(R.string.blank)
+      sourcesPreferenceList(requireContext(), sharedPreferences),
+      sortBy!!, todayDate, twoDaysAgoDate, getString(R.string.blank)
     )
     viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
-      if (it != null) {
+      it?.let {
         adapter!!.submitList(it)
-        binding.articleSearchList.adapter = adapter
-        adapter!!.notifyDataSetChanged()
-        binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
-      } else {
-        binding.shimmerViewContainer.startShimmer()
-        binding.shimmerViewContainer.visibility = View.VISIBLE
       }
     })
+  }
+
+  private fun setupLoading(){
     viewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
       if (it != null) {
-        adapter!!.setNetworkState(it)
+        when (it.status) {
+          NetworkState.Status.SUCCESS -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility = View.GONE
+            binding.responseError.visibility = View.GONE
+            binding.articleSearchList.visibility = View.VISIBLE
+          }
+          NetworkState.Status.FAILED -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility= View.GONE
+            binding.responseError.visibility = View.VISIBLE
+            binding.articleSearchList.visibility = View.GONE
+          }
+          NetworkState.Status.NO_RESULT -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility = View.VISIBLE
+            binding.responseError.visibility = View.GONE
+            binding.articleSearchList.visibility = View.GONE
+          }
+          NetworkState.Status.RUNNING -> {
+            binding.shimmerViewContainer.visibility = View.VISIBLE
+            binding.searchError.visibility = View.GONE
+            binding.responseError.visibility = View.GONE
+          }
+          else -> {
+
+          }
+        }
       }
     })
+    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
+      networkState?.let { adapter!!.setNetworkState(networkState) }
+    })
+
   }
 }

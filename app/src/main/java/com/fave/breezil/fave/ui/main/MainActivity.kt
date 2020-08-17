@@ -28,13 +28,14 @@ import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.ActivityMainBinding
 import com.fave.breezil.fave.ui.BaseActivity
 import com.fave.breezil.fave.ui.adapter.PagerAdapter
+import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
 import com.fave.breezil.fave.ui.main.bookmark.BookMarkedFragment
 import com.fave.breezil.fave.ui.main.sources.SourcesFragment
 import com.fave.breezil.fave.ui.main.top_stories.MainFragment
 import com.fave.breezil.fave.ui.main.top_stories.SearchFragment
 import com.fave.breezil.fave.ui.preference.AboutFragment
+import com.fave.breezil.fave.ui.preference.PrefFragment
 import com.fave.breezil.fave.ui.preference.SettingsFragment
-import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
 import com.fave.breezil.fave.utils.helpers.BottomNavigationHelper
 import com.fave.breezil.fave.utils.helpers.FadeOutTransformation
@@ -42,8 +43,12 @@ import com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
 import dagger.android.AndroidInjection
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), FragmentOpenedListener, PrefFragment.ApplyThemesInterFace {
 
   lateinit var binding: ActivityMainBinding
   lateinit var sharedPreferences: SharedPreferences
@@ -109,9 +114,9 @@ class MainActivity : BaseActivity() {
           }
         }
       }
-
     })
   }
+
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
     super.onCreateOptionsMenu(menu)
@@ -131,8 +136,8 @@ class MainActivity : BaseActivity() {
           R.anim.fragment_pop_slide_in,
           R.anim.fragment_pop_slide_out
         )
-        .add(R.id.parent_container, fragment)
-        .addToBackStack("fragment")
+        .replace(R.id.parent_container, fragment)
+        .addToBackStack("settings_fragment")
         .commit()
     }
     if (item.itemId == R.id.about) {
@@ -152,7 +157,6 @@ class MainActivity : BaseActivity() {
   }
 
   private fun setupBottomNavigation() {
-
     mainViewPagerAdapter!!.addFragments(MainFragment())
     mainViewPagerAdapter!!.addFragments(SearchFragment())
     mainViewPagerAdapter!!.addFragments(SourcesFragment())
@@ -189,5 +193,15 @@ class MainActivity : BaseActivity() {
     }
   }
 
-
+  override fun isOpened(opened: Boolean) = when {
+    opened -> {
+      toolbar!!.visibility = View.INVISIBLE
+    }
+    else -> {
+      toolbar!!.visibility = View.VISIBLE
+    }
+  }
+  override fun applytheme(applied: Boolean) {
+    recreate()
+  }
 }

@@ -21,16 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shimmer_duration="800">
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@android:color/white"
-          android:orientation="vertical">
-        <include layout="@layout/main_shimmer_layout" />
-        <include layout="@layout/main_shimmer_layout" />
-        <include layout="@layout/main_shimmer_layout" />
-      </LinearLayout>
+      <include layout="@layout/main_shimmer_layout" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -56,6 +47,35 @@
           app:layout_constraintTop_toTopOf="parent"
           tools:listitem="@layout/parent_main_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/searchError"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="@string/no_result_error"
+        android:textColor="?attr/secondarytextcolor"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_undraw_newspaper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/responseError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/response_error"
+        android:textColor="?attr/secondarytextcolor"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_no_wifi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

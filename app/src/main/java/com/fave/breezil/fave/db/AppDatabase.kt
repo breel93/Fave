@@ -17,9 +17,12 @@ package com.fave.breezil.fave.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.fave.breezil.fave.model.Article
+import com.fave.breezil.fave.model.Converters
 
-@Database(entities = [Article::class], version = 2, exportSchema = false)
+@Database(entities = [Article::class], version = 3, exportSchema = true)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
   abstract fun articleDao(): ArticleDao
 }

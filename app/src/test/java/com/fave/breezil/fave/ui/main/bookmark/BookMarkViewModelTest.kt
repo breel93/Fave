@@ -45,7 +45,6 @@ class BookMarkViewModelTest {
     val observedData: List<Article> =
       liveDataTestUtil.getValue(bookMarkViewModel!!.bookmarkList)!!
 
-    // assert
 
     // assert
     Assert.assertEquals(articleList, observedData)

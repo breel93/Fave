@@ -52,20 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:shimmer_duration="800">
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@android:color/white"
-          android:orientation="vertical">
-
-        <include layout="@layout/shimmer_feeds_layout" />
-
-        <include layout="@layout/shimmer_feeds_layout" />
-
-        <include layout="@layout/shimmer_feeds_layout" />
-
-      </LinearLayout>
+      <include layout="@layout/shimmer_feeds_layout" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 
@@ -73,7 +60,7 @@
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/threeDP"
+        android:layout_margin="@dimen/twoDP"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +77,35 @@
           app:layout_constraintTop_toTopOf="parent"
           tools:listitem="@layout/parent_main_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/searchError"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="@string/no_result_error"
+        android:textColor="?attr/secondarytextcolor"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_undraw_newspaper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/responseError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/response_error"
+        android:textColor="?attr/secondarytextcolor"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_no_wifi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -22,6 +22,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import java.util.Date
 
 @Parcelize
 @Entity(tableName = "article_table")
@@ -35,7 +36,7 @@ data class Article(
   @SerializedName("urlToImage")
   var urlToImage: String?,
   @SerializedName("publishedAt")
-  var publishedAt: String?,
+  var publishedAt: Date?,
 
   @SerializedName("source")
   @Embedded

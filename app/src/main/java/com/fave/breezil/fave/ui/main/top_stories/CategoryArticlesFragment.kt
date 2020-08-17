@@ -15,32 +15,31 @@
 */
 package com.fave.breezil.fave.ui.main.top_stories
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.*
-import androidx.preference.PreferenceManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
-import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
-import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
 import com.fave.breezil.fave.databinding.FragmentCategoryArticlesBinding
 import com.fave.breezil.fave.model.Article
+import com.fave.breezil.fave.repository.NetworkState
 import com.fave.breezil.fave.ui.adapter.ArticleRecyclerViewAdapter
-import com.fave.breezil.fave.ui.adapter.QuickCategoryRecyclerAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
+import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
+import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
+import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.CATEGORYNAME
 import dagger.android.support.DaggerFragment
-import java.util.Collections
 import javax.inject.Inject
 
 /**
@@ -55,14 +54,15 @@ class CategoryArticlesFragment : DaggerFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private var articleAdapter: ArticleRecyclerViewAdapter? = null
   lateinit var viewModel: MainViewModel
+  private lateinit var openedListener: FragmentOpenedListener
 
   private var country: String? = null
 
   lateinit var sharedPreferences: SharedPreferences
 
   private val category: String?
-    get() = if (arguments!!.getString(CATEGORYNAME) != null) {
-      arguments!!.getString(CATEGORYNAME)
+    get() = if (requireArguments().getString(CATEGORYNAME) != null) {
+      requireArguments().getString(CATEGORYNAME)
     } else {
       null
     }
@@ -89,16 +89,25 @@ class CategoryArticlesFragment : DaggerFragment() {
     setUpAdapter()
     setUpViewModel(category!!)
     goBack()
-
+    openedListener.isOpened(true)
     binding.shimmerViewContainer.startShimmer()
     binding.swipeRefresh.setOnRefreshListener { setUpViewModel(category!!) }
 
     return binding.root
   }
-
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+    openedListener = try {
+      requireActivity() as FragmentOpenedListener
+    } catch (e: ClassCastException) {
+      throw ClassCastException(
+        context.toString()
+            + " must implement FragmentOpenedListener "
+      )
+    }
+  }
 
   private fun setUpAdapter() {
-
     val articleClickListener = object : ArticleClickListener {
       override fun showDetails(article: Article) {
         val descriptionBottomSheetFragment = DescriptionBottomSheetFragment.getArticles(article)
@@ -112,9 +121,8 @@ class CategoryArticlesFragment : DaggerFragment() {
       }
     }
     articleAdapter =
-      ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
-    val layoutGridManager = GridLayoutManager(context, 2)
-
+      ArticleRecyclerViewAdapter(requireContext(), articleClickListener, articleLongClickListener)
+    val layoutGridManager = GridLayoutManager(requireContext(), 2)
     layoutGridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
         return when (articleAdapter!!.getItemViewType(position)) {
@@ -125,43 +133,27 @@ class CategoryArticlesFragment : DaggerFragment() {
       }
     }
     binding.articleCategoryList.layoutManager = layoutGridManager
+    binding.articleCategoryList.adapter = articleAdapter
   }
 
   private fun setUpViewModel(category: String) {
+    setupLoading()
     binding.categoryText.text = category
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
-      R.color.colorAccent, R.color.colorPrimary,
-      R.color.colorblue, R.color.hotPink
+      R.color.colorAccent, R.color.hotPink
     )
-
-    viewModel.articleList.removeObservers(viewLifecycleOwner)
-
-    viewModel.setParameter(
-      country!!,
-      getString(R.string.blank),
-      category,
-      getString(R.string.blank)
-    )
+    viewModel.setParameter(country!!, getString(R.string.blank), category, getString(R.string.blank))
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
-      if (it != null) {
+      it?.let {
         articleAdapter!!.submitList(it)
-        binding.articleCategoryList.adapter = articleAdapter
-        articleAdapter!!.notifyDataSetChanged()
-        binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
         if(it.size > 0){
           articleAdapter!!.setFirstArticle(it[1]!!)
         }
       }
     })
-    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
-      if (networkState != null) {
-        articleAdapter!!.setNetworkState(networkState)
-      }
-    })
-
-    if (binding.swipeRefresh != null) {
+    binding.swipeRefresh.let {
       binding.swipeRefresh.isRefreshing = false
     }
   }
@@ -179,8 +171,49 @@ class CategoryArticlesFragment : DaggerFragment() {
 
   private fun goBack(){
     binding.backPressed.setOnClickListener{
-      fragmentManager!!.popBackStack();
+      requireActivity().supportFragmentManager.popBackStack()
     }
+  }
+  override fun onDestroy() {
+    super.onDestroy()
+    openedListener.isOpened(false)
+  }
+
+  private fun setupLoading(){
+    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
+      if (it != null) {
+        when (it.status) {
+          NetworkState.Status.SUCCESS -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility = View.GONE
+            binding.responseError.visibility = View.GONE
+            binding.articleCategoryList.visibility = View.VISIBLE
+          }
+          NetworkState.Status.FAILED -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility= View.GONE
+            binding.responseError.visibility = View.VISIBLE
+            binding.articleCategoryList.visibility = View.GONE
+          }
+          NetworkState.Status.NO_RESULT -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility = View.VISIBLE
+            binding.responseError.visibility = View.GONE
+            binding.articleCategoryList.visibility = View.GONE
+          }
+          else -> {
+            binding.shimmerViewContainer.visibility = View.VISIBLE
+            binding.searchError.visibility = View.GONE
+            binding.responseError.visibility = View.GONE
+          }
+        }
+      }
+    })
+    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
+      if (networkState != null) {
+        articleAdapter!!.setNetworkState(networkState)
+      }
+    })
   }
 
 }

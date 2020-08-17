@@ -15,6 +15,7 @@
 */
 package com.fave.breezil.fave.ui.main.sources
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,16 +26,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
-import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.databinding.FragmentSourceDetailBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.model.Sources
+import com.fave.breezil.fave.repository.NetworkState
 import com.fave.breezil.fave.ui.adapter.ArticleRecyclerViewAdapter
 import com.fave.breezil.fave.ui.bottom_sheets.ActionBottomSheetFragment
 import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
+import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
+import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
+import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
 import com.fave.breezil.fave.ui.main.look_up.LookUpViewModel
-import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.SOURCENAME
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
@@ -54,10 +56,11 @@ class SourceDetailFragment : DaggerFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private var articleAdapter: ArticleRecyclerViewAdapter? = null
   lateinit var viewModel: LookUpViewModel
+  private lateinit var openedListener: FragmentOpenedListener
 
   private val sources: Sources?
-    get() = if (arguments!!.getParcelable<Sources>(SOURCENAME) != null) {
-      arguments!!.getParcelable(SOURCENAME)
+    get() = if (requireArguments().getParcelable<Sources>(SOURCENAME) != null) {
+      requireArguments().getParcelable(SOURCENAME)
     } else {
       null
     }
@@ -77,8 +80,21 @@ class SourceDetailFragment : DaggerFragment() {
     setUpViewModel(sources!!.id)
     goBack()
 
+    openedListener.isOpened(true)
     binding.swipeRefresh.setOnRefreshListener { setUpViewModel(sources!!.id) }
     return binding.root
+  }
+
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+    openedListener = try {
+      requireActivity() as FragmentOpenedListener
+    } catch (e: ClassCastException) {
+      throw ClassCastException(
+        context.toString()
+            + " must implement FragmentOpenedListener "
+      )
+    }
   }
 
   private fun setUpAdapter() {
@@ -95,7 +111,7 @@ class SourceDetailFragment : DaggerFragment() {
       }
     }
     articleAdapter =
-      ArticleRecyclerViewAdapter(context!!, articleClickListener, articleLongClickListener)
+      ArticleRecyclerViewAdapter(requireContext(), articleClickListener, articleLongClickListener)
     val layoutGridManager = GridLayoutManager(context, 2)
 
     layoutGridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -112,34 +128,57 @@ class SourceDetailFragment : DaggerFragment() {
   }
 
   private fun setUpViewModel(source: String) {
+    setupLoading()
     binding.sourceText.text = source
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
-      R.color.colorAccent, R.color.colorPrimary,
-      R.color.colorblue, R.color.hotPink
+      R.color.colorAccent,  R.color.hotPink
     )
-
     viewModel.setParameter(
-      getString(R.string.blank),
-      source,
-      "",
-      todayDate,
-      twoDaysAgoDate,
-      getString(R.string.blank)
-    )
+      getString(R.string.blank), source, "", todayDate, twoDaysAgoDate, getString(R.string.blank))
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
+      binding.shimmerViewContainer.visibility = View.GONE
       it?.let { articleAdapter!!.submitList(it) }
       if(it.size > 0){
         articleAdapter!!.setFirstArticle(it[1]!!)
       }
     })
+    binding.swipeRefresh.let { binding.swipeRefresh.isRefreshing = false }
+  }
+
+  private fun setupLoading(){
+    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
+      if (it != null) {
+        when (it.status) {
+          NetworkState.Status.SUCCESS -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility = View.GONE
+            binding.responseError.visibility = View.GONE
+            binding.sourceArticleList.visibility = View.VISIBLE
+          }
+          NetworkState.Status.FAILED -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility= View.GONE
+            binding.responseError.visibility = View.VISIBLE
+            binding.sourceArticleList.visibility = View.GONE
+          }
+          NetworkState.Status.NO_RESULT -> {
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.searchError.visibility = View.VISIBLE
+            binding.responseError.visibility = View.GONE
+            binding.sourceArticleList.visibility = View.GONE
+          }
+          else -> {
+            binding.shimmerViewContainer.visibility = View.VISIBLE
+            binding.searchError.visibility = View.GONE
+            binding.responseError.visibility = View.GONE
+          }
+        }
+      }
+    })
     viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
       networkState?.let { articleAdapter!!.setNetworkState(networkState) }
     })
-
-    if (binding.swipeRefresh != null) {
-      binding.swipeRefresh.isRefreshing = false
-    }
   }
 
 
@@ -153,9 +192,14 @@ class SourceDetailFragment : DaggerFragment() {
     }
   }
 
-  fun goBack(){
+  private fun goBack(){
     binding.backPressed.setOnClickListener{
-      fragmentManager!!.popBackStack();
+      requireActivity().supportFragmentManager.popBackStack();
     }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    openedListener.isOpened(false)
   }
 }

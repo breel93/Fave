@@ -47,7 +47,6 @@ constructor(
   private val compositeDisposable = CompositeDisposable()
 
   init {
-
     val config = PagedList.Config.Builder()
       .setEnablePlaceholders(true)
       .setInitialLoadSizeHint(TEN)

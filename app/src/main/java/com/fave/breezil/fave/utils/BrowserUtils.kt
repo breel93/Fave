@@ -21,7 +21,6 @@ class BrowserUtils {
 
     private fun launchWikiChromeTab(context: Context, url: String) {
       val wikiTabIntent = CustomTabsIntent.Builder().run {
-
         setShowTitle(true)
         setExitAnimations(
           context,

@@ -17,11 +17,11 @@ package com.fave.breezil.fave.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import com.fave.breezil.fave.BuildConfig
 import com.fave.breezil.fave.R
 import java.text.SimpleDateFormat
-import java.util.LinkedList
-import java.util.Calendar
+import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 import kotlin.collections.List
@@ -35,20 +35,10 @@ class Constant {
     const val TYPE = "TYPE"
     const val ARTICLE_TYPE = "article_type"
     const val BOOKMARK_TYPE = "bookmark_type"
-    const val ARTICLE_TITLE = "article_title"
-    const val ARTICLE_URL = "article_url"
-    const val BOOKMARK = "bookmark"
     const val SOURCENAME = "source"
     const val CATEGORYNAME = "category"
     const val SEARCH_HINT = "search eg bitcoin, google, politics .."
     const val ARTICLE_LIST = "article_list"
-    const val FRAGMENT_TYPE = "fragment_type"
-    const val PREFERED_FRAGEMENT = "Preferred"
-    const val HEADLINE_FRAGMENT = "Top Stories"
-    const val BOOKMARK_FRAGMENT = "BookMarks"
-    const val BOOKMARK_ID = "BookMarksID"
-    const val SEARCH_RESULT = "Search Result"
-    const val ABOUT = "About"
     const val DEFAULT_SOURCE = "bbc-news,axios,cnn,daily-mail,espn,google-news,the-new-york-times"
     const val FAVE_DB = "favnew.db"
 
@@ -115,6 +105,10 @@ class Constant {
 
     fun getCountry(context: Context, sharedPreferences: SharedPreferences): String? {
       return sharedPreferences.getString(context.getString(R.string.country_key),context.getString(R.string.us))
+    }
+
+    private fun Date.asTimeAgo(resources: Resources): String {
+      return getTimeAgo(this.time, System.currentTimeMillis(), resources)
     }
   }
 }

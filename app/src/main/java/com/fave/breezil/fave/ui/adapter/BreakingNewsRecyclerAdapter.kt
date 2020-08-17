@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -29,6 +30,8 @@ import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.databinding.BreakingNewsItemBinding
 import com.fave.breezil.fave.model.Article
+import com.fave.breezil.fave.utils.getTimeAgo
+import java.util.*
 
 class BreakingNewsRecyclerAdapter(
   private val mContext: Context,
@@ -87,6 +90,7 @@ class BreakingNewsRecyclerAdapter(
 
       binding.articleTitle.text = article.title
       binding.sourcesText.text = article.source!!.name
+      binding.timeCreated.text = article.publishedAt!!.asTimeAgo(mContext.resources) + " |"
     }
   }
 
@@ -102,5 +106,9 @@ class BreakingNewsRecyclerAdapter(
             oldItem.publishedAt == newItem.publishedAt)
       }
     }
+  }
+
+  private fun Date.asTimeAgo(resources: Resources): String {
+    return getTimeAgo(this.time, System.currentTimeMillis(), resources)
   }
 }

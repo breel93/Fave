@@ -3,7 +3,9 @@ package com.fave.breezil.fave.api
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
 import com.fave.breezil.fave.RxTrampolineSchedulerRule
+import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.model.ArticleResult
+import com.fave.breezil.fave.model.Source
 import com.fave.breezil.fave.util.MockTestUtil
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
@@ -41,13 +43,23 @@ class EndPointRepositoryTest {
   fun setUp() {
     repository = EndPointRepository(newsApi)
     MockitoAnnotations.initMocks(this)
-    newsApi = Mockito.mock(NewsApi::class.java)
   }
+
+
 
   @Test
   fun `should display success message on success`(){
     val mockTestUtil = MockTestUtil()
-    val mockResult: ArticleResult = mockTestUtil.mockArticleResponse()
+    val article = Article ( "PlayStation Plus Free Games for July 2020 - IGN Daily Fix - IGN",
+      "In today’s IGN Daily Fix, Sydnee Goodman talks PlayStation Plus free games for July 2020 and reports that an Xbox Series S (aka Project Lockhart) announcemen...",
+      "https://www.youtube.com/watch?v=9SHwHJYIT7Q",
+      "https://i.ytimg.com/vi/9SHwHJYIT7Q/maxresdefault.jpg",
+      "2020-06-29T22:31:54Z",
+      Source( "YouTube")
+    )
+    val articleList: List<Article> = arrayListOf(article)
+
+    val mockResult = ArticleResult("ok", 0, "", articleList)
 
 //    `when`(newsApi.getHeadline(
 //      "us","","technology",
@@ -57,7 +69,7 @@ class EndPointRepositoryTest {
       anyString(), anyInt(), anyInt(), anyString())).thenReturn(Single.just(mockResult))
 
     //act
-    val data = repository.getHeadline("us","","technology",
+    repository.getHeadline("us","","technology",
       "",5,1)
 
     //assert

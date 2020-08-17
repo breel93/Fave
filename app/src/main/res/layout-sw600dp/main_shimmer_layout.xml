@@ -1,62 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <androidx.cardview.widget.CardView
+  <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:layout_margin="2dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/shimmerCardLayout"
+    <include
+        android:id="@+id/breakingNewsSlide"
+        layout="@layout/breaking_new_shimmer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/firstCat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:background="?attr/backgroundcolor">
+        android:layout_margin="@dimen/fiveDP"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/card_shimmer"
+        android:elevation="@dimen/fiveDP"
+        android:orientation="vertical"
+        android:padding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakingNewsSlide">
 
-      <TextView
-          android:id="@+id/shimmerTitleLayout"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginBottom="8dp"
-          android:text="Title"
-          android:textAllCaps="true"
-          android:textColor="@color/colorShimmer"
-          android:textSize="12sp"
-          android:textStyle="bold"
-          app:layout_constraintBottom_toTopOf="@+id/shimmerLinearLayout"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent" />
+      <View
+          android:layout_width="120dp"
+          android:layout_height="15dp"
+          android:layout_marginTop="@dimen/eightDP"
+          android:layout_marginStart="@dimen/tenDP"
+          android:layout_marginBottom="@dimen/eightDP"
+          android:background="@color/colorGrey"/>
+      <include
+          android:id="@+id/firstItem"
+          layout="@layout/main_article_shimmer" />
 
-      <LinearLayout
-          android:id="@+id/shimmerLinearLayout"
-          android:layout_width="match_parent"
-          android:layout_height="200dp"
-          android:layout_marginBottom="0dp"
-          android:orientation="horizontal"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/shimmerTitleLayout">
+      <include
+          android:id="@+id/secondItem"
+          layout="@layout/main_article_shimmer" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="@color/colorShimmer" />
+      <include
+          android:id="@+id/thirdItem"
+          layout="@layout/main_article_shimmer" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorShimmer" />
-      </LinearLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fiveDP"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/card_shimmer"
+        android:elevation="@dimen/fiveDP"
+        android:orientation="vertical"
+        android:padding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstCat">
 
+      <View
+          android:layout_width="120dp"
+          android:layout_height="15dp"
+          android:layout_marginTop="@dimen/eightDP"
+          android:layout_marginStart="@dimen/tenDP"
+          android:layout_marginBottom="@dimen/eightDP"
+          android:background="@color/colorGrey"/>
+      <include
+          android:id="@+id/otherFirst"
+          layout="@layout/main_article_shimmer" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+      <include
+          android:id="@+id/otherSecond"
+          layout="@layout/main_article_shimmer" />
 
-  </androidx.cardview.widget.CardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
+

@@ -78,8 +78,7 @@ internal constructor(private val newsApi: NewsApi) {
     from: String?,
     to: String?,
     language: String?
-  ):
-      MutableLiveData<List<Article>> {
+  ): MutableLiveData<List<Article>> {
     newsApi.getBreakingNews("", sources, sortBy, from, to, language, 20, 1, NEWS_API_KEY)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())

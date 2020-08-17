@@ -5,6 +5,8 @@
   <com.google.android.material.card.MaterialCardView
       android:layout_width="match_parent"
       android:layout_height="450dp"
+      android:layout_marginStart="2dp"
+      android:layout_marginEnd="2dp"
       app:cardCornerRadius="@dimen/fiveDP">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,16 +48,28 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/sources_text"
+            android:id="@+id/timeCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/cnn"
+            android:text="2h ago |"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/fourteenSP"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/sources_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/fourteenSP"
+            android:text="@string/cnn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/timeCreated" />
       </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
   </com.google.android.material.card.MaterialCardView>

@@ -7,7 +7,6 @@
       android:id="@+id/actionBottomSheet"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="?attr/backgroundcolor"
       android:orientation="vertical"
       android:padding="@dimen/twentyDP"
       app:layout_behavior="android.support.design.widget.BottomSheetBehavior"

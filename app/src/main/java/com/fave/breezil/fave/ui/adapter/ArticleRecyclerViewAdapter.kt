@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +39,9 @@ import com.fave.breezil.fave.utils.Constant.Companion.ONE
 import com.fave.breezil.fave.utils.Constant.Companion.THREE
 import com.fave.breezil.fave.utils.Constant.Companion.TWO
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
+import com.fave.breezil.fave.utils.getTimeAgo
 import com.fave.breezil.fave.utils.helpers.HtmlTagHandler
+import java.util.*
 
 class ArticleRecyclerViewAdapter(
   internal var context: Context,
@@ -127,9 +130,6 @@ class ArticleRecyclerViewAdapter(
     }
   }
 
-  fun getArticlesAt(position: Int): Article? {
-    return getItem(position)
-  }
 
   internal inner class ArticleHolder(var binding: ArticleItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -169,6 +169,7 @@ class ArticleRecyclerViewAdapter(
       if (article.source != null) {
         binding.sourcesText.text = article.source!!.name
       }
+      binding.publishedAt.text = article.publishedAt!!.asTimeAgo(context.resources) + " |"
     }
   }
 
@@ -207,9 +208,12 @@ class ArticleRecyclerViewAdapter(
         )
         .into(binding.articleImage)
 
+
+
       if (article.source != null) {
         binding.sourcesText.text = article.source!!.name
       }
+      binding.timeCreated.text = article.publishedAt!!.asTimeAgo(context.resources) + " |"
     }
   }
 
@@ -232,7 +236,9 @@ class ArticleRecyclerViewAdapter(
     }
   }
 
-
+  private fun Date.asTimeAgo(resources: Resources): String {
+    return getTimeAgo(this.time, System.currentTimeMillis(), resources)
+  }
   companion object {
 
     const val TYPE_PROGRESS = ZERO

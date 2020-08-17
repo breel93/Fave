@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.google.android.material.card.MaterialCardView
       android:layout_width="match_parent"
+      android:layout_marginStart="2dp"
+      android:layout_marginEnd="2dp"
       android:layout_height="250dp"
       app:cardCornerRadius="@dimen/fiveDP">
 
@@ -28,6 +31,7 @@
           android:background="@drawable/foreground_gradient"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.0"
           app:layout_constraintStart_toStartOf="parent">
 
         <TextView
@@ -46,16 +50,28 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/timeCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="2h ago |"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/twelveSP"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/sources_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/cnn"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/eightSP"
+            android:textSize="@dimen/twelveSP"
+            android:text="@string/cnn"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/timeCreated" />
       </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
   </com.google.android.material.card.MaterialCardView>

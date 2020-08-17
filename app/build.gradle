@@ -12,8 +12,8 @@ android {
         applicationId "com.fave.breezil.fave"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "NEWS_API_KEY", NEWS_API_KEY)
@@ -70,7 +70,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.browser:browser:1.2.0'
     kapt 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle
 
     //room
@@ -110,8 +110,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:' + versions.rxandroid
     implementation 'com.squareup.retrofit2:adapter-rxjava2:' + versions.rxjava_adapter
 
+    implementation 'com.mikhaellopez:rxanimation:1.0.0'
+
     //facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     //About
     implementation 'com.github.medyo:android-about-page:' + versions.aboutPage
