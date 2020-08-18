@@ -34,6 +34,7 @@ import com.fave.breezil.fave.databinding.FragmentSourcesBinding
 import com.fave.breezil.fave.model.Sources
 import com.fave.breezil.fave.ui.adapter.QuickCategoryRecyclerAdapter
 import com.fave.breezil.fave.ui.adapter.SourceRecyclerAdapter
+import com.fave.breezil.fave.utils.Constant
 import dagger.android.support.DaggerFragment
 import java.util.Collections
 import javax.inject.Inject
@@ -51,6 +52,8 @@ class SourcesFragment : DaggerFragment() {
   lateinit var viewModel: SourcesViewModel
 
   lateinit var quickCategoryList: List<String>
+  private var country: String? = null
+  private var language: String? = null
 
   private var sourceRecyclerAdapter: SourceRecyclerAdapter? = null
   private var quickCategoryRecyclerAdapter: QuickCategoryRecyclerAdapter? = null
@@ -67,7 +70,9 @@ class SourcesFragment : DaggerFragment() {
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sources, container, false)
     binding.sourcesList.setHasFixedSize(true)
 
-    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    country = Constant.getCountry(requireContext(), sharedPreferences)
+    language = Constant.getLanguage(requireContext(), sharedPreferences)
 
     viewModel = ViewModelProvider(this, viewModelFactory).get(SourcesViewModel::class.java)
 
@@ -88,7 +93,6 @@ class SourcesFragment : DaggerFragment() {
     val sourcesClickListener = object : SourcesClickListener {
       override fun showDetails(sources: Sources) {
         val fragment = SourceDetailFragment.getSource(sources)
-//        fragmentManager!!.beginTransaction()
         requireActivity().supportFragmentManager.beginTransaction()
           .setCustomAnimations(
             R.anim.fragment_slide_in,
@@ -112,7 +116,6 @@ class SourcesFragment : DaggerFragment() {
       QuickCategoryRecyclerAdapter(quickCategoryList, seeMoreClickListener)
     binding.quickChooseList.layoutManager = layoutManager
     binding.quickChooseList.adapter = quickCategoryRecyclerAdapter
-    Collections.shuffle(quickCategoryList)
     quickCategoryRecyclerAdapter!!.setList(quickCategoryList)
   }
 
@@ -120,7 +123,7 @@ class SourcesFragment : DaggerFragment() {
     if (!isAdded) {
       return
     }
-    viewModel.getSourcesList("", "", "").observe(viewLifecycleOwner, Observer {
+    viewModel.getSourcesList("", language!!, country!!).observe(viewLifecycleOwner, Observer {
       it?.let {
         sourceRecyclerAdapter!!.submitList(it)
         binding.sourcesList.adapter = sourceRecyclerAdapter
@@ -139,7 +142,7 @@ class SourcesFragment : DaggerFragment() {
   }
 
   fun viewSource(source: String) {
-    viewModel.getSourcesList(source, "", "")
+    viewModel.getSourcesList(source, language!!, country!!)
       .observe(viewLifecycleOwner, Observer {
       it?.let { sourceRecyclerAdapter!!.submitList(it) }
     })

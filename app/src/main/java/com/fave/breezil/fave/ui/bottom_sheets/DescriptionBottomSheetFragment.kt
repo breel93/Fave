@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.bottom_sheets
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -30,8 +31,10 @@ import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentDescriptionBottomSheetBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE
+import com.fave.breezil.fave.utils.getTimeAgo
 import com.fave.breezil.fave.utils.helpers.HtmlTagHandler
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,12 +47,11 @@ private const val ARG_PARAM2 = "param2"
 class DescriptionBottomSheetFragment : BottomSheetDialogFragment() {
 
   lateinit var binding: FragmentDescriptionBottomSheetBinding
-  private var mContext: Context? = null
   private lateinit var circularProgressDrawable: CircularProgressDrawable
 
   private val article: Article?
-    get() = if (arguments!!.getParcelable<Article>(ARTICLE) != null) {
-      arguments!!.getParcelable(ARTICLE)
+    get() = if (requireArguments().getParcelable<Article>(ARTICLE) != null) {
+      requireArguments().getParcelable(ARTICLE)
     } else {
       null
     }
@@ -66,13 +68,12 @@ class DescriptionBottomSheetFragment : BottomSheetDialogFragment() {
       container,
       false
     )
-    this.mContext = activity
     updateUi(article!!)
     return binding.root
   }
 
   private fun updateUi(article: Article) {
-    circularProgressDrawable = CircularProgressDrawable(context!!)
+    circularProgressDrawable = CircularProgressDrawable(requireContext())
     circularProgressDrawable.strokeWidth = 10f
     circularProgressDrawable.centerRadius = 40f
     circularProgressDrawable.setColorSchemeColors(
@@ -80,7 +81,7 @@ class DescriptionBottomSheetFragment : BottomSheetDialogFragment() {
       R.color.colorblue, R.color.hotPink
     )
     circularProgressDrawable.start()
-    Glide.with(mContext!!)
+    Glide.with(requireContext())
       .load(article.urlToImage)
       .apply(
         RequestOptions()
@@ -92,6 +93,11 @@ class DescriptionBottomSheetFragment : BottomSheetDialogFragment() {
     binding.articleDescriptions.text = article.description
     binding.articleTitle.text = Html.fromHtml(article.title, null, HtmlTagHandler())
     binding.articleSource.text = article.source!!.name
+    binding.publishedAt.text = article.publishedAt!!.asTimeAgo(requireContext().resources) + " |"
+  }
+
+  private fun Date.asTimeAgo(resources: Resources): String {
+    return getTimeAgo(this.time, System.currentTimeMillis(), resources)
   }
 
   companion object {

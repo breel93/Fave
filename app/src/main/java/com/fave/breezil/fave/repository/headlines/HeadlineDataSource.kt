@@ -44,15 +44,15 @@ constructor(
   lateinit var category: String
   lateinit var query: String
   var mNetworkState = MutableLiveData<NetworkState>()
-  var mInitialLoading = MutableLiveData<NetworkState>()
+  private var mInitialLoading = MutableLiveData<NetworkState>()
 
   override fun loadInitial(
     params: LoadInitialParams<Int>,
     callback: LoadInitialCallback<Int, Article>
   ) {
 
-    mNetworkState.postValue(NetworkState.LOADING)
-    mInitialLoading.postValue(NetworkState.LOADING)
+//    mNetworkState.postValue(NetworkState.LOADING)
+//    mInitialLoading.postValue(NetworkState.LOADING)
 
     val articlesList = ArrayList<Article>()
     val articles = endpointRepository.getHeadline(
@@ -71,7 +71,7 @@ constructor(
   }
 
   override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
-    mNetworkState.postValue(NetworkState.LOADING)
+//    mNetworkState.postValue(NetworkState.LOADING)
 
     val articlesList = ArrayList<Article>()
     val articles = endpointRepository.getHeadline(

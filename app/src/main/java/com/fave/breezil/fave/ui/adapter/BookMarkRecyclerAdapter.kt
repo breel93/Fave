@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -30,7 +31,9 @@ import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.databinding.ArticleItemBinding
 import com.fave.breezil.fave.model.Article
+import com.fave.breezil.fave.utils.getTimeAgo
 import com.fave.breezil.fave.utils.helpers.HtmlTagHandler
+import java.util.*
 
 class BookMarkRecyclerAdapter(
   internal var context: Context,
@@ -87,9 +90,12 @@ class BookMarkRecyclerAdapter(
         .into(binding.articleImage)
       binding.sourcesText.text = article.source!!.name
       binding.articleTitle.text = Html.fromHtml(article.title, null, HtmlTagHandler())
+      binding.publishedAt.text = article.publishedAt!!.asTimeAgo(context.resources) + " |"
     }
   }
-
+  private fun Date.asTimeAgo(resources: Resources): String {
+    return getTimeAgo(this.time, System.currentTimeMillis(), resources)
+  }
   companion object {
 
     private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {

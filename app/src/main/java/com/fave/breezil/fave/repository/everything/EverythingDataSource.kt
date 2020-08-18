@@ -39,7 +39,7 @@ constructor(
 ) : PageKeyedDataSource<Int, Article>(), PaginationListener<ArticleResult, Article> {
 
   val mNetworkState = MutableLiveData<NetworkState>()
-  val mInitialLoading = MutableLiveData<NetworkState>()
+  private val mInitialLoading = MutableLiveData<NetworkState>()
 
   lateinit var query: String
   lateinit var sources: String
@@ -52,8 +52,8 @@ constructor(
     params: LoadInitialParams<Int>,
     callback: LoadInitialCallback<Int, Article>
   ) {
-    mNetworkState.postValue(NetworkState.LOADING)
-    mInitialLoading.postValue(NetworkState.LOADING)
+//    mNetworkState.postValue(NetworkState.LOADING)
+//    mInitialLoading.postValue(NetworkState.LOADING)
     val articlesList = ArrayList<Article>()
     val articles = endpointRepository.getEverything(
       query, sources, sortBy, from, to, language,

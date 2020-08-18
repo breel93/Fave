@@ -2,14 +2,14 @@
 <resources>
 
     <array name="category_list">
+        <item>@string/general</item>
+        <item>@string/politics</item>
         <item>@string/business</item>
         <item>@string/entertainment</item>
-        <item>@string/general</item>
+        <item>@string/sports</item>
         <item>@string/health</item>
         <item>@string/science</item>
         <item>@string/technology</item>
-        <item>@string/politics</item>
-        <item>@string/sports</item>
     </array>
 
     <array name="pref_sources_option_labels">

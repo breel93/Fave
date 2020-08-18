@@ -19,6 +19,14 @@
         android:title="@string/country_label" />
 
     <ListPreference
+        android:defaultValue="@string/us"
+        android:entries="@array/pref_lang_option_label"
+        android:entryValues="@array/pref_lang_option_value"
+        android:key="@string/language_key"
+        android:summary="@string/language_label_all"
+        android:title="@string/language_label" />
+
+    <ListPreference
         android:defaultValue="@string/pref_everything_sort_by_all_value"
         android:entries="@array/pref_everything_sort_by_labels"
         android:entryValues="@array/pref_everything_sort_by_values"

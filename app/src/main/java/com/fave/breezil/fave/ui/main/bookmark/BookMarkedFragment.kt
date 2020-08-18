@@ -95,28 +95,6 @@ class BookMarkedFragment : DaggerFragment() {
     })
   }
 
-  private fun showDeleteAllDialog() {
-
-    val builder = AlertDialog.Builder(context, R.style.MyDialogTheme)
-    builder.setCancelable(false)
-    builder.setMessage(getString(R.string.are_you_sure_you_want_to_delete_all_bookmarks))
-      .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
-        deleteAll()
-        dialog.dismiss()
-//            refresh()
-        adapter.notifyDataSetChanged()
-        Toast.makeText(activity, getString(R.string.bookmark_list_emptied), Toast.LENGTH_SHORT)
-          .show()
-      }
-      .setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
-    val alertDialog = builder.create()
-    alertDialog.setTitle(getString(R.string.delete_all))
-    alertDialog.show()
-  }
-
-  private fun deleteAll() {
-    bookMarkViewModel.deleteAll()
-  }
 
   companion object {
     fun newInstance() = BookMarkedFragment()

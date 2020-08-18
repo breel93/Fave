@@ -8,74 +8,89 @@
       android:layout_height="wrap_content"
       tools:context=".ui.bottom_sheets.DescriptionBottomSheetFragment">
 
-    <ImageView
-        android:id="@+id/articleImage"
-        android:layout_width="@dimen/zeroDP"
-        android:layout_height="@dimen/zeroDP"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/articleImageCard"
+        android:layout_width="240dp"
+        android:layout_height="180dp"
         android:layout_marginStart="@dimen/eightDP"
-        android:layout_marginTop="@dimen/eightDP"
-        android:layout_marginBottom="@dimen/eightDP"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="6dp"
         app:layout_constraintEnd_toStartOf="@+id/articleTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+      <ImageView
+          android:id="@+id/articleImage"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:scaleType="centerCrop"
+          android:src="@drawable/placeholder" />
+    </androidx.cardview.widget.CardView>
+
 
     <TextView
         android:id="@+id/articleTitle"
         android:layout_width="@dimen/zeroDP"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/eightDP"
-        android:layout_marginTop="@dimen/eightDP"
-        android:layout_marginEnd="@dimen/eightDP"
-        android:layout_marginBottom="@dimen/fourDP"
-        android:text="@string/textview"
+        android:layout_marginBottom="8dp"
+        android:text="@string/dummy_text"
         android:textColor="?attr/primarytextcolor"
-        android:textSize="@dimen/twentyTwoSP"
+        android:textSize="@dimen/twentyFourSP"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/articleDescriptions"
+        app:layout_constraintBottom_toTopOf="@+id/publishedAt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toEndOf="@+id/articleImage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/articleImageCard" />
 
     <TextView
         android:id="@+id/articleDescriptions"
         android:layout_width="@dimen/zeroDP"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/eightDP"
-        android:layout_marginTop="@dimen/fourDP"
-        android:layout_marginEnd="@dimen/eightDP"
-        android:layout_marginBottom="@dimen/eightDP"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:ellipsize="end"
         android:maxLines="6"
         android:singleLine="false"
-        android:text="@string/textview"
+        android:text="@string/dummy_text"
         android:textColor="?attr/secondarytextcolor"
         android:textSize="@dimen/twentyySP"
-        app:layout_constraintBottom_toTopOf="@+id/articleSource"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/articleImage"
-        app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/articleImageCard" />
+
+    <TextView
+        android:id="@+id/publishedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="end"
+        android:text="20hr ago"
+        android:textColor="?attr/secondarytextcolor"
+        android:textSize="@dimen/twentyySP"
+        app:layout_constraintBottom_toBottomOf="@+id/articleImageCard"
+        app:layout_constraintEnd_toStartOf="@+id/articleSource"
+        app:layout_constraintStart_toStartOf="@+id/articleTitle"
+        app:layout_constraintTop_toTopOf="@+id/articleSource" />
 
     <TextView
         android:id="@+id/articleSource"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/eightDP"
-        android:layout_marginTop="@dimen/fourDP"
-        android:layout_marginEnd="@dimen/eightDP"
-        android:layout_marginBottom="@dimen/eightDP"
-        android:gravity="end"
-        android:text="@string/textview"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:textColor="?attr/secondarytextcolor"
-        android:textSize="@dimen/sixteenSP"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/articleImage"
-        app:layout_constraintTop_toBottomOf="@+id/articleDescriptions" />
-
-
+        android:text="@string/cnn"
+        android:textSize="@dimen/twentyySP"
+        app:layout_constraintBottom_toBottomOf="@+id/articleImageCard"
+        app:layout_constraintStart_toEndOf="@+id/publishedAt"
+        app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

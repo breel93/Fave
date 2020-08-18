@@ -100,8 +100,7 @@ constructor(
     from: String?,
     to: String?,
     language: String?
-  ):
-      MutableLiveData<List<Article>> {
+  ): MutableLiveData<List<Article>> {
     return headlineRepository.getBreakingNewsArticles(sources, sortBy, from, to, language)
   }
 }

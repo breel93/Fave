@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.main.sources
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentSourceDetailBinding
@@ -37,6 +39,7 @@ import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
 import com.fave.breezil.fave.ui.main.look_up.LookUpViewModel
+import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.SOURCENAME
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
@@ -57,6 +60,8 @@ class SourceDetailFragment : DaggerFragment() {
   private var articleAdapter: ArticleRecyclerViewAdapter? = null
   lateinit var viewModel: LookUpViewModel
   private lateinit var openedListener: FragmentOpenedListener
+  lateinit var sharedPreferences: SharedPreferences
+  private var language: String? = null
 
   private val sources: Sources?
     get() = if (requireArguments().getParcelable<Sources>(SOURCENAME) != null) {
@@ -73,6 +78,9 @@ class SourceDetailFragment : DaggerFragment() {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_source_detail, container, false)
     binding.sourceArticleList.setHasFixedSize(true)
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    language = Constant.getLanguage(requireContext(), sharedPreferences)
+
     viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
 
     setHasOptionsMenu(true)
@@ -135,7 +143,7 @@ class SourceDetailFragment : DaggerFragment() {
       R.color.colorAccent,  R.color.hotPink
     )
     viewModel.setParameter(
-      getString(R.string.blank), source, "", todayDate, twoDaysAgoDate, getString(R.string.blank))
+      getString(R.string.blank), source, "", todayDate, twoDaysAgoDate, language = language!!)
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
       binding.shimmerViewContainer.visibility = View.GONE
       it?.let { articleAdapter!!.submitList(it) }

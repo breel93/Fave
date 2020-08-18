@@ -38,6 +38,7 @@ import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.main.look_up.LookUpViewModel
+import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
@@ -59,6 +60,7 @@ class SearchFragment : DaggerFragment() {
 
   private var sortBy: String? = null
   private var source: String = ""
+  private var language: String? = null
 
   private lateinit var sharedPreferences: SharedPreferences
 
@@ -75,6 +77,8 @@ class SearchFragment : DaggerFragment() {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
     viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
     sortBy = sharedPreferences.getString(getString(R.string.pref_everything_sort_by_key), getString(R.string.blank))
+    language = Constant.getLanguage(requireContext(), sharedPreferences)
+
     binding.shimmerViewContainer.startShimmer()
     setUpAdapter()
     setUpViewModel()
@@ -143,7 +147,7 @@ class SearchFragment : DaggerFragment() {
       sortBy!!,
       todayDate,
       twoDaysAgoDate,
-      getString(R.string.blank)
+      language!!
     )
     viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
       it?.let {
@@ -166,7 +170,7 @@ class SearchFragment : DaggerFragment() {
     viewModel.setParameter(
       search,
       sourcesPreferenceList(requireContext(), sharedPreferences),
-      sortBy!!, todayDate, twoDaysAgoDate, getString(R.string.blank)
+      sortBy!!, todayDate, twoDaysAgoDate, language!!
     )
     viewModel.refreshArticle().observe(viewLifecycleOwner, Observer {
       it?.let {

@@ -98,13 +98,16 @@ class Constant {
       return if (!selectedSources.isBlank() && selectedSources.isNotEmpty() && selectedSources.isNullOrEmpty()) {
         selectedSources.toString()
       } else {
-
         DEFAULT_SOURCE
       }
     }
 
     fun getCountry(context: Context, sharedPreferences: SharedPreferences): String? {
       return sharedPreferences.getString(context.getString(R.string.country_key),context.getString(R.string.us))
+    }
+
+    fun getLanguage(context: Context, sharedPreferences: SharedPreferences): String? {
+      return sharedPreferences.getString(context.getString(R.string.language_key),context.getString(R.string.lan_en))
     }
 
     private fun Date.asTimeAgo(resources: Resources): String {

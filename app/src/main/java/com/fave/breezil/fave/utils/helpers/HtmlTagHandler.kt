@@ -36,16 +36,19 @@ class HtmlTagHandler : TagHandler {
 
   private fun processStrike(opening: Boolean, output: Editable) {
     val len = output.length
-    if (opening) {
-      output.setSpan(StrikethroughSpan(), len, len, Spannable.SPAN_MARK_MARK)
-    } else {
-      val obj = getLast(output, StrikethroughSpan::class.java)
-      val where = output.getSpanStart(obj)
+    when {
+      opening -> {
+        output.setSpan(StrikethroughSpan(), len, len, Spannable.SPAN_MARK_MARK)
+      }
+      else -> {
+        val obj = getLast(output, StrikethroughSpan::class.java)
+        val where = output.getSpanStart(obj)
 
-      output.removeSpan(obj)
+        output.removeSpan(obj)
 
-      if (where != len) {
-        output.setSpan(StrikethroughSpan(), where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        if (where != len) {
+          output.setSpan(StrikethroughSpan(), where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
       }
     }
   }
@@ -53,15 +56,18 @@ class HtmlTagHandler : TagHandler {
   private fun getLast(text: Editable, kind: Class<*>): Any? {
     val objs = text.getSpans<Any>(0, text.length, kind as Class<Any>?)
 
-    if (objs.isEmpty()) {
-      return null
-    } else {
-      for (i in objs.size downTo 1) {
-        if (text.getSpanFlags(objs[i - 1]) == Spannable.SPAN_MARK_MARK) {
-          return objs[i - 1]
-        }
+    when {
+      objs.isEmpty() -> {
+        return null
       }
-      return null
+      else -> {
+        for (i in objs.size downTo 1) {
+          if (text.getSpanFlags(objs[i - 1]) == Spannable.SPAN_MARK_MARK) {
+            return objs[i - 1]
+          }
+        }
+        return null
+      }
     }
   }
 }

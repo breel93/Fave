@@ -49,8 +49,6 @@ internal constructor(private val newsApi: NewsApi) {
   ): MutableLiveData<Boolean> {
     val textArray = context.resources.getStringArray(R.array.category_list)
     trendCategoryList = listOf(*textArray)
-    Collections.shuffle(trendCategoryList)
-
     for (item in (trendCategoryList as MutableList<String>?)!!) {
 
       val parentModel = ParentModel()
@@ -79,7 +77,7 @@ internal constructor(private val newsApi: NewsApi) {
     to: String?,
     language: String?
   ): MutableLiveData<List<Article>> {
-    newsApi.getBreakingNews("", sources, sortBy, from, to, language, 20, 1, NEWS_API_KEY)
+    newsApi.getBreakingNews("", sources, sortBy, from, to, language, 10, 1, NEWS_API_KEY)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe({

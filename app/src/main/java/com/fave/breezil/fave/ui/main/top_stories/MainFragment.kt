@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -37,6 +38,7 @@ import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.callbacks.SeeMoreClickListener
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.getCountry
+import com.fave.breezil.fave.utils.Constant.Companion.getLanguage
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
@@ -69,7 +71,7 @@ class MainFragment : DaggerFragment() {
   ): View? {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
     country = getCountry(requireContext(), sharedPreferences)
     sortBy = sharedPreferences.getString(
       getString(R.string.pref_everything_sort_by_key),
@@ -137,7 +139,8 @@ class MainFragment : DaggerFragment() {
       R.color.colorAccent, R.color.colorPrimary,
       R.color.colorblue, R.color.hotPink
     )
-    viewModel.getCategoryList(requireContext(), mArrayList, country!!, "", "")
+    viewModel.getCategoryList(requireContext(), mArrayList,
+      country!!, "", "")
       ?.observe(viewLifecycleOwner, Observer {
         if (it && ::parentCategoryRecyclerAdapter.isInitialized) {
           parentCategoryRecyclerAdapter.setList(mArrayList)
@@ -149,7 +152,7 @@ class MainFragment : DaggerFragment() {
       sortBy,
       todayDate,
       twoDaysAgoDate,
-      getString(R.string.blank)
+      language = getLanguage(requireContext(), sharedPreferences)
     ).observe(viewLifecycleOwner, Observer {
       it?.let {
         parentCategoryRecyclerAdapter.setBreakingNews(it as ArrayList<Article>)
@@ -159,6 +162,7 @@ class MainFragment : DaggerFragment() {
     binding.swipeRefresh.let {
       binding.swipeRefresh.isRefreshing = false
     }
+
   }
 
 }

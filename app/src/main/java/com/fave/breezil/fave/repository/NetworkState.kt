@@ -30,3 +30,19 @@ class NetworkState(val status: Status) {
 
   }
 }
+//class NetworkState(val status: Status) {
+//  enum class Status {
+//    RUNNING, SUCCESS, FAILED, NO_RESULT
+//  }
+//
+//  companion object {
+//    var LOADED: NetworkState? = null
+//    var LOADING: NetworkState? = null
+//
+//    init {
+//      LOADED = NetworkState(Status.SUCCESS)
+//      LOADING = NetworkState(Status.RUNNING)
+//    }
+//  }
+//
+//}
