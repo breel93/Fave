@@ -43,6 +43,10 @@ constructor(
     everythingDataSourceFactory.everythingDataSourceMutableLiveData,
     EverythingDataSource::mNetworkState
   )
+  private val initialLoading: LiveData<NetworkState> = switchMap(
+    everythingDataSourceFactory.everythingDataSourceMutableLiveData,
+    EverythingDataSource::mInitialLoading
+  )
 
   private val compositeDisposable = CompositeDisposable()
 
@@ -76,8 +80,14 @@ constructor(
   }
 
   fun getNetworkState(): LiveData<NetworkState> {
-    return networkState
+    return networkState 
   }
+
+  val initialLoadingState: LiveData<NetworkState>
+    get() {
+      return initialLoading
+    }
+
 
   fun refreshArticle(): LiveData<PagedList<Article>> {
     val config = PagedList.Config.Builder()

@@ -23,7 +23,7 @@ class ArticleDaoTest : AppDatabaseTest(){
     val mockArticle = mockTestUtil.mockArticle(5)
     db!!.articleDao().insert(mockArticle)
     val article = db!!.articleDao().getArticleById(5)
-    Assert.assertEquals(5, article.id)
+    assertEquals(5, article.id)
   }
 
   @Test

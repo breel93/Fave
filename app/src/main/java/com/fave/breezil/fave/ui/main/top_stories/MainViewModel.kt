@@ -27,6 +27,7 @@ import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.model.ParentModel
 import com.fave.breezil.fave.repository.HeadlineRepository
 import com.fave.breezil.fave.repository.NetworkState
+import com.fave.breezil.fave.repository.everything.EverythingDataSource
 import com.fave.breezil.fave.repository.headlines.HeadlineDataSource
 import com.fave.breezil.fave.repository.headlines.HeadlineDataSourceFactory
 import com.fave.breezil.fave.utils.Constant.Companion.TEN
@@ -44,6 +45,9 @@ constructor(
 
   private val networkState: LiveData<NetworkState> = Transformations.switchMap(
     headlineDataSourceFactory.headlineDataSourceMutableLiveData, HeadlineDataSource::mNetworkState
+  )
+  private val initialLoading: LiveData<NetworkState> = Transformations.switchMap(
+    headlineDataSourceFactory.headlineDataSourceMutableLiveData, HeadlineDataSource::mInitialLoading
   )
 
   init {
@@ -70,6 +74,10 @@ constructor(
   fun getNetworkState(): LiveData<NetworkState> {
     return networkState
   }
+  val initialLoadingState: LiveData<NetworkState>
+    get() {
+      return initialLoading
+    }
 
   fun refreshArticle(): LiveData<PagedList<Article>> {
     val config = PagedList.Config.Builder()

@@ -82,8 +82,9 @@ class SourceDetailFragment : DaggerFragment() {
     language = Constant.getLanguage(requireContext(), sharedPreferences)
 
     viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
-
+    binding.shimmerViewContainer.startShimmer()
     setHasOptionsMenu(true)
+    setupLoading()
     setUpAdapter()
     setUpViewModel(sources!!.id)
     goBack()
@@ -136,7 +137,7 @@ class SourceDetailFragment : DaggerFragment() {
   }
 
   private fun setUpViewModel(source: String) {
-    setupLoading()
+
     binding.sourceText.text = source
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
@@ -155,37 +156,40 @@ class SourceDetailFragment : DaggerFragment() {
   }
 
   private fun setupLoading(){
+    viewModel.initialLoadingState.observe(viewLifecycleOwner, Observer {
+      if(it.status == NetworkState.Status.RUNNING){
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+      }else if(it.status == NetworkState.Status.SUCCESS){
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+      }
+    })
     viewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
-      if (it != null) {
+      it?.let {
         when (it.status) {
           NetworkState.Status.SUCCESS -> {
-            binding.shimmerViewContainer.visibility = View.GONE
             binding.searchError.visibility = View.GONE
             binding.responseError.visibility = View.GONE
             binding.sourceArticleList.visibility = View.VISIBLE
           }
           NetworkState.Status.FAILED -> {
-            binding.shimmerViewContainer.visibility = View.GONE
             binding.searchError.visibility= View.GONE
             binding.responseError.visibility = View.VISIBLE
             binding.sourceArticleList.visibility = View.GONE
           }
           NetworkState.Status.NO_RESULT -> {
-            binding.shimmerViewContainer.visibility = View.GONE
             binding.searchError.visibility = View.VISIBLE
             binding.responseError.visibility = View.GONE
             binding.sourceArticleList.visibility = View.GONE
           }
-          else -> {
-            binding.shimmerViewContainer.visibility = View.VISIBLE
+          NetworkState.Status.RUNNING -> {
             binding.searchError.visibility = View.GONE
             binding.responseError.visibility = View.GONE
           }
         }
+        articleAdapter!!.setNetworkState(it)
       }
-    })
-    viewModel.getNetworkState().observe(viewLifecycleOwner, Observer { networkState ->
-      networkState?.let { articleAdapter!!.setNetworkState(networkState) }
     })
   }
 

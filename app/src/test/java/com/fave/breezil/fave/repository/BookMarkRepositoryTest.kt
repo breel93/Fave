@@ -44,7 +44,7 @@ class BookMarkRepositoryTest {
     val articles: List<Article> = mockTestUtil.mockArticleList()
     val liveDataTestUtil: LiveDataTestUtil<List<Article>> = LiveDataTestUtil()
     val returnedData: MutableLiveData<List<Article>> =
-      MutableLiveData<List<Article>>()
+      MutableLiveData()
     returnedData.value = articles
 
     Mockito.`when`(articleDao!!.allBookMarks).thenReturn(returnedData)
