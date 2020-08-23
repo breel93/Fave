@@ -10,12 +10,10 @@
   </a>
 
   <h4 align="center">Fave</h4>
-  
   <p align="center">
-    Stay up-to-date on all your favourite topics with Fave. Search for anything and everything and get stories from multiple news sources. 
-    <br />
-    <br />
-    <br />
+   <img src="https://user-images.githubusercontent.com/20865566/90968045-d9bb6b80-e4df-11ea-89bb-1da19865fb83.png" alt="Banner">
+  </p>
+  <p align="center">
     <a href="https://github.com/breel93/Fave/issues">Report Bug</a>
     ·
     <a href="https://github.com/breel93/Fave/issues">Request Feature</a>
