@@ -8,8 +8,6 @@
   <a href="https://github.com/breel93/fave">
     <img src="https://user-images.githubusercontent.com/20865566/57108236-1ae2a780-6d00-11e9-9032-f4963ef49868.png" alt="Logo">
   </a>
-
-  <h4 align="center">Fave</h4>
   <p align="center">
    <img src="https://user-images.githubusercontent.com/20865566/90968045-d9bb6b80-e4df-11ea-89bb-1da19865fb83.png" alt="Banner">
   </p>
