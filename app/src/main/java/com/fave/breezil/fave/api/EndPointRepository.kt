@@ -12,55 +12,43 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 package com.fave.breezil.fave.api
 
 import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
-import com.fave.breezil.fave.model.ArticleResult
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class EndPointRepository @Inject
-constructor(private val newsApi: NewsApi) {
-  fun getHeadline(
+constructor(private val newsApi: NewsApi) : BaseDataSource() {
+  suspend fun fetchHeadline(
     country: String,
     sources: String,
     category: String,
     query: String,
     pageSize: Int,
     page: Int
-  ): Single<ArticleResult> {
-    return newsApi.getHeadline(country, sources, category, query, pageSize, page, NEWS_API_KEY)
-      .retry(3)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
+  ) = getResult {
+    newsApi.getHeadLines(country, sources, category, query, pageSize, page, NEWS_API_KEY)
   }
 
-  fun getEverything(
-    query: String,
-    sources: String,
-    sortBy: String,
-    from: String,
-    to: String,
-    language: String,
-    pageSize: Int,
+  suspend fun fetchEverything(
+    query: String, sources: String, sortBy: String,
+    from: String, to: String, language: String, pageSize: Int,
     page: Int
-  ): Single<ArticleResult> {
-    return newsApi.getEverything(
-      query,
-      sources,
-      sortBy,
-      from,
-      to,
-      language,
-      pageSize,
-      page,
-      NEWS_API_KEY
+  ) = getResult {
+    newsApi.getEverything(
+      query, sources, sortBy, from, to, language, pageSize,
+      page, NEWS_API_KEY
     )
-      .retry(3)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
   }
+
+  suspend fun fetchSources(
+    category: String,
+    language: String,
+    country: String
+  ) = getResult {
+    newsApi.getSources(category, language, country, NEWS_API_KEY)
+  }
+
+
 }

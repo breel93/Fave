@@ -27,9 +27,9 @@ import com.fave.breezil.fave.utils.Constant.Companion.BASE_URL
 import com.fave.breezil.fave.utils.Constant.Companion.FAVE_DB
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -42,7 +42,6 @@ class AppModule {
     return Retrofit.Builder()
       .baseUrl(BASE_URL)
       .addConverterFactory(GsonConverterFactory.create())
-      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .client(okHttp.client)
       .build()
       .create(NewsApi::class.java)
@@ -62,14 +61,13 @@ class AppModule {
       .build()
   }
 
+  @Provides
+  fun provideCoroutineScopeIO() = CoroutineScope(Dispatchers.IO)
+
   @Singleton
   @Provides
   internal fun provideArticleDao(appDatabase: AppDatabase): ArticleDao {
     return appDatabase.articleDao()
   }
 
-  @Provides
-  internal fun provideCompositeDisposable(): CompositeDisposable {
-    return CompositeDisposable()
-  }
 }

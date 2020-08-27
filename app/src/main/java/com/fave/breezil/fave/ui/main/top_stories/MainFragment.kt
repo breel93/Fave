@@ -82,7 +82,7 @@ class MainFragment : DaggerFragment() {
 
     binding.shimmerViewContainer.startShimmer()
 
-    binding.swipeRefresh.setOnRefreshListener { setupViewModel() }
+//    binding.swipeRefresh.setOnRefreshListener { setupViewModel() }
 
     return binding.root
   }
@@ -149,14 +149,13 @@ class MainFragment : DaggerFragment() {
       })
     viewModel.getBreakingNewList(
       sourcesPreferenceList(requireContext(), sharedPreferences),
-      sortBy,
+      sortBy!!,
       todayDate,
       twoDaysAgoDate,
-      language = getLanguage(requireContext(), sharedPreferences)
+      language = getLanguage(requireContext(), sharedPreferences)!!
     ).observe(viewLifecycleOwner, Observer {
       it?.let {
         parentCategoryRecyclerAdapter.setBreakingNews(it as ArrayList<Article>)
-        parentCategoryRecyclerAdapter.notifyDataSetChanged()
       }
     })
     binding.swipeRefresh.let {

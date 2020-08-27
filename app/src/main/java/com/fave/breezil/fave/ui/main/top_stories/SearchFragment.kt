@@ -203,9 +203,9 @@ class SearchFragment : DaggerFragment() {
             binding.articleSearchList.visibility = View.GONE
           }
           NetworkState.Status.NO_RESULT -> {
-            binding.searchError.visibility = View.VISIBLE
-            binding.responseError.visibility = View.GONE
-            binding.articleSearchList.visibility = View.GONE
+//            binding.searchError.visibility = View.VISIBLE
+//            binding.responseError.visibility = View.GONE
+//            binding.articleSearchList.visibility = View.GONE
           }
           NetworkState.Status.RUNNING -> {
             binding.searchError.visibility = View.GONE

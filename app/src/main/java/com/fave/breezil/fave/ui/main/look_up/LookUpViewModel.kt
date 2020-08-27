@@ -27,7 +27,6 @@ import com.fave.breezil.fave.repository.everything.EverythingDataSource
 import com.fave.breezil.fave.repository.everything.EverythingDataSourceFactory
 import com.fave.breezil.fave.utils.Constant.Companion.TEN
 import com.fave.breezil.fave.utils.helpers.AppExecutors
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class LookUpViewModel @Inject
@@ -47,9 +46,6 @@ constructor(
     everythingDataSourceFactory.everythingDataSourceMutableLiveData,
     EverythingDataSource::mInitialLoading
   )
-
-  private val compositeDisposable = CompositeDisposable()
-
   init {
     val config = PagedList.Config.Builder()
       .setEnablePlaceholders(true)
@@ -102,8 +98,4 @@ constructor(
     return articleList
   }
 
-  override fun onCleared() {
-    super.onCleared()
-    compositeDisposable.dispose()
-  }
 }

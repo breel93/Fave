@@ -117,6 +117,7 @@ class SourcesFragment : DaggerFragment() {
     binding.quickChooseList.layoutManager = layoutManager
     binding.quickChooseList.adapter = quickCategoryRecyclerAdapter
     quickCategoryRecyclerAdapter!!.setList(quickCategoryList)
+    binding.sourcesList.adapter = sourceRecyclerAdapter
   }
 
   private fun setUpViewModel() {
@@ -126,7 +127,6 @@ class SourcesFragment : DaggerFragment() {
     viewModel.getSourcesList("", language!!, country!!).observe(viewLifecycleOwner, Observer {
       it?.let {
         sourceRecyclerAdapter!!.submitList(it)
-        binding.sourcesList.adapter = sourceRecyclerAdapter
         sourceRecyclerAdapter!!.notifyDataSetChanged()
         binding.shimmerViewContainer.stopShimmer()
         binding.shimmerViewContainer.visibility = View.GONE
@@ -144,8 +144,8 @@ class SourcesFragment : DaggerFragment() {
   fun viewSource(source: String) {
     viewModel.getSourcesList(source, language!!, country!!)
       .observe(viewLifecycleOwner, Observer {
-      it?.let { sourceRecyclerAdapter!!.submitList(it) }
-    })
+        it?.let { sourceRecyclerAdapter!!.submitList(it) }
+      })
   }
 
 }

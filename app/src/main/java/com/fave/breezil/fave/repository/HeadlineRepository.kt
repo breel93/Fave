@@ -17,15 +17,14 @@ package com.fave.breezil.fave.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.api.NewsApi
+import com.fave.breezil.fave.api.EndPointRepository
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.model.ParentModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.util.Collections
+import com.fave.breezil.fave.utils.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
@@ -34,56 +33,52 @@ import kotlin.collections.ArrayList
 
 @Singleton
 class HeadlineRepository @Inject
-internal constructor(private val newsApi: NewsApi) {
+internal constructor(private var endpointRepository: EndPointRepository ) {
 
-  private var trendCategoryList: List<String>? = null
-  private var isSuccessful = MutableLiveData<Boolean>()
-  private val breakingNewList = MutableLiveData<List<Article>>()
 
-  fun getArticleSuccessful(
+
+  suspend fun getCategoriesArticle(
     context: Context,
     parentList: ArrayList<ParentModel>,
     country: String,
     sources: String,
     query: String
-  ): MutableLiveData<Boolean> {
+  ) = flow {
     val textArray = context.resources.getStringArray(R.array.category_list)
-    trendCategoryList = listOf(*textArray)
+    val trendCategoryList = listOf(*textArray)
     for (item in (trendCategoryList as MutableList<String>?)!!) {
-
       val parentModel = ParentModel()
       val articles = ArrayList<Article>()
       parentModel.title = item
-      newsApi.getHeadlines(country, sources, item, query, 3, 1, NEWS_API_KEY)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe({
-          articles.addAll(it.articles)
-          isSuccessful.postValue(true)
-        },
-          { throwable -> throwable.printStackTrace() })
-
-      parentModel.articles = articles
+      val response = endpointRepository.fetchHeadline(country, sources, item, query, 3, 1)
+      if (response.status == Result.Status.SUCCESS) {
+        articles.addAll(response.data!!.articles)
+        parentModel.articles = articles
+        emit(true)
+      }else{
+        emit(false)
+      }
       parentList.add(parentModel)
     }
+  }.flowOn(Dispatchers.IO)
 
-    return isSuccessful
-  }
 
-  fun getBreakingNewsArticles(
+  suspend fun fetchBreakingNewsArticles(
     sources: String,
-    sortBy: String?,
-    from: String?,
-    to: String?,
-    language: String?
-  ): MutableLiveData<List<Article>> {
-    newsApi.getBreakingNews("", sources, sortBy, from, to, language, 10, 1, NEWS_API_KEY)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe({
-        breakingNewList.postValue(it.articles)
-      },
-        { throwable -> throwable.printStackTrace() })
-    return breakingNewList
-  }
+    sortBy: String,
+    from: String,
+    to: String,
+    language: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+  ) = flow{
+    val response = endpointRepository.fetchEverything("", sources, sortBy, from, to, language, 10, 1)
+    if (response.status == Result.Status.SUCCESS) {
+      val articles = response.data!!.articles
+      emit(articles)
+      onSuccess()
+    } else if (response.status == Result.Status.ERROR) {
+      onError(response.message!!)
+    }
+  }.flowOn(Dispatchers.IO)
 }

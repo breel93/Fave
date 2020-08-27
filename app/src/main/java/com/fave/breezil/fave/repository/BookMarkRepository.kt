@@ -15,84 +15,28 @@
 */
 package com.fave.breezil.fave.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.annotation.WorkerThread
 import com.fave.breezil.fave.db.ArticleDao
 import com.fave.breezil.fave.model.Article
-import io.reactivex.Completable
-import io.reactivex.CompletableObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class BookMarkRepository @Inject
 constructor(private val articleDao: ArticleDao) {
-  private val isSuccessful = MutableLiveData<String>()
-  fun getBookMarks(): LiveData<List<Article>> {
-    return articleDao.allBookMarks
+
+  val getBookMarks: Flow<List<Article>> = articleDao.allBookMarks()
+
+  @WorkerThread
+  suspend fun insert(article: Article) = withContext(Dispatchers.IO) {
+    articleDao.insert(article)
   }
 
-  fun insertBookMark(article: Article): MutableLiveData<String> {
-    Completable.fromAction { articleDao.insert(article) }
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(object : CompletableObserver {
-        override fun onComplete() {
-          isSuccessful.postValue("Successful")
-        }
-
-        override fun onSubscribe(d: Disposable) {
-        }
-
-        override fun onError(e: Throwable) {
-          isSuccessful.postValue(e.message)
-        }
-      })
-    return isSuccessful
-  }
-
-  fun deleteBookMark(article: Article): MutableLiveData<String> {
-    Completable.fromAction { articleDao.delete(article) }
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(
-        object : CompletableObserver {
-          override fun onComplete() {
-            isSuccessful.postValue("successful")
-          }
-
-          override fun onSubscribe(d: Disposable) {
-          }
-
-          override fun onError(e: Throwable) {
-            isSuccessful.postValue(e.message)
-          }
-        }
-      )
-    return isSuccessful
-  }
-
-  fun deleteAllBookMark(): MutableLiveData<String> {
-    Completable.fromAction { articleDao.deleteAllArticle() }
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(
-        object : CompletableObserver {
-          override fun onComplete() {
-            isSuccessful.postValue("successful")
-          }
-
-          override fun onSubscribe(d: Disposable) {
-          }
-
-          override fun onError(e: Throwable) {
-            isSuccessful.postValue(e.message)
-          }
-        }
-      )
-    return isSuccessful
+  @WorkerThread
+  suspend fun delete(article: Article) = withContext(Dispatchers.IO) {
+    articleDao.delete(article)
   }
 }
