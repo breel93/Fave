@@ -80,17 +80,16 @@ class SourceDetailFragment : DaggerFragment() {
     binding.sourceArticleList.setHasFixedSize(true)
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
     language = Constant.getLanguage(requireContext(), sharedPreferences)
-
     viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
     binding.shimmerViewContainer.startShimmer()
     setHasOptionsMenu(true)
     setupLoading()
     setUpAdapter()
-    setUpViewModel(sources!!.id)
+    setUpViewModel(sources!!)
     goBack()
 
     openedListener.isOpened(true)
-    binding.swipeRefresh.setOnRefreshListener { setUpViewModel(sources!!.id) }
+    binding.swipeRefresh.setOnRefreshListener { setUpViewModel(sources!!) }
     return binding.root
   }
 
@@ -122,7 +121,6 @@ class SourceDetailFragment : DaggerFragment() {
     articleAdapter =
       ArticleRecyclerViewAdapter(requireContext(), articleClickListener, articleLongClickListener)
     val layoutGridManager = GridLayoutManager(context, 2)
-
     layoutGridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
         return when (articleAdapter!!.getItemViewType(position)) {
@@ -136,15 +134,14 @@ class SourceDetailFragment : DaggerFragment() {
     binding.sourceArticleList.adapter = articleAdapter
   }
 
-  private fun setUpViewModel(source: String) {
-
-    binding.sourceText.text = source
+  private fun setUpViewModel(source: Sources) {
+    binding.sourceText.text = source.name
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
       R.color.colorAccent,  R.color.hotPink
     )
     viewModel.setParameter(
-      getString(R.string.blank), source, "", todayDate, twoDaysAgoDate, language = language!!)
+      getString(R.string.blank), source.id, "", todayDate, twoDaysAgoDate, language = language!!)
     viewModel.articleList.observe(viewLifecycleOwner, Observer {
       binding.shimmerViewContainer.visibility = View.GONE
       it?.let { articleAdapter!!.submitList(it) }
@@ -179,9 +176,9 @@ class SourceDetailFragment : DaggerFragment() {
             binding.sourceArticleList.visibility = View.GONE
           }
           NetworkState.Status.NO_RESULT -> {
-            binding.searchError.visibility = View.VISIBLE
-            binding.responseError.visibility = View.GONE
-            binding.sourceArticleList.visibility = View.GONE
+//            binding.searchError.visibility = View.VISIBLE
+//            binding.responseError.visibility = View.GONE
+//            binding.sourceArticleList.visibility = View.GONE
           }
           NetworkState.Status.RUNNING -> {
             binding.searchError.visibility = View.GONE

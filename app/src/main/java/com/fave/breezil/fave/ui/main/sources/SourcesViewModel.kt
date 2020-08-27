@@ -15,16 +15,24 @@
 */
 package com.fave.breezil.fave.ui.main.sources
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.fave.breezil.fave.model.Sources
+import androidx.lifecycle.asLiveData
 import com.fave.breezil.fave.repository.headlines.SourceRepository
+import com.fave.breezil.fave.utils.LiveCoroutinesViewModel
 import javax.inject.Inject
 
 class SourcesViewModel @Inject
-constructor(private val sourceRepository: SourceRepository) : ViewModel() {
+constructor(private val sourceRepository: SourceRepository) : LiveCoroutinesViewModel() {
 
-  fun getSourcesList(category: String, language: String, country: String): MutableLiveData<List<Sources>> {
-    return sourceRepository.getSources(category, language, country)
+  val errorMessages = MutableLiveData<String>()
+  val isLoading: ObservableBoolean = ObservableBoolean(false)
+  fun getSourcesList(category: String, language: String, country: String) = launchOnViewModelScope {
+    sourceRepository.fetchSources(
+      category, language, country,
+      onSuccess = {isLoading.set(false)},
+      onError = {errorMessages.postValue(it)}
+    ).asLiveData()
   }
 }
+

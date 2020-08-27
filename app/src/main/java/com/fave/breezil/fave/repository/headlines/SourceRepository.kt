@@ -15,36 +15,38 @@
 */
 package com.fave.breezil.fave.repository.headlines
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
-import com.fave.breezil.fave.BuildConfig.NEWS_API_KEY
-import com.fave.breezil.fave.api.NewsApi
-import com.fave.breezil.fave.model.Sources
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.fave.breezil.fave.api.BaseDataSource
+import com.fave.breezil.fave.api.EndPointRepository
+import com.fave.breezil.fave.utils.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SourceRepository @Inject
-internal constructor(private val newsApi: NewsApi) {
+internal constructor(private var endpointRepository: EndPointRepository) {
 
-  private val sourceList = MutableLiveData<List<Sources>>()
-
-  @SuppressLint("CheckResult")
-  fun getSources(
+  suspend fun fetchSources(
     category: String,
     language: String,
-    country: String
-  ): MutableLiveData<List<Sources>> {
-    newsApi.getSources(category, language, country, NEWS_API_KEY)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe({
-        it.sources
-        sourceList.postValue(it.sources)
-      }, { throwable -> throwable.printStackTrace() })
+    country: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+  ) = flow {
+    val response = endpointRepository.fetchSources(category, language, country)
+    if (response.status == Result.Status.SUCCESS) {
+      val sources = response.data!!.sources
+      emit(sources)
+      onSuccess()
+    } else if (response.status == Result.Status.ERROR) {
+      onError(response.message!!)
+    }
 
-    return sourceList
-  }
+  }.flowOn(Dispatchers.IO)
+
+
+
 }

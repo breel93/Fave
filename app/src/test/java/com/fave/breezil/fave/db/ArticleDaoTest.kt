@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.util.LiveDataTestUtil
 import com.fave.breezil.fave.util.MockTestUtil
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -17,8 +18,9 @@ class ArticleDaoTest : AppDatabaseTest(){
   @get:Rule
   var rule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+
   @Test
-  fun insertArticleTest(){
+  fun insertArticleTest() = runBlocking{
     val mockTestUtil = MockTestUtil()
     val mockArticle = mockTestUtil.mockArticle(5)
     db!!.articleDao().insert(mockArticle)
@@ -27,7 +29,7 @@ class ArticleDaoTest : AppDatabaseTest(){
   }
 
   @Test
-  fun deleteArticleTest(){
+  fun deleteArticleTest()= runBlocking{
     val mockTestUtil = MockTestUtil()
     val mockArticle = mockTestUtil.mockArticle(5)
     db!!.articleDao().delete(mockArticle)
@@ -36,15 +38,12 @@ class ArticleDaoTest : AppDatabaseTest(){
   }
 
   @Test
-  fun getArticlesTest() {
+  fun getArticlesTest() = runBlocking{
     val mockTestUtil = MockTestUtil()
     val mockArticle = mockTestUtil.mockArticle()
     db!!.articleDao().insert(mockArticle)
-    db!!.articleDao().insert(mockArticle)
-
-    val liveDataTestUtil: LiveDataTestUtil<List<Article>> = LiveDataTestUtil()
-    val articleList = liveDataTestUtil.getValue(db!!.articleDao().allBookMarks)
+    val articleList = db!!.articleDao().allBookMarks()
     assertNotNull(articleList)
-    assertEquals(mockArticle.id, 0)
+    assertEquals(mockArticle.url, "https://www.youtube.com/watch?v=9SHwHJYIT7Q")
   }
 }

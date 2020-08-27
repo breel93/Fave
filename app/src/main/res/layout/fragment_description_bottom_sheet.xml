@@ -33,8 +33,10 @@
     <TextView
         android:id="@+id/articleTitle"
         android:layout_width="@dimen/zeroDP"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/zeroDP"
         android:layout_marginStart="@dimen/eightDP"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/dummy_text"
         android:textColor="?attr/primarytextcolor"
@@ -42,7 +44,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/publishedAt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/articleImageCard" />
+        app:layout_constraintStart_toEndOf="@+id/articleImageCard"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/articleDescriptions"

@@ -59,15 +59,15 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
   private lateinit var viewModel: BookMarkViewModel
 
   private val article: Article?
-    get() = if (arguments!!.getParcelable<Article>(ARTICLE) != null) {
-      arguments!!.getParcelable(ARTICLE)
+    get() = if (requireArguments().getParcelable<Article>(ARTICLE) != null) {
+      requireArguments().getParcelable(ARTICLE)
     } else {
       null
     }
 
   private val type: String?
-    get() = if (arguments!!.getString(TYPE) != null) {
-      arguments!!.getString(TYPE)
+    get() = if (requireArguments().getString(TYPE) != null) {
+      requireArguments().getString(TYPE)
     } else {
       null
     }
@@ -126,26 +126,11 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
       val url = article.url
       val urlToImage = article.urlToImage
       val publishedAt = article.publishedAt
-      val source = article.source!!.name
 
       if (title != null && description != null && url != null && urlToImage != null &&
         publishedAt != null
       ) {
-        viewModel.insert(article).observe(viewLifecycleOwner, Observer {
-          if (it == "Successful") {
-            Toast.makeText(
-              this@ActionBottomSheetFragment.mContext,
-              R.string.saved_bookmark,
-              Toast.LENGTH_SHORT
-            ).show()
-          } else {
-            Toast.makeText(
-              this@ActionBottomSheetFragment.mContext,
-              it,
-              Toast.LENGTH_SHORT
-            ).show()
-          }
-        })
+        viewModel.insert(article)
       } else {
         Toast.makeText(
           this@ActionBottomSheetFragment.mContext,
@@ -161,11 +146,11 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
     val activity = activity
     if (activity != null && isAdded) {
       BrowserUtils.launchBrowser(
-        context!!,
+        requireContext(),
         article.url!!
       ) {
         val fragment = WebFragment.getArticles(article)
-        fragmentManager!!.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
           .setCustomAnimations(
             R.anim.fragment_slide_in,
             R.anim.fragment_slide_out,
@@ -181,21 +166,7 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
     dismiss()
   }
   private fun deleteBookMark(article: Article){
-    viewModel.delete(article).observe(viewLifecycleOwner, Observer {
-      if (it == "Successful") {
-        Toast.makeText(
-          this@ActionBottomSheetFragment.mContext,
-          R.string.bookmark_deleted,
-          Toast.LENGTH_SHORT
-        ).show()
-      } else {
-        Toast.makeText(
-          this@ActionBottomSheetFragment.mContext,
-          it,
-          Toast.LENGTH_SHORT
-        ).show()
-      }
-    })
+    viewModel.delete(article)
     dismiss()
   }
 

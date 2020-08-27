@@ -15,27 +15,32 @@
 */
 package com.fave.breezil.fave.ui.main.bookmark
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.*
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.repository.BookMarkRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BookMarkViewModel @Inject
 constructor(private val bookMarkRepository: BookMarkRepository) :
   ViewModel() {
 
-  val bookmarkList: LiveData<List<Article>> = bookMarkRepository.getBookMarks()
+  val errorMessages = MutableLiveData<String>()
+  val isLoading: ObservableBoolean = ObservableBoolean(false)
 
-  fun insert(article: Article): LiveData<String> {
-    return bookMarkRepository.insertBookMark(article)
+  val bookmarkList: LiveData<List<Article>>
+    get() = bookMarkRepository.getBookMarks.flowOn(Dispatchers.Main)
+      .asLiveData(context = viewModelScope.coroutineContext)
+
+  fun insert(article: Article)= viewModelScope.launch {
+    bookMarkRepository.insert(article)
   }
 
-  fun delete(article: Article): LiveData<String> {
-    return bookMarkRepository.deleteBookMark(article)
+  fun delete(article: Article)  = viewModelScope.launch {
+    bookMarkRepository.delete(article)
   }
 
-  fun deleteAll(): LiveData<String> {
-    return bookMarkRepository.deleteAllBookMark()
-  }
 }

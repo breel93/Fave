@@ -111,4 +111,5 @@ class BreakingNewsRecyclerAdapter(
   private fun Date.asTimeAgo(resources: Resources): String {
     return getTimeAgo(this.time, System.currentTimeMillis(), resources)
   }
+
 }

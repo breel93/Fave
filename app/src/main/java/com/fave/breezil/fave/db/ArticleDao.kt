@@ -15,27 +15,29 @@
 */
 package com.fave.breezil.fave.db
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Delete
 
 import com.fave.breezil.fave.model.Article
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
-
-  @get:Transaction
-  @get:Query("SELECT * FROM article_table ORDER BY id DESC")
-  val allBookMarks: LiveData<List<Article>>
+  @Query("SELECT * FROM article_table ORDER BY id DESC")
+  fun allBookMarks(): Flow<List<Article>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insert(article: Article)
+  suspend fun insert(article: Article)
 
   @Query("DELETE FROM article_table")
-  fun deleteAllArticle()
+  suspend fun deleteAllArticle()
 
   @Query("SELECT * FROM article_table where id = :id")
-  fun getArticleById(id : Int) : Article
+  suspend fun getArticleById(id : Int) : Article
 
   @Delete
-  fun delete(article: Article)
+  suspend fun delete(article: Article)
 }

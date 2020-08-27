@@ -68,17 +68,24 @@ dependencies {
 
     //arch component
     implementation 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:' + versions.lifecycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:' + versions.lifecycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:' + versions.lifecycle
     kapt 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle
 
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.browser:browser:1.2.0'
     //room
     implementation 'androidx.room:room-runtime:' + versions.room
+    implementation 'androidx.room:room-ktx:' + versions.room
     kapt 'androidx.room:room-compiler:' + versions.room
 
     //paging Library
     implementation 'androidx.paging:paging-runtime:' + versions.paging
+
+    //coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:' + versions.coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines
 
     //dagger
     implementation 'com.google.dagger:dagger:' + versions.dagger
@@ -105,11 +112,6 @@ dependencies {
     //transitions
     implementation 'androidx.transition:transition:' + versions.transition
 
-    //rx
-    implementation 'io.reactivex.rxjava2:rxjava:' + versions.rxjava
-    implementation 'io.reactivex.rxjava2:rxandroid:' + versions.rxandroid
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:' + versions.rxjava_adapter
-
     implementation 'com.mikhaellopez:rxanimation:1.0.0'
 
     //facebook shimmer
@@ -127,11 +129,10 @@ dependencies {
     testImplementation 'junit:junit:' + versions.junit
     testImplementation 'org.mockito:mockito-core:' + versions.mockitoVersion
     testImplementation 'org.robolectric:robolectric:' + versions.robolectric
-    testImplementation 'org.powermock:powermock-core:' + versions.powerMock
-    testImplementation 'org.powermock:powermock-module-junit4:' + versions.powerMockModuleJunit4
-    testImplementation 'org.powermock:powermock-module-junit4-rule:' + versions.powerMockModuleJunit4Rule
-    testImplementation 'org.powermock:powermock-api-mockito2:' + versions.powerMockApiMockito
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:' + versions.mockitoKotlin
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' + versions.coroutines
+    testImplementation 'app.cash.turbine:turbine:' + versions.turbineVersion
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

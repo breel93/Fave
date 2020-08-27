@@ -19,14 +19,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.fave.breezil.fave.api.EndPointRepository
 import com.fave.breezil.fave.model.Article
-import com.fave.breezil.fave.model.ArticleResult
 import com.fave.breezil.fave.repository.NetworkState
-import com.fave.breezil.fave.repository.PaginationListener
 import com.fave.breezil.fave.utils.Constant.Companion.ONE
-import com.fave.breezil.fave.utils.Constant.Companion.TEN
 import com.fave.breezil.fave.utils.Constant.Companion.TWO
 import com.fave.breezil.fave.utils.Constant.Companion.ZERO
-import io.reactivex.disposables.CompositeDisposable
+import com.fave.breezil.fave.utils.Result
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,9 +35,8 @@ import javax.inject.Singleton
 class HeadlineDataSource @Inject
 constructor(
   private var endpointRepository: EndPointRepository,
-  private val compositeDisposable: CompositeDisposable
-) : PageKeyedDataSource<Int, Article>(),
-  PaginationListener<ArticleResult, Article> {
+  private val scope: CoroutineScope
+) : PageKeyedDataSource<Int, Article>(){
 
   lateinit var country: String
   lateinit var sources: String
@@ -50,21 +49,11 @@ constructor(
     params: LoadInitialParams<Int>,
     callback: LoadInitialCallback<Int, Article>
   ) {
-
     mNetworkState.postValue(NetworkState.LOADING)
     mInitialLoading.postValue(NetworkState.LOADING)
-
-    val articlesList = ArrayList<Article>()
-    val articles = endpointRepository.getHeadline(
-      country, sources, category, query,
-      TEN, ONE
-    ).subscribe({ articleResult ->
-      onInitialSuccess(
-        articleResult,
-        callback, articlesList
-      )
-    }, { throwable -> onInitialError(throwable) })
-    compositeDisposable.add(articles)
+    fetchData(country,sources,category,query,params.requestedLoadSize,ONE){
+      callback.onResult(it, null, TWO)
+    }
   }
 
   override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
@@ -72,62 +61,39 @@ constructor(
 
   override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
     mNetworkState.postValue(NetworkState.LOADING)
-    val articlesList = ArrayList<Article>()
-    val articles = endpointRepository.getHeadline(
-      country, sources, category, query,
-      TEN, params.key
-    ).subscribe({ articleResult ->
-      onPaginationSuccess(
-        articleResult,
-        callback, params, articlesList
-      )
-    }, { throwable -> onPaginationError(throwable) })
-    compositeDisposable.add(articles)
-  }
-
-  override fun onInitialError(throwable: Throwable) {
-    mInitialLoading.postValue(NetworkState(NetworkState.Status.FAILED))
-    mNetworkState.postValue(NetworkState(NetworkState.Status.FAILED))
-    Timber.e(throwable)
-  }
-
-  override fun onInitialSuccess(
-    response: ArticleResult,
-    callback: LoadInitialCallback<Int, Article>,
-    results: MutableList<Article>
-  ) {
-    if (response.articles.size > ZERO) {
-      results.addAll(response.articles)
-      callback.onResult(results, null, TWO)
-      mInitialLoading.postValue(NetworkState.LOADED)
-      mNetworkState.postValue(NetworkState.LOADED)
-    } else {
-      mInitialLoading.postValue(NetworkState(NetworkState.Status.NO_RESULT))
-      mNetworkState.postValue(NetworkState(NetworkState.Status.NO_RESULT))
+    val page = params.key
+    fetchData(country,sources,category,query,params.requestedLoadSize,page){
+      callback.onResult(it, page + ONE)
     }
   }
 
-  override fun onPaginationError(throwable: Throwable) {
-    mNetworkState.postValue(NetworkState(NetworkState.Status.FAILED))
-    Timber.e(throwable)
-  }
-
-  override fun onPaginationSuccess(
-    response: ArticleResult,
-    callback: LoadCallback<Int, Article>,
-    params: LoadParams<Int>,
-    results: MutableList<Article>
-  ) {
-    if (response.articles.size > ZERO) {
-      results.addAll(response.articles)
-
-      val key = (if (params.key > ONE) params.key + ONE else null)!!.toInt()
-      callback.onResult(results, key)
-      mNetworkState.postValue(NetworkState.LOADED)
+  private fun fetchData(country: String,sources: String, category: String, query: String,
+                        pageSize: Int, page: Int, callback: (List<Article>) -> Unit){
+    scope.launch(getJobErrorHandler()){
+      val response = endpointRepository.fetchHeadline(country,sources,category,query, pageSize, page)
+      if(response.status == Result.Status.SUCCESS){
+        val results = response.data!!.articles
+        callback(results)
+        if(results.size > ZERO){
+          mInitialLoading.postValue(NetworkState.LOADED)
+          mNetworkState.postValue(NetworkState.LOADED)
+        }else{
+          mInitialLoading.postValue(NetworkState(NetworkState.Status.NO_RESULT))
+          mNetworkState.postValue(NetworkState(NetworkState.Status.NO_RESULT))
+        }
+      }else if(response.status == Result.Status.ERROR){
+        postError(response.message!!)
+      }
     }
   }
 
-  override fun clear() {
-    compositeDisposable.clear()
+  private fun getJobErrorHandler() = CoroutineExceptionHandler { _, e ->
+    postError(e.message ?: e.toString())
+  }
+
+  private fun postError(message: String) {
+    Timber.e("An error happened: $message")
+    // TODO network error handling
+    mNetworkState.postValue(NetworkState(NetworkState.Status.FAILED))
   }
 }

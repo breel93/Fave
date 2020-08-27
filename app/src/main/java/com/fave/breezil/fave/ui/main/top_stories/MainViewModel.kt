@@ -15,22 +15,19 @@
 */
 package com.fave.breezil.fave.ui.main.top_stories
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.model.ParentModel
 import com.fave.breezil.fave.repository.HeadlineRepository
 import com.fave.breezil.fave.repository.NetworkState
-import com.fave.breezil.fave.repository.everything.EverythingDataSource
 import com.fave.breezil.fave.repository.headlines.HeadlineDataSource
 import com.fave.breezil.fave.repository.headlines.HeadlineDataSourceFactory
 import com.fave.breezil.fave.utils.Constant.Companion.TEN
+import com.fave.breezil.fave.utils.LiveCoroutinesViewModel
 import com.fave.breezil.fave.utils.helpers.AppExecutors
 import javax.inject.Inject
 
@@ -38,11 +35,13 @@ class MainViewModel @Inject
 constructor(
   private val headlineDataSourceFactory: HeadlineDataSourceFactory,
   private val appsExecutor: AppExecutors,
-  application: Application,
   private val headlineRepository: HeadlineRepository
-) : AndroidViewModel(application) {
-  var articleList: LiveData<PagedList<Article>>
+) : LiveCoroutinesViewModel() {
 
+  val errorMessages = MutableLiveData<String>()
+  val isLoading: ObservableBoolean = ObservableBoolean(false)
+
+  var articleList: LiveData<PagedList<Article>>
   private val networkState: LiveData<NetworkState> = Transformations.switchMap(
     headlineDataSourceFactory.headlineDataSourceMutableLiveData, HeadlineDataSource::mNetworkState
   )
@@ -92,23 +91,27 @@ constructor(
     return articleList
   }
 
+
   fun getCategoryList(
     context: Context,
     mArrayList: ArrayList<ParentModel>,
     country: String,
     sources: String,
     query: String
-  ): MutableLiveData<Boolean>? {
-    return headlineRepository.getArticleSuccessful(context, mArrayList, country, sources, query)
+  ) = launchOnViewModelScope{
+    headlineRepository.getCategoriesArticle(context, mArrayList, country, sources, query).asLiveData()
   }
 
   fun getBreakingNewList(
     sources: String,
-    sortBy: String?,
-    from: String?,
-    to: String?,
-    language: String?
-  ): MutableLiveData<List<Article>> {
-    return headlineRepository.getBreakingNewsArticles(sources, sortBy, from, to, language)
+    sortBy: String,
+    from: String,
+    to: String,
+    language: String
+  ) = launchOnViewModelScope {
+    headlineRepository.fetchBreakingNewsArticles(sources, sortBy, from, to, language,
+      onSuccess = {isLoading.set(false)},
+      onError = {errorMessages.postValue(it)}
+    ).asLiveData()
   }
 }
