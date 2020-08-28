@@ -22,7 +22,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.PreferenceManager
@@ -31,14 +30,14 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import androidx.preference.ListPreference
 import com.fave.breezil.fave.R
-import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
-import java.util.Objects
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.collections.ArrayList
 
+@AndroidEntryPoint
 class PrefFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
   private var mSourcePref: MultiSelectListPreference? = null
-  lateinit var applyThemesInterFace : ApplyThemesInterFace
+  private lateinit var applyThemesInterFace : ApplyThemesInterFace
 
   interface ApplyThemesInterFace{
     fun applytheme(applied: Boolean)

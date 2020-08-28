@@ -19,12 +19,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fave.breezil.fave.R
@@ -35,21 +33,18 @@ import com.fave.breezil.fave.model.Sources
 import com.fave.breezil.fave.ui.adapter.QuickCategoryRecyclerAdapter
 import com.fave.breezil.fave.ui.adapter.SourceRecyclerAdapter
 import com.fave.breezil.fave.utils.Constant
-import dagger.android.support.DaggerFragment
-import java.util.Collections
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  *
  */
-class SourcesFragment : DaggerFragment() {
+@AndroidEntryPoint
+class SourcesFragment : Fragment() {
 
   lateinit var binding: FragmentSourcesBinding
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  lateinit var viewModel: SourcesViewModel
+  private val viewModel: SourcesViewModel by viewModels()
 
   lateinit var quickCategoryList: List<String>
   private var country: String? = null
@@ -73,9 +68,6 @@ class SourcesFragment : DaggerFragment() {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
     country = Constant.getCountry(requireContext(), sharedPreferences)
     language = Constant.getLanguage(requireContext(), sharedPreferences)
-
-    viewModel = ViewModelProvider(this, viewModelFactory).get(SourcesViewModel::class.java)
-
     binding.shimmerViewContainer.startShimmer()
 
     setUpAdapter()

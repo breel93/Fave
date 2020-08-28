@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fave.breezil.fave.R
@@ -34,21 +35,19 @@ import com.fave.breezil.fave.ui.bottom_sheets.DescriptionBottomSheetFragment
 import com.fave.breezil.fave.ui.callbacks.ArticleClickListener
 import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.utils.Constant.Companion.BOOKMARK_TYPE
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  *
  */
-class BookMarkedFragment : DaggerFragment() {
+
+@AndroidEntryPoint
+class BookMarkedFragment : Fragment() {
 
   lateinit var adapter: BookMarkRecyclerAdapter
-  private lateinit var bookMarkViewModel: BookMarkViewModel
+  private val bookMarkViewModel: BookMarkViewModel by viewModels()
   lateinit var binding: FragmentBookmarkedBinding
-
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -89,7 +88,6 @@ class BookMarkedFragment : DaggerFragment() {
   }
 
   private fun setUpViewModel() {
-    bookMarkViewModel = ViewModelProvider(this, viewModelFactory).get(BookMarkViewModel::class.java)
     bookMarkViewModel.bookmarkList.observe(viewLifecycleOwner, Observer { article ->
       adapter.submitList(article)
     })

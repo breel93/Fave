@@ -27,14 +27,18 @@ import com.fave.breezil.fave.utils.Constant.Companion.BASE_URL
 import com.fave.breezil.fave.utils.Constant.Companion.FAVE_DB
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class])
-class AppModule {
+@Module
+@InstallIn(ApplicationComponent::class)
+object AppModule {
   @Singleton
   @Provides
   internal fun provideNewsApi(): NewsApi {

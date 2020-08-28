@@ -22,7 +22,9 @@ import android.os.Handler
 import androidx.preference.PreferenceManager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.ui.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashScreenActivity : BaseActivity() {
   private var sharedPreferences: SharedPreferences? = null
 

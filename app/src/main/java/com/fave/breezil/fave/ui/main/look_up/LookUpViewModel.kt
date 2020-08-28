@@ -16,6 +16,7 @@
 package com.fave.breezil.fave.ui.main.look_up
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations.switchMap
@@ -27,9 +28,8 @@ import com.fave.breezil.fave.repository.everything.EverythingDataSource
 import com.fave.breezil.fave.repository.everything.EverythingDataSourceFactory
 import com.fave.breezil.fave.utils.Constant.Companion.TEN
 import com.fave.breezil.fave.utils.helpers.AppExecutors
-import javax.inject.Inject
 
-class LookUpViewModel @Inject
+class LookUpViewModel @ViewModelInject
 constructor(
   private val everythingDataSourceFactory: EverythingDataSourceFactory,
   private val appsExecutor: AppExecutors,

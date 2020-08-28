@@ -20,16 +20,18 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.utils.Constant
 import com.fave.breezil.fave.utils.Constant.Companion.DEFAULT_SOURCE
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashSet
 
-open class BaseActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+open class BaseActivity : AppCompatActivity() {
   private var sharedPreferences: SharedPreferences? = null
 
   private var themeMode: Boolean = false

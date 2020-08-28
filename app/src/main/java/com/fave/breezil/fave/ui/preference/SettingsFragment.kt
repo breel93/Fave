@@ -11,12 +11,14 @@ import androidx.databinding.DataBindingUtil
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentSettingsBinding
 import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
-import dagger.android.support.DaggerFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsFragment : DaggerFragment() {
+
+@AndroidEntryPoint
+class SettingsFragment : Fragment() {
   lateinit var binding: FragmentSettingsBinding
   private lateinit var openedListener: FragmentOpenedListener
   override fun onCreateView(
