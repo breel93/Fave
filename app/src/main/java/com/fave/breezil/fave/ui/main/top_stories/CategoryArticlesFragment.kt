@@ -23,8 +23,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fave.breezil.fave.R
@@ -39,21 +39,19 @@ import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.ui.callbacks.FragmentOpenedListener
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.CATEGORYNAME
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  */
 
-class CategoryArticlesFragment : DaggerFragment() {
+@AndroidEntryPoint
+class CategoryArticlesFragment : Fragment() {
 
   lateinit var binding: FragmentCategoryArticlesBinding
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
   private var articleAdapter: ArticleRecyclerViewAdapter? = null
-  lateinit var viewModel: MainViewModel
+  private val viewModel: MainViewModel by viewModels()
   private lateinit var openedListener: FragmentOpenedListener
 
   private var country: String? = null
@@ -80,7 +78,6 @@ class CategoryArticlesFragment : DaggerFragment() {
   ): View? {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_articles, container, false)
-    viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
     country =

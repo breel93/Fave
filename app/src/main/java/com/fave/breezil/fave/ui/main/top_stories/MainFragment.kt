@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
@@ -42,22 +43,21 @@ import com.fave.breezil.fave.utils.Constant.Companion.getLanguage
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  *
  */
-class MainFragment : DaggerFragment() {
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
+@AndroidEntryPoint
+class MainFragment : Fragment() {
+
   lateinit var binding: FragmentMainBinding
   private lateinit var parentCategoryRecyclerAdapter: ParentCategoryRecyclerAdapter
   private var mArrayList = ArrayList<ParentModel>()
 
-  private lateinit var viewModel: MainViewModel
+  private val viewModel: MainViewModel by viewModels()
 
   private var country: String? = null
   private var sortBy: String? = null
@@ -77,9 +77,6 @@ class MainFragment : DaggerFragment() {
       getString(R.string.pref_everything_sort_by_key),
       getString(R.string.blank)
     )
-
-    viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-
     binding.shimmerViewContainer.startShimmer()
 
 //    binding.swipeRefresh.setOnRefreshListener { setupViewModel() }
@@ -141,7 +138,7 @@ class MainFragment : DaggerFragment() {
     )
     viewModel.getCategoryList(requireContext(), mArrayList,
       country!!, "", "")
-      ?.observe(viewLifecycleOwner, Observer {
+      .observe(viewLifecycleOwner, Observer {
         if (it && ::parentCategoryRecyclerAdapter.isInitialized) {
           parentCategoryRecyclerAdapter.setList(mArrayList)
           binding.shimmerViewContainer.visibility = View.GONE

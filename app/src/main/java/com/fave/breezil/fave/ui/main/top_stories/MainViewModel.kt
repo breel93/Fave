@@ -17,6 +17,7 @@ package com.fave.breezil.fave.ui.main.top_stories
 
 import android.content.Context
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -29,9 +30,8 @@ import com.fave.breezil.fave.repository.headlines.HeadlineDataSourceFactory
 import com.fave.breezil.fave.utils.Constant.Companion.TEN
 import com.fave.breezil.fave.utils.LiveCoroutinesViewModel
 import com.fave.breezil.fave.utils.helpers.AppExecutors
-import javax.inject.Inject
 
-class MainViewModel @Inject
+class MainViewModel @ViewModelInject
 constructor(
   private val headlineDataSourceFactory: HeadlineDataSourceFactory,
   private val appsExecutor: AppExecutors,

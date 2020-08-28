@@ -13,8 +13,7 @@ import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentWebBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE
-import dagger.android.support.DaggerFragment
-import java.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
@@ -22,12 +21,14 @@ import java.util.*
  * Use the [WebFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class WebFragment : DaggerFragment() {
+
+@AndroidEntryPoint
+class WebFragment : Fragment() {
 
   lateinit var binding : FragmentWebBinding
   private val article: Article?
-    get() = if (arguments!!.getParcelable<Article>(ARTICLE) != null) {
-      arguments!!.getParcelable(ARTICLE)
+    get() = if (requireArguments().getParcelable<Article>(ARTICLE) != null) {
+      requireArguments().getParcelable(ARTICLE)
     } else {
       null
     }
@@ -65,7 +66,7 @@ class WebFragment : DaggerFragment() {
   }
   private fun goBack(){
     binding.backPressed.setOnClickListener{
-      fragmentManager!!.popBackStack();
+      requireActivity().supportFragmentManager.popBackStack();
     }
   }
 }

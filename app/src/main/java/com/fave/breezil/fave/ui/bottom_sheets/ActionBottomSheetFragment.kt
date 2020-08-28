@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fave.breezil.fave.R
@@ -38,8 +39,7 @@ import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.BOOKMARK_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.TYPE
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,14 +49,14 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  */
+
+@AndroidEntryPoint
 class ActionBottomSheetFragment : BottomSheetDialogFragment() {
 
   lateinit var binding: FragmentActionBottomSheetBinding
   private var mContext: Context? = null
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: BookMarkViewModel
+  private val viewModel: BookMarkViewModel  by viewModels()
 
   private val article: Article?
     get() = if (requireArguments().getParcelable<Article>(ARTICLE) != null) {
@@ -82,16 +82,10 @@ class ActionBottomSheetFragment : BottomSheetDialogFragment() {
     binding =
       DataBindingUtil.inflate(inflater, R.layout.fragment_action_bottom_sheet, container, false)
     this.mContext = activity
-    viewModel = ViewModelProvider(this, viewModelFactory)
-      .get(BookMarkViewModel::class.java)
     updateUi(this.article!!, type!!)
     return binding.root
   }
 
-  override fun onAttach(context: Context) {
-    super.onAttach(context)
-    AndroidSupportInjection.inject(this)
-  }
 
   private fun updateUi(article: Article, type: String) {
     if(type == ARTICLE_TYPE){

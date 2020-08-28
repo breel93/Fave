@@ -16,15 +16,15 @@
 package com.fave.breezil.fave.ui.main.bookmark
 
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.repository.BookMarkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class BookMarkViewModel @Inject
+class BookMarkViewModel @ViewModelInject
 constructor(private val bookMarkRepository: BookMarkRepository) :
   ViewModel() {
 

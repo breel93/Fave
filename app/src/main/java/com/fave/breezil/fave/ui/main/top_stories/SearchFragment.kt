@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,29 +44,26 @@ import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.sourcesPreferenceList
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
  * A simple [Fragment] subclass.
  *
  */
-class SearchFragment : DaggerFragment() {
+@AndroidEntryPoint
+class SearchFragment : Fragment() {
 
   lateinit var binding: FragmentSearchBinding
 
   internal var adapter: ArticleRecyclerViewAdapter? = null
-  private lateinit var viewModel: LookUpViewModel
+  private val viewModel: LookUpViewModel by viewModels()
 
   private var sortBy: String? = null
   private var source: String = ""
   private var language: String? = null
 
   private lateinit var sharedPreferences: SharedPreferences
-
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -75,7 +73,6 @@ class SearchFragment : DaggerFragment() {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-    viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
     sortBy = sharedPreferences.getString(getString(R.string.pref_everything_sort_by_key), getString(R.string.blank))
     language = Constant.getLanguage(requireContext(), sharedPreferences)
     setupLoading()

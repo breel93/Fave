@@ -40,14 +40,11 @@ import com.fave.breezil.fave.utils.Constant.Companion.ZERO
 import com.fave.breezil.fave.utils.helpers.BottomNavigationHelper
 import com.fave.breezil.fave.utils.helpers.FadeOutTransformation
 import com.fave.breezil.fave.utils.helpers.NonSwipeableViewPager
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(), FragmentOpenedListener, PrefFragment.ApplyThemesInterFace {
 
   lateinit var binding: ActivityMainBinding
@@ -59,7 +56,6 @@ class MainActivity : BaseActivity(), FragmentOpenedListener, PrefFragment.ApplyT
   var mainViewPagerAdapter: PagerAdapter? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    AndroidInjection.inject(this)
     super.onCreate(savedInstanceState)
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 

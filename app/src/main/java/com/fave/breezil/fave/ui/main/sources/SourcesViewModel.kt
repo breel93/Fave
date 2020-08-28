@@ -16,13 +16,13 @@
 package com.fave.breezil.fave.ui.main.sources
 
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.fave.breezil.fave.repository.headlines.SourceRepository
 import com.fave.breezil.fave.utils.LiveCoroutinesViewModel
-import javax.inject.Inject
 
-class SourcesViewModel @Inject
+class SourcesViewModel @ViewModelInject
 constructor(private val sourceRepository: SourceRepository) : LiveCoroutinesViewModel() {
 
   val errorMessages = MutableLiveData<String>()

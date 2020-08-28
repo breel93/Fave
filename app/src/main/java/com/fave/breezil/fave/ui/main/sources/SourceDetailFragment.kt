@@ -23,8 +23,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fave.breezil.fave.R
@@ -44,21 +44,19 @@ import com.fave.breezil.fave.utils.Constant.Companion.ARTICLE_TYPE
 import com.fave.breezil.fave.utils.Constant.Companion.SOURCENAME
 import com.fave.breezil.fave.utils.Constant.Companion.todayDate
 import com.fave.breezil.fave.utils.Constant.Companion.twoDaysAgoDate
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  *
  */
-class SourceDetailFragment : DaggerFragment() {
+@AndroidEntryPoint
+class SourceDetailFragment : Fragment() {
 
   lateinit var binding: FragmentSourceDetailBinding
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
   private var articleAdapter: ArticleRecyclerViewAdapter? = null
-  lateinit var viewModel: LookUpViewModel
+  private val viewModel: LookUpViewModel by viewModels()
   private lateinit var openedListener: FragmentOpenedListener
   lateinit var sharedPreferences: SharedPreferences
   private var language: String? = null
@@ -80,7 +78,6 @@ class SourceDetailFragment : DaggerFragment() {
     binding.sourceArticleList.setHasFixedSize(true)
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
     language = Constant.getLanguage(requireContext(), sharedPreferences)
-    viewModel = ViewModelProvider(this, viewModelFactory).get(LookUpViewModel::class.java)
     binding.shimmerViewContainer.startShimmer()
     setHasOptionsMenu(true)
     setupLoading()

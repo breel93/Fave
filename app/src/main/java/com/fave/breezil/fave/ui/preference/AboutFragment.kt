@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentAboutBinding
-import dagger.android.support.DaggerFragment
+import dagger.hilt.android.AndroidEntryPoint
 import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
 import java.util.*
 
 
-class AboutFragment : DaggerFragment() {
+@AndroidEntryPoint
+class AboutFragment : Fragment() {
 
   lateinit var binding: FragmentAboutBinding
 
@@ -59,7 +61,7 @@ class AboutFragment : DaggerFragment() {
   }
   private fun goBack(){
     binding.backPressed.setOnClickListener{
-      fragmentManager!!.popBackStack();
+      requireActivity().supportFragmentManager.popBackStack();
     }
   }
 }
