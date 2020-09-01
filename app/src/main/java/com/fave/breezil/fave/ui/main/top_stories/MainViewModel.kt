@@ -18,7 +18,10 @@ package com.fave.breezil.fave.ui.main.top_stories
 import android.content.Context
 import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.asLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.fave.breezil.fave.model.Article

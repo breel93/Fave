@@ -145,7 +145,7 @@ class MainActivity : BaseActivity(), FragmentOpenedListener, PrefFragment.ApplyT
           R.anim.fragment_pop_slide_in,
           R.anim.fragment_pop_slide_out
         )
-        .add(R.id.parent_container, fragment)
+        .replace(R.id.parent_container, fragment)
         .addToBackStack("about_fragment")
         .commit()
     }

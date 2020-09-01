@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package com.fave.breezil.fave.repository.headlines
+package com.fave.breezil.fave.repository
 
-import com.fave.breezil.fave.api.BaseDataSource
 import com.fave.breezil.fave.api.EndPointRepository
 import com.fave.breezil.fave.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,7 +44,4 @@ internal constructor(private var endpointRepository: EndPointRepository) {
     }
 
   }.flowOn(Dispatchers.IO)
-
-
-
 }

@@ -52,31 +52,31 @@
           app:layout_constraintStart_toEndOf="@+id/materialCardView"
           app:layout_constraintTop_toTopOf="@+id/materialCardView" />
 
-      <TextView
-          android:id="@+id/sources_text"
+      <LinearLayout
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginStart="4dp"
-          android:layout_marginTop="8dp"
-          android:text="CNN"
-          android:textColor="?attr/secondarytextcolor"
-          android:textSize="@dimen/twelveSP"
-          app:layout_constraintStart_toEndOf="@+id/timeCreated"
-          app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
-
-      <TextView
-          android:id="@+id/timeCreated"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="4dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginEnd="8dp"
-          android:textColor="?attr/secondarytextcolor"
-          android:text="20h ago |"
-          android:textSize="@dimen/twelveSP"
-          app:layout_constraintEnd_toStartOf="@+id/sources_text"
+          android:orientation="horizontal"
+          android:layout_margin="5dp"
           app:layout_constraintStart_toEndOf="@+id/materialCardView"
-          app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
+          app:layout_constraintTop_toBottomOf="@+id/articleTitle">
+        <TextView
+            android:id="@+id/timeCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/secondarytextcolor"
+            android:text="20h ago |"
+            android:textSize="@dimen/twelveSP" />
+        <TextView
+            android:id="@+id/sources_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="CNN"
+            android:textColor="?attr/secondarytextcolor"
+            android:textSize="@dimen/twelveSP" />
+
+      </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
   </com.google.android.material.card.MaterialCardView>
 

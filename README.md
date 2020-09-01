@@ -47,29 +47,27 @@ Stay up-to-date on all your favourite topics with Fave. Search for anything and 
 
 With Fave, you get an in-depth knowledge of global events and you don’t miss out on trending topics.
 
-![Screenshot][product-screenshot]
-
 ### Features
 *	Explore any kind of news  
 *	Save news to bookmark
 *	Read full article from news source
-* Share news on social media
+*   Share news on social media
 
 ### Built With
 * [Kotlin](https://kotlinlang.org/)
-* [Dagger2](https://google.github.io/dagger/)
-* [RxJava2](https://github.com/ReactiveX/RxJava)
+* [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+* [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
 * [NewsApi](https://newsapi.org)
 
 ### Dependecies
-- [Jetpack]()
+- [Jetpack](https://developer.android.com/jetpack)
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
   - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
   - [Data Binding](https://developer.android.com/topic/libraries/data-binding/)
   - [Room](https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#0)
-  - [Paging-Library](https://developer.android.com/topic/libraries/architecture/paging/)
-  - [Dagger](https://google.github.io/dagger/)
-- [Rxjava](https://github.com/ReactiveX/RxJava)
+  - [Paging-Library](https://developer.android.com/topic/libraries/architecture/paging/) 
+- [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+- [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
 - [Retrofit](https://square.github.io/retrofit/)
 - [Glide](https://github.com/bumptech/glide)
 - [OkHttp](https://square.github.io/okhttp/)

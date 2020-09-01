@@ -25,7 +25,6 @@
           android:layout_marginTop="8dp"
           android:layout_marginBottom="4dp"
           android:text="Title"
-          android:textAllCaps="true"
           android:textColor="?attr/primarytextcolor"
           android:textSize="@dimen/twentyySP"
           android:textStyle="bold"

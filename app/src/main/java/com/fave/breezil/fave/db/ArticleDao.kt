@@ -32,9 +32,6 @@ interface ArticleDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(article: Article)
 
-  @Query("DELETE FROM article_table")
-  suspend fun deleteAllArticle()
-
   @Query("SELECT * FROM article_table where id = :id")
   suspend fun getArticleById(id : Int) : Article
 

@@ -12,7 +12,7 @@ android {
         applicationId "com.fave.breezil.fave"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
-        versionCode 5
+        versionCode 6
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -120,8 +120,6 @@ dependencies {
 
     //facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     //About
     implementation 'com.github.medyo:android-about-page:' + versions.aboutPage

@@ -39,44 +39,42 @@
           android:id="@+id/articleTitle"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_marginStart="@dimen/fiveDP"
-          android:layout_marginEnd="@dimen/fiveDP"
+          android:layout_marginStart="@dimen/eightDP"
+          android:layout_marginEnd="@dimen/eightDP"
           android:ellipsize="end"
           android:maxLines="4"
           android:text="@string/dummy_text"
           android:textAlignment="textStart"
           android:textColor="?attr/primarytextcolor"
           android:textSize="@dimen/twentyTwoSP"
-          app:layout_constraintBottom_toTopOf="@+id/sources_text"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toEndOf="@+id/materialCardView"
           app:layout_constraintTop_toTopOf="@+id/materialCardView" />
 
-      <TextView
-          android:id="@+id/sources_text"
+      <LinearLayout
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginTop="8dp"
-          android:text="CNN"
-          android:textColor="?attr/secondarytextcolor"
-          android:textSize="@dimen/fourteenSP"
-          app:layout_constraintStart_toEndOf="@+id/timeCreated"
-          app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
-
-      <TextView
-          android:id="@+id/timeCreated"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="4dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginEnd="8dp"
-          android:textColor="?attr/secondarytextcolor"
-          android:text="20h ago |"
-          android:textSize="@dimen/fourteenSP"
-          app:layout_constraintEnd_toStartOf="@+id/sources_text"
+          android:orientation="horizontal"
+          android:layout_margin="@dimen/eightDP"
           app:layout_constraintStart_toEndOf="@+id/materialCardView"
-          app:layout_constraintTop_toBottomOf="@+id/articleTitle" />
+          app:layout_constraintTop_toBottomOf="@+id/articleTitle">
+        <TextView
+            android:id="@+id/timeCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/secondarytextcolor"
+            android:text="20h ago |"
+            android:textSize="@dimen/eighteenSP" />
+        <TextView
+            android:id="@+id/sources_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="CNN"
+            android:textColor="?attr/secondarytextcolor"
+            android:textSize="@dimen/eighteenSP" />
+
+      </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
   </com.google.android.material.card.MaterialCardView>
 

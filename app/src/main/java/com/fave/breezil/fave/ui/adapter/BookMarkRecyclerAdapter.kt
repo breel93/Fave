@@ -55,11 +55,6 @@ class BookMarkRecyclerAdapter(
     holder.bind(bookMark, listener, longClickListener)
   }
 
-  fun getBookMarkAt(position: Int): Article {
-    return getItem(position)
-  }
-
-
   inner class BookMarkHolder(var binding: ArticleItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(

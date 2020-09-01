@@ -15,7 +15,6 @@
 */
 package com.fave.breezil.fave.ui.bottom_sheets
 
-import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.text.Html
@@ -91,7 +90,7 @@ class DescriptionBottomSheetFragment : BottomSheetDialogFragment() {
       )
       .into(binding.articleImage)
     binding.articleDescriptions.text = article.description
-    binding.articleTitle.text = Html.fromHtml(article.title, null, HtmlTagHandler())
+    binding.articleTitle.text = Html.fromHtml (article.title, null, HtmlTagHandler())
     binding.articleSource.text = article.source!!.name
     binding.publishedAt.text = article.publishedAt!!.asTimeAgo(requireContext().resources) + " |"
   }
