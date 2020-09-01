@@ -17,6 +17,7 @@ package com.fave.breezil.fave.ui.adapter
 
 import android.content.Context
 import android.content.res.Resources
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,6 +32,7 @@ import com.fave.breezil.fave.ui.callbacks.ArticleLongClickListener
 import com.fave.breezil.fave.databinding.BreakingNewsItemBinding
 import com.fave.breezil.fave.model.Article
 import com.fave.breezil.fave.utils.getTimeAgo
+import com.fave.breezil.fave.utils.helpers.HtmlTagHandler
 import java.util.*
 
 class BreakingNewsRecyclerAdapter(
@@ -88,7 +90,7 @@ class BreakingNewsRecyclerAdapter(
         )
         .into(binding.articleImage)
 
-      binding.articleTitle.text = article.title
+      binding.articleTitle.text = Html.fromHtml (article.title, null, HtmlTagHandler())
       binding.sourcesText.text = article.source!!.name
       binding.timeCreated.text = article.publishedAt!!.asTimeAgo(mContext.resources) + " |"
     }

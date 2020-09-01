@@ -81,14 +81,14 @@ class CategoryArticlesFragment : Fragment() {
 
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
     country =
-      sharedPreferences.getString(getString(R.string.country_key), getString(R.string.blank))
+      sharedPreferences.getString(getString(R.string.country_key), getString(R.string.us))
     setUpAdapter()
     setUpViewModel(category!!)
     goBack()
     openedListener.isOpened(true)
     binding.shimmerViewContainer.startShimmer()
     binding.swipeRefresh.setOnRefreshListener { setUpViewModel(category!!) }
-
+    binding.categoryText.text = category!!.capitalize()
     return binding.root
   }
   override fun onAttach(context: Context) {
@@ -136,7 +136,6 @@ class CategoryArticlesFragment : Fragment() {
 
   private fun setUpViewModel(category: String) {
     setupLoading()
-    binding.categoryText.text = category
     binding.swipeRefresh.visibility = View.VISIBLE
     binding.swipeRefresh.setColorSchemeResources(
       R.color.colorAccent, R.color.hotPink

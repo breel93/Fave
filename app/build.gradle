@@ -121,8 +121,6 @@ dependencies {
     //facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
-
     //About
     implementation 'com.github.medyo:android-about-page:' + versions.aboutPage
     implementation('com.mikepenz:aboutlibraries:' + versions.aboutLibraries) {

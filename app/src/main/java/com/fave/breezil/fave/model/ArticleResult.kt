@@ -28,6 +28,4 @@ data class ArticleResult(
 
   @SerializedName("articles")
   var articles: List<Article>
-){
-  fun ArticleResult() {}
-}
+)

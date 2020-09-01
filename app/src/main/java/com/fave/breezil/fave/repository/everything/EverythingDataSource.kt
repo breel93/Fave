@@ -73,7 +73,6 @@ constructor(
     }
   }
 
-
   private fun fetchData(query: String, sources: String, sortBy: String,
                         from: String, to: String, language: String, pageSize: Int,
                         page: Int, callback: (List<Article>) -> Unit){

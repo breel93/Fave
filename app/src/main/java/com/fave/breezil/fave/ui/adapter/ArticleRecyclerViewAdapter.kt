@@ -209,7 +209,6 @@ class ArticleRecyclerViewAdapter(
         .into(binding.articleImage)
 
 
-
       if (article.source != null) {
         binding.sourcesText.text = article.source!!.name
       }

@@ -19,7 +19,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import com.fave.breezil.fave.repository.headlines.SourceRepository
+import com.fave.breezil.fave.repository.SourceRepository
 import com.fave.breezil.fave.utils.LiveCoroutinesViewModel
 
 class SourcesViewModel @ViewModelInject

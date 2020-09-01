@@ -480,7 +480,7 @@
   <string name="chinese">Chinese</string>
 
 
-  <string name="about_description">FavNews an awesome app.\n\n Where you can keep up on your latest and favorite world news from any cable source around the world, Build with Android Architecture Components(MVVM), also implemented Dagger2. This app let you sortby your favorite news source and mark news as bookmark to read later. \n\n Made with love by Kola Emiola and Api by NewsApi.org </string>
+  <string name="about_description">Made with Love by Kola Emiola. \n API from NewsAPI</string>
   <string name="contacts">Contact</string>
   <string name="email">kolajubril@gmail.com</string>
   <string name="email_title">Email</string>
@@ -537,5 +537,6 @@
   <string name="time_ago_hours">%1$s hours ago</string>
   <string name="time_ago_yesterday">yesterday</string>
   <string name="time_ago_days">%1$s days ago</string>
+  <string name="libs_text">Libraries</string>
 
 </resources>

@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentAboutBinding
+import com.mikepenz.aboutlibraries.Libs.ActivityStyle
+import com.mikepenz.aboutlibraries.LibsBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
-import java.util.*
+import java.util.Calendar
 
 
 @AndroidEntryPoint
@@ -56,12 +59,26 @@ class AboutFragment : Fragment() {
       .addWebsite(getString(R.string.web), getString(R.string.website))
       .addTwitter(getString(R.string.twitter), getString(R.string.ontwitter))
       .addGitHub(getString(R.string.github), getString(R.string.ongithub))
+      .addItem(getLibElement())
       .addItem(copyRights)
       .create()
   }
+
+  private fun getLibElement(): Element? {
+    val libElement = Element()
+    libElement.title = getString(R.string.open_source_libs)
+    libElement.onClickListener = View.OnClickListener {
+      LibsBuilder()
+        .withActivityStyle(ActivityStyle.LIGHT_DARK_TOOLBAR)
+        .withActivityTitle(getString(R.string.libs_text))
+        .withAutoDetect(true)
+        .start(requireContext())
+    }
+    return libElement
+  }
   private fun goBack(){
     binding.backPressed.setOnClickListener{
-      requireActivity().supportFragmentManager.popBackStack();
+      requireActivity().supportFragmentManager.popBackStack()
     }
   }
 }

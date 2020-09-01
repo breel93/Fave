@@ -94,7 +94,7 @@ class ParentCategoryRecyclerAdapter(
     RecyclerView.ViewHolder(binding.root) {
     fun bind(parentModel: ParentModel, seeMoreClickListener: SeeMoreClickListener) {
       binding.moreItemText.setOnClickListener { seeMoreClickListener.showMoreCategory(parentModel.title!!) }
-      binding.parentTitleText.text = parentModel.title
+      binding.parentTitleText.text = parentModel.title!!.capitalize()
 
       val articles = parentModel.articles
 

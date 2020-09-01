@@ -20,12 +20,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.fave.breezil.fave.R
 import com.fave.breezil.fave.databinding.FragmentMainBinding
@@ -79,7 +77,8 @@ class MainFragment : Fragment() {
     )
     binding.shimmerViewContainer.startShimmer()
 
-//    binding.swipeRefresh.setOnRefreshListener { setupViewModel() }
+    binding.swipeRefresh.setOnRefreshListener {
+    }
 
     return binding.root
   }
@@ -127,7 +126,7 @@ class MainFragment : Fragment() {
       articleLongClickListener,
       seeMoreClickListener
     )
-    binding.mainRecyclerView.adapter = parentCategoryRecyclerAdapter
+
   }
 
   private fun setupViewModel() {
@@ -141,7 +140,9 @@ class MainFragment : Fragment() {
       .observe(viewLifecycleOwner, Observer {
         if (it && ::parentCategoryRecyclerAdapter.isInitialized) {
           parentCategoryRecyclerAdapter.setList(mArrayList)
+          binding.mainRecyclerView.adapter = parentCategoryRecyclerAdapter
           binding.shimmerViewContainer.visibility = View.GONE
+
         }
       })
     viewModel.getBreakingNewList(

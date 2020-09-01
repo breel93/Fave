@@ -39,24 +39,7 @@ class BookMarkRepositoryTest {
 
   @Test
   fun getBookMarks() = runBlocking{
-//    // Arrange
-//    val mockTestUtil = MockTestUtil()
-//    val articles: List<Article> = mockTestUtil.mockArticleList()
-//    val liveDataTestUtil: LiveDataTestUtil<List<Article>> = LiveDataTestUtil()
-//    val returnedData: MutableLiveData<List<Article>> =
-//      MutableLiveData()
-//    returnedData.value = articles
-//
-//    Mockito.`when`(articleDao!!.allBookMarks).thenReturn(returnedData)
-//
-//    // Act
-//
-//    // Act
-//    val observedData: List<Article> =
-//      liveDataTestUtil.getValue(bookMarkRepository.getBookMarks())!!
-//
-//    // Assert
-//    assertEquals(articles, observedData)
+
   }
 
   @Test
