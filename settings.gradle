@@ -1,1 +1,8 @@
+include ':search'
+include ':shared:local'
+include ':shared:domain'
+include ':shared:remote'
 include ':app'
+include ':shared:core'
+include ':shared:utils'
+include ':shared:data'

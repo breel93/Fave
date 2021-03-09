@@ -1,0 +1,11 @@
+plugins {
+  id 'kotlin'
+}
+dependencies {
+  implementation project(':shared:core')
+  implementation deps.kotlin
+  implementation deps.javaxInject
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

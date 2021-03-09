@@ -1,0 +1,18 @@
+plugins {
+  id 'java-library'
+  id 'kotlin'
+  id 'kotlin-kapt'
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_7
+  targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+  implementation project(':shared:domain')
+  implementation project(':shared:core')
+  implementation deps.kotlin
+  implementation deps.hiltCore
+  kapt deps.hiltCompiler
+}

@@ -3,7 +3,7 @@ package com.fave.breezil.fave.model
 import androidx.room.TypeConverter
 import java.util.Date
 
-class Converters {
+class Converter {
 
   @TypeConverter
   fun fromTimestamp(value: Long?): Date? {

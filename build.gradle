@@ -1,8 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: './versionsPlugin.gradle'
-
 buildscript {
-  apply from: './dependencies.gradle'
+  apply from: rootProject.file("dependencies.gradle")
+
   repositories {
     google()
     jcenter()
@@ -11,12 +10,13 @@ buildscript {
     }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin
-    classpath 'android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0'
-    classpath 'com.google.dagger:hilt-android-gradle-plugin:' + versions.daggerHiltAndroidVersion
-    classpath 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin
-    classpath 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionPlugin
+    classpath rootDeps.gradlePlugin
+    classpath rootDeps.versionPlugin
+    classpath rootDeps.kotlin
+    classpath rootDeps.spotlessPlugin
+    classpath rootDeps.daggerHiltGradlePlugin
+    classpath rootDeps.safeArgsPlugin
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21'
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files.
   }

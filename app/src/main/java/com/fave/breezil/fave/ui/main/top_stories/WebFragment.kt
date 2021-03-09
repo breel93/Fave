@@ -50,7 +50,7 @@ class WebFragment : Fragment() {
           binding.articleProgressBar.isGone = true
         }
       }
-      loadUrl(article.url)
+      loadUrl(article.url!!)
     }
     binding.articleTitleText.text = article.title
   }
@@ -66,7 +66,7 @@ class WebFragment : Fragment() {
   }
   private fun goBack(){
     binding.backPressed.setOnClickListener{
-      requireActivity().supportFragmentManager.popBackStack();
+      requireActivity().supportFragmentManager.popBackStack()
     }
   }
 }

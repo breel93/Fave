@@ -68,6 +68,7 @@ With Fave, you get an in-depth knowledge of global events and you don’t miss o
   - [Paging-Library](https://developer.android.com/topic/libraries/architecture/paging/) 
 - [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 - [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
+- [Kotlin Coroutines Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/)
 - [Retrofit](https://square.github.io/retrofit/)
 - [Glide](https://github.com/bumptech/glide)
 - [OkHttp](https://square.github.io/okhttp/)

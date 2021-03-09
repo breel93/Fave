@@ -538,5 +538,6 @@
   <string name="time_ago_yesterday">yesterday</string>
   <string name="time_ago_days">%1$s days ago</string>
   <string name="libs_text">Libraries</string>
+  <string name="title_search">Search</string>
 
 </resources>

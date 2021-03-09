@@ -34,8 +34,6 @@
           android:maxLines="3"
           android:text="@string/dummy_text"
           android:textColor="?attr/secondarytextcolor"
-          android:textSize="@dimen/twentyySP"
-          app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/source_and_date" />

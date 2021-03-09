@@ -1,4 +1,3 @@
-apply from: '../dependencies.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -6,157 +5,158 @@ apply plugin: "kotlin-kapt"
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
-    defaultConfig {
-        applicationId "com.fave.breezil.fave"
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.compileSdk
-        versionCode 6
-        versionName "1.0.1"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  compileSdkVersion versions.compileSdk
+  buildToolsVersion versions.buildTools
+  defaultConfig {
+    applicationId "com.fave.breezil.fave"
+    minSdkVersion versions.minSdk
+    targetSdkVersion versions.compileSdk
+    versionCode 6
+    versionName "1.0.1"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "NEWS_API_KEY", NEWS_API_KEY)
-        buildConfigField("String", "BASE_URL", BASE_URL)
+    buildConfigField("String", "NEWS_API_KEY", NEWS_API_KEY)
+    buildConfigField("String", "BASE_URL", BASE_URL)
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+  }
 
-    android {
-        lintOptions {
-            abortOnError false
-        }
+  android {
+    lintOptions {
+      abortOnError false
     }
+  }
 
-    androidExtensions {
-        experimental = true
-    }
-    dataBinding {
-        enabled = true
-    }
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
+  androidExtensions {
+    experimental = true
+  }
+  dataBinding {
+    enabled = true
+  }
+  compileOptions {
+    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_1_8.toString()
+  }
+  dynamicFeatures = [':search']
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //Support
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
-    implementation 'androidx.appcompat:appcompat:' + versions.androidxCore
-    implementation 'androidx.core:core-ktx:' + versions.androidxCore
-    implementation 'androidx.recyclerview:recyclerview:' + versions.androidxRecyclerView
-    implementation 'com.google.android.material:material:' + versions.androidxMaterial
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  //Support
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
+  implementation 'androidx.appcompat:appcompat:' + versions.androidxCore
+  implementation 'androidx.core:core-ktx:' + versions.androidxCore
+  implementation 'androidx.recyclerview:recyclerview:' + versions.androidxRecyclerView
+  implementation 'com.google.android.material:material:' + versions.androidxMaterial
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation 'com.mikhaellopez:rxanimation:1.0.0'
+  implementation "androidx.preference:preference-ktx:1.1.1"
+  implementation 'com.mikhaellopez:rxanimation:1.0.0'
 
-    //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:' + versions.retrofit
-    implementation 'com.squareup.retrofit2:converter-gson:' + versions.retrofit
-    implementation 'com.google.code.gson:gson:' + versions.gson
+  //retrofit
+  implementation 'com.squareup.retrofit2:retrofit:' + versions.retrofit
+  implementation 'com.squareup.retrofit2:converter-gson:' + versions.retrofit
+  implementation 'com.google.code.gson:gson:' + versions.gson
 
-    //arch component
-    implementation 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:' + versions.lifecycle
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:' + versions.lifecycle
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:' + versions.lifecycle
-    kapt 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle
+  //arch component
+  implementation 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle
+  implementation 'androidx.lifecycle:lifecycle-livedata-ktx:' + versions.lifecycle
+  implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:' + versions.lifecycle
+  implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:' + versions.lifecycle
+  kapt 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.browser:browser:1.2.0'
-    //room
-    implementation 'androidx.room:room-runtime:' + versions.room
-    implementation 'androidx.room:room-ktx:' + versions.room
-    kapt 'androidx.room:room-compiler:' + versions.room
+  implementation 'androidx.appcompat:appcompat:1.1.0'
+  implementation 'androidx.browser:browser:1.2.0'
+  //room
+  implementation 'androidx.room:room-runtime:' + versions.room
+  implementation 'androidx.room:room-ktx:' + versions.room
+  kapt 'androidx.room:room-compiler:' + versions.room
 
-    //paging Library
-    implementation 'androidx.paging:paging-runtime:' + versions.paging
+  //paging Library
+  implementation 'androidx.paging:paging-runtime:' + versions.paging
 
-    //coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:' + versions.coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines
+  //coroutines
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:' + versions.coroutines
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines
 
-    // hilt
-    implementation 'com.google.dagger:hilt-android:' + versions.daggerHiltAndroidVersion
-    implementation 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion
-    implementation 'androidx.hilt:hilt-common:' + versions.daggerHiltVersion
-    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:' + versions.daggerHiltVersion
-    kapt 'com.google.dagger:hilt-android-compiler:' + versions.daggerHiltAndroidVersion
-    kapt 'androidx.hilt:hilt-compiler:' + versions.daggerHiltVersion
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:' +versions.daggerHiltAndroidVersion
-
-
-    //glide
-    implementation 'com.github.bumptech.glide:glide:' + versions.glide
-    kapt 'com.github.bumptech.glide:compiler:' + versions.glide
+  // hilt
+  implementation 'com.google.dagger:hilt-android:' + versions.daggerHiltAndroidVersion
+  implementation 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion
+  implementation 'androidx.hilt:hilt-common:' + versions.daggerHiltVersion
+  implementation 'androidx.hilt:hilt-lifecycle-viewmodel:' + versions.daggerHiltVersion
+  kapt 'com.google.dagger:hilt-android-compiler:' + versions.daggerHiltAndroidVersion
+  kapt 'androidx.hilt:hilt-compiler:' + versions.daggerHiltVersion
+  androidTestImplementation 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion
+  kaptAndroidTest 'com.google.dagger:hilt-android-compiler:' + versions.daggerHiltAndroidVersion
 
 
-    //okhttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:' + versions.okhttp
-    implementation 'com.squareup.okhttp3:okhttp:' + versions.okhttp
+  //glide
+  implementation 'com.github.bumptech.glide:glide:' + versions.glide
+  kapt 'com.github.bumptech.glide:compiler:' + versions.glide
 
-    implementation 'com.jakewharton.timber:timber:' + versions.timber
 
-    //navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:' + versions.navigation
-    implementation 'androidx.navigation:navigation-ui:' + versions.navigation
+  //okhttp
+  implementation 'com.squareup.okhttp3:logging-interceptor:' + versions.okhttp
+  implementation 'com.squareup.okhttp3:okhttp:' + versions.okhttp
 
-    //transitions
-    implementation 'androidx.transition:transition:' + versions.transition
+  implementation 'com.jakewharton.timber:timber:' + versions.timber
 
-    implementation 'com.mikhaellopez:rxanimation:1.0.0'
+  //navigation
+  implementation 'androidx.navigation:navigation-fragment-ktx:' + versions.navigation
+  implementation 'androidx.navigation:navigation-ui:' + versions.navigation
 
-    //facebook shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+  //transitions
+  implementation 'androidx.transition:transition:' + versions.transition
 
-    //About
-    implementation 'com.github.medyo:android-about-page:' + versions.aboutPage
-    implementation('com.mikepenz:aboutlibraries:' + versions.aboutLibraries) {
-        transitive = true
-    }
+  implementation 'com.mikhaellopez:rxanimation:1.0.0'
 
-    //Test
-    testImplementation 'junit:junit:' + versions.junit
-    testImplementation 'org.mockito:mockito-core:' + versions.mockitoVersion
-    testImplementation 'org.robolectric:robolectric:' + versions.robolectric
-    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:' + versions.mockitoKotlin
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' + versions.coroutines
-    testImplementation 'app.cash.turbine:turbine:' + versions.turbineVersion
+  //facebook shimmer
+  implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+  //About
+  implementation 'com.github.medyo:android-about-page:' + versions.aboutPage
+  implementation('com.mikepenz:aboutlibraries:' + versions.aboutLibraries) {
+    transitive = true
+  }
 
-    // For instrumentation testing
-    testImplementation 'androidx.test:core:' + versions.androidxCore
-    testImplementation 'androidx.arch.core:core-testing:' + versions.arch_core_testing
+  //Test
+  testImplementation 'junit:junit:' + versions.junit
+  testImplementation 'org.mockito:mockito-core:' + versions.mockitoVersion
+  testImplementation 'org.robolectric:robolectric:' + versions.robolectric
+  testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:' + versions.mockitoKotlin
+  testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines
+  testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' + versions.coroutines
+  testImplementation 'app.cash.turbine:turbine:' + versions.turbineVersion
 
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:$' + versions.espresso
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:' + versions.espresso
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:' + versions.espresso
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    testImplementation 'androidx.test:runner:1.2.0'
-    testImplementation 'androidx.test.ext:junit:1.1.1'
-    testImplementation 'androidx.test:core:1.2.0'
-    testImplementation 'org.robolectric:robolectric:4.3.1'
+  androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:4.3.1'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
+  // For instrumentation testing
+  testImplementation 'androidx.test:core:' + versions.androidxCore
+  testImplementation 'androidx.arch.core:core-testing:' + versions.arch_core_testing
+
+  androidTestImplementation 'androidx.test:runner:1.2.0'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:$' + versions.espresso
+  androidTestImplementation 'androidx.test.espresso:espresso-intents:' + versions.espresso
+  androidTestImplementation 'androidx.test.espresso:espresso-contrib:' + versions.espresso
+  androidTestImplementation 'androidx.test:rules:1.2.0'
+  androidTestImplementation 'androidx.test:runner:1.2.0'
+  testImplementation 'androidx.test:runner:1.2.0'
+  testImplementation 'androidx.test.ext:junit:1.1.1'
+  testImplementation 'androidx.test:core:1.2.0'
+  testImplementation 'org.robolectric:robolectric:4.3.1'
+
+  testImplementation 'com.squareup.okhttp3:mockwebserver:4.3.1'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
 
 }
 
-apply from: '../spotless.gradle'
+apply from: rootProject.file('gradle/spotless.gradle')

@@ -1,80 +1,152 @@
-ext.versions = [
-        // Project
-        minSdk                      : 21,
-        compileSdk                  : 29,
-        buildTools                  : '29.0.2',
-
-        // Plugins
-        gradlePlugin                : '4.0.1',
-        spotlessPlugin              : '5.1.1',
-        versionPlugin               : '0.27.0',
-
-        // AndroidX
-        androidxCore                : '1.1.0',
-        androidxAnnotation          : '1.1.0',
-        androidxRecyclerView        : '1.1.0',
-        androidxMaterial            : '1.0.0',
-        lifecycle                   : '2.2.0',
-        workVersion                 : '2.1.0',
-        stetho                      : '1.5.1',
-
-        // kotlin
-        kotlin                      : '1.4.0',
-        coroutines                  : '1.3.7',
-
-        //dagger
-        daggerHiltAndroidVersion    : '2.28.3-alpha',
-        daggerHiltVersion           : '1.0.0-alpha02',
-
-        //glide
-        glide                       : '4.11.0',
-
-        //arch
-        arch                        : '2.1.0',
-
-        //paging
-        paging                      : '2.1.1',
-
-        //room
-        room                        : '2.2.3',
-
-        //square
-        retrofit                    : '2.7.1',
-        timber                      : '4.7.1',
-        okhttp                      : '4.3.1',
-
-        //gson
-        gson                        : '2.8.6',
-
-        //navigation
-        navigation                  : '2.2.0',
-
-        //transitions
-        transition                  : '1.3.1',
-
-        //about
-        aboutPage                   : '1.2.5',
-        aboutLibraries              : '7.1.0',
+ext {
+  versions = [
+      // Project
+      minSdk                  : 21,
+      compileSdk              : 30,
+      buildTools              : '30.0.2',
 
 
-        //places
-        places                      : '2.2.0',
+      gradlePlugin            : '4.0.1',
+      spotlessPlugin          : '5.1.1',
+      versionPlugin           : '0.27.0',
+      androidxLegacy      : '1.0.0',
+      constraintLayout    : '1.1.3',
+      fragmentKtx         : '1.2.5',
+      fragmentTest        : '1.3.0-beta01',
+      androidxCore            : '1.1.0',
+      androidxAnnotation      : '1.1.0',
+      androidxRecyclerView    : '1.1.0',
+      androidxMaterial        : '1.0.0',
+      lifecycle               : '2.2.0',
+      workVersion             : '2.1.0',
+      stetho                  : '1.5.1',
+      material                : '1.2.0',
+      coroutines_android      : '1.3.2',
+      kotlin                  : '1.4.0',
+      coroutines              : '1.3.7',
+      daggerHiltAndroidVersion: '2.33-beta',
+      daggerHiltVersion       : '1.0.0-alpha02',
+      glide                   : '4.11.0',
+      arch                    : '2.1.0',
+      paging                  : '2.1.1',
+      room                    : '2.2.3',
+      retrofit                : '2.7.1',
+      timber                  : '4.7.1',
+      okhttp                  : '4.3.1',
+      moshi                   : '2.7.0',
+      kotlinMoshi             : '1.9.2',
+      gson                    : '2.8.6',
+      navigation              : '2.2.0',
+      transition              : '1.3.1',
+      aboutPage               : '1.2.5',
+      aboutLibraries          : '7.1.0',
+      chromeTabs              : '1.0.0',
+      javaxInject              : '1',
 
-        // jsoup
-        jsoup                       : '1.12.1',
+      //test
+      junit                   : '4.12',
+      espresso                : '3.2.0',
+      arch_core_testing       : '2.1.0',
+      mockitoVersion          : '3.2.4',
+      mockitoKotlin           : '2.2.0',
+      robolectric             : '4.3.1',
+      turbineVersion          : '0.2.1',
+      testCoreVersion         : '1.1.0',
+      testRunnerVersion       : '1.1.1',
+      testRulesVersion        : '1.1.1',
+      mockwebserver       : '4.7.0',
+      googleTruth         : '1.0',
+      junitExtension      : '1.1.2',
+      runnerVersion       : '1.2.0',
+      robolectricVersion  : '4.3',
 
-        // chrome custom tabs
-        chromeTabs                  : '1.0.0',
+  ]
+  rootDeps = [
+      gradlePlugin  : 'com.android.tools.build:gradle:' + versions.gradlePlugin,
+      kotlin        : 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin,
+      spotlessPlugin: 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin,
+      daggerHiltGradlePlugin :'com.google.dagger:hilt-android-gradle-plugin:' + versions.daggerHiltAndroidVersion,
+      versionPlugin: 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionPlugin,
+      safeArgsPlugin :'androidx.navigation:navigation-safe-args-gradle-plugin:' + versions.navigation
+  ]
+  deps = [
+      kotlin                : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin,
+      appcompat             : 'androidx.appcompat:appcompat:' + versions.androidxCore,
+      androidxCore          : 'androidx.appcompat:appcompat:' + versions.androidxCore,
+      androidxLegacy        : 'androidx.legacy:legacy-support-v4:' + versions.androidxLegacy,
+      constraintLayout      : 'androidx.constraintlayout:constraintlayout:' + versions.constraintLayout,
 
-        //test
-        junit                       : '4.12',
-        espresso                    : '3.2.0',
-        arch_core_testing           : '2.1.0',
-        mockitoVersion              : '3.2.4',
-        mockitoKotlin               : '2.2.0',
-        robolectric                 : '4.3.1',
-        turbineVersion              : '0.2.1',
-        testCoreVersion             : '1.1.0',
-        testRunnerVersion           : '1.1.1',
-        testRulesVersion            : '1.1.1',
-]
+      //arch component
+      lifecycleExt       : 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle,
+      lifecycleCompiler  : 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle,
+      livedataKtx        : 'androidx.lifecycle:lifecycle-livedata-ktx:' + versions.lifecycle,
+      viewModelKtx       : 'androidx.lifecycle:lifecycle-viewmodel-ktx:' + versions.lifecycle,
+      viewmodelSavedstate: 'androidx.lifecycle:lifecycle-viewmodel-savedstate:' + versions.lifecycle,
+      fragmentKtx: 'androidx.fragment:fragment-ktx:' + versions.fragmentKtx,
+
+      googleMaterial        : 'com.google.android.material:material:' + versions.material,
+
+
+      //navigation
+      navigationFragment    : 'androidx.navigation:navigation-fragment-ktx:' + versions.navigation,
+      navigationUI          : 'androidx.navigation:navigation-ui:' + versions.navigation,
+      viewPager2            :'androidx.viewpager2:viewpager2:' + versions.androidxLegacy,
+
+      // dagger-hilt
+      hiltAndroid : 'com.google.dagger:hilt-android:' + versions.daggerHiltAndroidVersion,
+      hiltCore : 'com.google.dagger:hilt-core:' + versions.daggerHiltAndroidVersion,
+      hiltAndroidTesting : 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion,
+      hiltCommon: 'androidx.hilt:hilt-common:' + versions.daggerHiltVersion,
+      hiltLifecycleViewModel: 'androidx.hilt:hilt-lifecycle-viewmodel:' + versions.daggerHiltVersion,
+      hiltAndroidCompiler: 'com.google.dagger:hilt-android-compiler:' + versions.daggerHiltAndroidVersion,
+      hiltCompiler: 'androidx.hilt:hilt-compiler:' + versions.daggerHiltVersion,
+      javaxInject: 'javax.inject:javax.inject:' + versions.javaxInject,
+
+
+      //glide
+      glide                 : 'com.github.bumptech.glide:glide:' + versions.glide,
+      glideCompiler         : 'com.github.bumptech.glide:compiler:' + versions.glide,
+
+      //okhttp
+      loggingInterceptor    : 'com.squareup.okhttp3:logging-interceptor:' + versions.okhttp,
+      okhttp                : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
+      timber                : 'com.jakewharton.timber:timber:' + versions.timber,
+
+      //retrofit
+      retrofit              : 'com.squareup.retrofit2:retrofit:' + versions.retrofit,
+      moshi                 : 'com.squareup.retrofit2:converter-moshi:' + versions.moshi,
+      kotlinMoshi           : 'com.squareup.moshi:moshi-kotlin:' + versions.kotlinMoshi,
+      kotlinMoshiGen        : 'com.squareup.moshi:moshi-kotlin-codegen:' + versions.kotlinMoshi,
+
+      //room
+      roomRuntime           : 'androidx.room:room-runtime:' + versions.room,
+      roomCompiler          : 'androidx.room:room-compiler:' + versions.room,
+      roomKtx               : 'androidx.room:room-ktx:' + versions.room,
+
+      //coroutines
+      coroutines            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:' + versions.coroutines,
+      coroutinesAndroid     : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines_android,
+
+  ]
+  testDeps = [
+      junit           : 'junit:junit:' + versions.junit,
+      mockitoVersion  : 'org.mockito:mockito-core:' + versions.mockitoVersion,
+      mockitoKotlin   : 'com.nhaarman.mockitokotlin2:mockito-kotlin:' + versions.mockitoKotlin,
+      mockwebserver   : 'com.squareup.okhttp3:mockwebserver:' + versions.mockwebserver,
+      coroutines_test : 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' + versions.coroutines,
+      googleTruth     : 'com.google.truth:truth:' + versions.googleTruth,
+      androidxTestCore: 'androidx.test:core:' + versions.androidxCore,
+      archTesting     : 'androidx.arch.core:core-testing:' + versions.arch_core_testing,
+      runner          : 'androidx.test:runner:' + versions.runnerVersion,
+      junitExtension  : 'androidx.test.ext:junit:' + versions.junitExtension,
+      espresso        : 'androidx.test.espresso:espresso-core:' + versions.espresso,
+      roomTest        : 'androidx.room:room-testing:' + versions.room,
+      hiltAndroidTesting : 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion,
+      rules           : 'androidx.test:rules:' + versions.runnerVersion,
+      fragmentTest    : 'androidx.fragment:fragment-testing:'+ versions.fragmentTest,
+      espressoIntents       : 'androidx.test.espresso:espresso-intents:' + versions.espresso,
+      espressoContrib       : 'androidx.test.espresso:espresso-contrib:' + versions.espresso,
+      robolectric     : 'org.robolectric:robolectric:' + versions.robolectricVersion,
+      espressoIdlingResource: 'androidx.test.espresso:espresso-idling-resource:' + versions.espresso,
+  ]
+}

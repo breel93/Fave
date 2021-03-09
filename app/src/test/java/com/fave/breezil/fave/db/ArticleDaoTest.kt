@@ -2,8 +2,6 @@ package com.fave.breezil.fave.db
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.fave.breezil.fave.model.Article
-import com.fave.breezil.fave.util.LiveDataTestUtil
 import com.fave.breezil.fave.util.MockTestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
