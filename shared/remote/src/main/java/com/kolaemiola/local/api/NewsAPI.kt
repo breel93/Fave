@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-internal interface NewsAPI {
+interface NewsAPI {
   @GET("/v2/sources")
   suspend fun getSources(
       @Query("category") category: String?,

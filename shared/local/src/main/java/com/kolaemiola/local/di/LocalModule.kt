@@ -1,8 +1,12 @@
 package com.kolaemiola.local.di
 
 import android.content.Context
+import com.example.data.local.BookMarkLocal
+import com.example.data.remote.HeadLinesRemote
+import com.kolaemiola.local.local.BookMarkLocalImpl
 import com.kolaemiola.local.room.dao.ArticleDao
 import com.kolaemiola.local.room.db.ArticleDatabase
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +18,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 interface LocalModule {
+
+  @get:Binds
+  val BookMarkLocalImpl.bookMarkLocal: BookMarkLocal
 
   companion object{
     @[Provides Singleton]

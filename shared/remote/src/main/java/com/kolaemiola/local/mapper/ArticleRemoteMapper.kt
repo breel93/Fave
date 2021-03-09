@@ -5,7 +5,7 @@ import com.kolaemiola.local.mapper.base.RemoteModelMapper
 import com.kolaemiola.local.model.ArticleRemoteModel
 import javax.inject.Inject
 
-internal class ArticleRemoteMapper @Inject constructor():
+class ArticleRemoteMapper @Inject constructor():
     RemoteModelMapper<ArticleRemoteModel, Article> {
   override fun mapToData(model: ArticleRemoteModel): Article {
     return Article(title = model.title, author = model.author, description = model.description,

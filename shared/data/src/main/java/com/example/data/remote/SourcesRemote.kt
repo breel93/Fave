@@ -1,5 +1,10 @@
 package com.example.data.remote
 
-interface SourcesRemote {
+import com.example.core.model.Source
 
+interface SourcesRemote {
+  suspend fun getSource(
+      category: String, language: String, country: String
+  ):List<Source>
 }
+

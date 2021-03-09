@@ -3,7 +3,7 @@ package com.kolaemiola.local.model
 import com.squareup.moshi.Json
 import java.util.Date
 
-internal data class ArticleRemoteModel(
+data class ArticleRemoteModel(
     @field:Json(name = "title") val title: String,
     @field:Json(name = "author") val author: String?,
     @field:Json(name = "description") val description: String?,

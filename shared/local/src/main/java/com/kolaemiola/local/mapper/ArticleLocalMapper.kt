@@ -5,7 +5,7 @@ import com.kolaemiola.local.entities.ArticleEntity
 import com.kolaemiola.local.mapper.base.LocalMapper
 import javax.inject.Inject
 
-internal class ArticleLocalMapper @Inject constructor() :
+class ArticleLocalMapper @Inject constructor() :
     LocalMapper<Article, ArticleEntity> {
   override fun mapToData(entity: ArticleEntity): Article {
     return Article(title = entity.title, author = entity.author, description = entity.description,
