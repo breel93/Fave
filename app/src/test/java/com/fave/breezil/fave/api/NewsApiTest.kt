@@ -67,7 +67,7 @@ class NewsApiTest : ApiAbstract<NewsApi>(){
   @Throws(IOException::class)
   @Test
   fun getSourcesResponseTest() = runBlocking{
-    enqueueResponse("source_response.json")
+    enqueueResponse("sources_response.json")
     val sourceResult = newsApi.getSources("","en","us",NEWS_API_KEY)
     Assert.assertEquals(sourceResult.body()!!.status,"ok")
     Assert.assertEquals(sourceResult.body()!!.sources[1].id,"abc-news-au" )
