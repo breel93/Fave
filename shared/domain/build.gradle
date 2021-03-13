@@ -1,11 +1,22 @@
 plugins {
+  id 'java-library'
   id 'kotlin'
+  id 'kotlin-kapt'
 }
 dependencies {
   implementation project(':shared:core')
   implementation deps.kotlin
   implementation deps.javaxInject
+  implementation deps.coroutinesAndroid
+  implementation deps.coroutines
+  implementation deps.arrow
+  testImplementation testDeps.junit
+  testImplementation testDeps.coroutines_test
+  testImplementation testDeps.googleTruth
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_7
+  targetCompatibility = JavaVersion.VERSION_1_7
+}

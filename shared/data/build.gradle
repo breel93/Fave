@@ -15,4 +15,12 @@ dependencies {
   implementation deps.kotlin
   implementation deps.hiltCore
   kapt deps.hiltCompiler
+  implementation deps.coroutines
+  implementation deps.arrow
+  //test
+  testImplementation testDeps.junit
+  testImplementation testDeps.googleTruth
+  testImplementation testDeps.coroutines_test
+  testImplementation testDeps.mockitoVersion
+  testImplementation testDeps.mockitoKotlin
 }

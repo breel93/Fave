@@ -2,7 +2,6 @@ package com.kolaemiola.local.di
 
 import android.content.Context
 import com.example.data.local.BookMarkLocal
-import com.example.data.remote.HeadLinesRemote
 import com.kolaemiola.local.local.BookMarkLocalImpl
 import com.kolaemiola.local.room.dao.ArticleDao
 import com.kolaemiola.local.room.db.ArticleDatabase

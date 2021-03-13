@@ -43,6 +43,7 @@ dependencies {
   implementation deps.loggingInterceptor
   implementation deps.okhttp
   implementation deps.coroutines
+  implementation deps.arrow
   //test
   testImplementation testDeps.junit
   testImplementation testDeps.mockwebserver

@@ -49,4 +49,11 @@ dependencies {
 
   //coroutines
   implementation deps.coroutines
+
+  //test
+  testImplementation testDeps.junit
+  testImplementation testDeps.googleTruth
+  testImplementation testDeps.coroutines_test
+  testImplementation testDeps.mockitoVersion
+  testImplementation testDeps.mockitoKotlin
 }

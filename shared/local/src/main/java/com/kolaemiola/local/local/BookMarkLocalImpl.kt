@@ -11,7 +11,20 @@ class BookMarkLocalImpl @Inject constructor(
   private val articleLocalMapper: ArticleLocalMapper
 ): BookMarkLocal{
   override suspend fun getBookMarks(): List<Article> {
-    TODO("Not yet implemented")
+    val localArticle = articleDao.getArticles()
+    return articleLocalMapper.mapToDataList(localArticle)
+  }
+
+  override suspend fun deleteBookMark(article: Article) {
+    articleDao.delete(articleLocalMapper.mapToLocal(article))
+  }
+
+  override suspend fun saveBookMark(article: Article) {
+    articleDao.insert(articleLocalMapper.mapToLocal(article))
+  }
+
+  override suspend fun deleteAllBookMark() {
+    articleDao.deleteAll()
   }
 
 }

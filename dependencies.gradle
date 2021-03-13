@@ -5,14 +5,13 @@ ext {
       compileSdk              : 30,
       buildTools              : '30.0.2',
 
-
       gradlePlugin            : '4.0.1',
       spotlessPlugin          : '5.1.1',
       versionPlugin           : '0.27.0',
-      androidxLegacy      : '1.0.0',
-      constraintLayout    : '1.1.3',
-      fragmentKtx         : '1.2.5',
-      fragmentTest        : '1.3.0-beta01',
+      androidxLegacy          : '1.0.0',
+      constraintLayout        : '1.1.3',
+      fragmentKtx             : '1.2.5',
+      fragmentTest            : '1.3.0-beta01',
       androidxCore            : '1.1.0',
       androidxAnnotation      : '1.1.0',
       androidxRecyclerView    : '1.1.0',
@@ -41,7 +40,8 @@ ext {
       aboutPage               : '1.2.5',
       aboutLibraries          : '7.1.0',
       chromeTabs              : '1.0.0',
-      javaxInject              : '1',
+      arrowVersion            : '0.8.0',
+      javaxInject             : '1',
 
       //test
       junit                   : '4.12',
@@ -54,20 +54,20 @@ ext {
       testCoreVersion         : '1.1.0',
       testRunnerVersion       : '1.1.1',
       testRulesVersion        : '1.1.1',
-      mockwebserver       : '4.7.0',
-      googleTruth         : '1.0',
-      junitExtension      : '1.1.2',
-      runnerVersion       : '1.2.0',
-      robolectricVersion  : '4.3',
+      mockwebserver           : '4.7.0',
+      googleTruth             : '1.0',
+      junitExtension          : '1.1.2',
+      runnerVersion           : '1.2.0',
+      robolectricVersion      : '4.3',
 
   ]
   rootDeps = [
-      gradlePlugin  : 'com.android.tools.build:gradle:' + versions.gradlePlugin,
-      kotlin        : 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin,
-      spotlessPlugin: 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin,
-      daggerHiltGradlePlugin :'com.google.dagger:hilt-android-gradle-plugin:' + versions.daggerHiltAndroidVersion,
-      versionPlugin: 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionPlugin,
-      safeArgsPlugin :'androidx.navigation:navigation-safe-args-gradle-plugin:' + versions.navigation
+      gradlePlugin          : 'com.android.tools.build:gradle:' + versions.gradlePlugin,
+      kotlin                : 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin,
+      spotlessPlugin        : 'com.diffplug.spotless:spotless-plugin-gradle:' + versions.spotlessPlugin,
+      daggerHiltGradlePlugin: 'com.google.dagger:hilt-android-gradle-plugin:' + versions.daggerHiltAndroidVersion,
+      versionPlugin         : 'com.github.ben-manes:gradle-versions-plugin:' + versions.versionPlugin,
+      safeArgsPlugin        : 'androidx.navigation:navigation-safe-args-gradle-plugin:' + versions.navigation
   ]
   deps = [
       kotlin                : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin,
@@ -77,30 +77,31 @@ ext {
       constraintLayout      : 'androidx.constraintlayout:constraintlayout:' + versions.constraintLayout,
 
       //arch component
-      lifecycleExt       : 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle,
-      lifecycleCompiler  : 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle,
-      livedataKtx        : 'androidx.lifecycle:lifecycle-livedata-ktx:' + versions.lifecycle,
-      viewModelKtx       : 'androidx.lifecycle:lifecycle-viewmodel-ktx:' + versions.lifecycle,
-      viewmodelSavedstate: 'androidx.lifecycle:lifecycle-viewmodel-savedstate:' + versions.lifecycle,
-      fragmentKtx: 'androidx.fragment:fragment-ktx:' + versions.fragmentKtx,
+      lifecycleExt          : 'androidx.lifecycle:lifecycle-extensions:' + versions.lifecycle,
+      lifecycleCompiler     : 'androidx.lifecycle:lifecycle-compiler:' + versions.lifecycle,
+      livedataKtx           : 'androidx.lifecycle:lifecycle-livedata-ktx:' + versions.lifecycle,
+      viewModelKtx          : 'androidx.lifecycle:lifecycle-viewmodel-ktx:' + versions.lifecycle,
+      viewmodelSavedstate   : 'androidx.lifecycle:lifecycle-viewmodel-savedstate:' + versions.lifecycle,
+      fragmentKtx           : 'androidx.fragment:fragment-ktx:' + versions.fragmentKtx,
 
       googleMaterial        : 'com.google.android.material:material:' + versions.material,
+      arrow                 : 'io.arrow-kt:arrow-core:' + versions.arrowVersion,
 
 
       //navigation
       navigationFragment    : 'androidx.navigation:navigation-fragment-ktx:' + versions.navigation,
       navigationUI          : 'androidx.navigation:navigation-ui:' + versions.navigation,
-      viewPager2            :'androidx.viewpager2:viewpager2:' + versions.androidxLegacy,
+      viewPager2            : 'androidx.viewpager2:viewpager2:' + versions.androidxLegacy,
 
       // dagger-hilt
-      hiltAndroid : 'com.google.dagger:hilt-android:' + versions.daggerHiltAndroidVersion,
-      hiltCore : 'com.google.dagger:hilt-core:' + versions.daggerHiltAndroidVersion,
-      hiltAndroidTesting : 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion,
-      hiltCommon: 'androidx.hilt:hilt-common:' + versions.daggerHiltVersion,
+      hiltAndroid           : 'com.google.dagger:hilt-android:' + versions.daggerHiltAndroidVersion,
+      hiltCore              : 'com.google.dagger:hilt-core:' + versions.daggerHiltAndroidVersion,
+      hiltAndroidTesting    : 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion,
+      hiltCommon            : 'androidx.hilt:hilt-common:' + versions.daggerHiltVersion,
       hiltLifecycleViewModel: 'androidx.hilt:hilt-lifecycle-viewmodel:' + versions.daggerHiltVersion,
-      hiltAndroidCompiler: 'com.google.dagger:hilt-android-compiler:' + versions.daggerHiltAndroidVersion,
-      hiltCompiler: 'androidx.hilt:hilt-compiler:' + versions.daggerHiltVersion,
-      javaxInject: 'javax.inject:javax.inject:' + versions.javaxInject,
+      hiltAndroidCompiler   : 'com.google.dagger:hilt-android-compiler:' + versions.daggerHiltAndroidVersion,
+      hiltCompiler          : 'androidx.hilt:hilt-compiler:' + versions.daggerHiltVersion,
+      javaxInject           : 'javax.inject:javax.inject:' + versions.javaxInject,
 
 
       //glide
@@ -126,27 +127,26 @@ ext {
       //coroutines
       coroutines            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:' + versions.coroutines,
       coroutinesAndroid     : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines_android,
-
   ]
   testDeps = [
-      junit           : 'junit:junit:' + versions.junit,
-      mockitoVersion  : 'org.mockito:mockito-core:' + versions.mockitoVersion,
-      mockitoKotlin   : 'com.nhaarman.mockitokotlin2:mockito-kotlin:' + versions.mockitoKotlin,
-      mockwebserver   : 'com.squareup.okhttp3:mockwebserver:' + versions.mockwebserver,
-      coroutines_test : 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' + versions.coroutines,
-      googleTruth     : 'com.google.truth:truth:' + versions.googleTruth,
-      androidxTestCore: 'androidx.test:core:' + versions.androidxCore,
-      archTesting     : 'androidx.arch.core:core-testing:' + versions.arch_core_testing,
-      runner          : 'androidx.test:runner:' + versions.runnerVersion,
-      junitExtension  : 'androidx.test.ext:junit:' + versions.junitExtension,
-      espresso        : 'androidx.test.espresso:espresso-core:' + versions.espresso,
-      roomTest        : 'androidx.room:room-testing:' + versions.room,
-      hiltAndroidTesting : 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion,
-      rules           : 'androidx.test:rules:' + versions.runnerVersion,
-      fragmentTest    : 'androidx.fragment:fragment-testing:'+ versions.fragmentTest,
+      junit                 : 'junit:junit:' + versions.junit,
+      mockitoVersion        : 'org.mockito:mockito-core:' + versions.mockitoVersion,
+      mockitoKotlin         : 'com.nhaarman.mockitokotlin2:mockito-kotlin:' + versions.mockitoKotlin,
+      mockwebserver         : 'com.squareup.okhttp3:mockwebserver:' + versions.mockwebserver,
+      coroutines_test       : 'org.jetbrains.kotlinx:kotlinx-coroutines-test:' + versions.coroutines,
+      googleTruth           : 'com.google.truth:truth:' + versions.googleTruth,
+      androidxTestCore      : 'androidx.test:core:' + versions.androidxCore,
+      archTesting           : 'androidx.arch.core:core-testing:' + versions.arch_core_testing,
+      runner                : 'androidx.test:runner:' + versions.runnerVersion,
+      junitExtension        : 'androidx.test.ext:junit:' + versions.junitExtension,
+      espresso              : 'androidx.test.espresso:espresso-core:' + versions.espresso,
+      roomTest              : 'androidx.room:room-testing:' + versions.room,
+      hiltAndroidTesting    : 'com.google.dagger:hilt-android-testing:' + versions.daggerHiltAndroidVersion,
+      rules                 : 'androidx.test:rules:' + versions.runnerVersion,
+      fragmentTest          : 'androidx.fragment:fragment-testing:' + versions.fragmentTest,
       espressoIntents       : 'androidx.test.espresso:espresso-intents:' + versions.espresso,
       espressoContrib       : 'androidx.test.espresso:espresso-contrib:' + versions.espresso,
-      robolectric     : 'org.robolectric:robolectric:' + versions.robolectricVersion,
+      robolectric           : 'org.robolectric:robolectric:' + versions.robolectricVersion,
       espressoIdlingResource: 'androidx.test.espresso:espresso-idling-resource:' + versions.espresso,
   ]
 }

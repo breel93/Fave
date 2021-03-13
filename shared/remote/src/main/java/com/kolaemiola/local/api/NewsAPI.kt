@@ -13,7 +13,7 @@ interface NewsAPI {
       @Query("language") language: String?,
       @Query("country") country: String?,
       @Query("apiKey") apiKey: String
-  ): Response<SourceResponse>
+  ):Response<SourceResponse>
 
   @GET("/v2/everything")
   suspend fun getEverything(
@@ -26,7 +26,7 @@ interface NewsAPI {
       @Query("pageSize") pageSize: Int,
       @Query("page") page: Int,
       @Query("apiKey") apiKey: String
-  ): Response<ArticleResponse>
+  ):Response<ArticleResponse>
 
   @GET("/v2/top-headlines")
   suspend fun getHeadLines(
@@ -37,6 +37,6 @@ interface NewsAPI {
       @Query("pageSize") pageSize: Int,
       @Query("page") page: Int,
       @Query("apiKey") apiKey: String
-  ): Response<ArticleResponse>
+  ):Response<ArticleResponse>
 
 }

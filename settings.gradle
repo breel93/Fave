@@ -1,4 +1,3 @@
-include ':search'
 include ':shared:local'
 include ':shared:domain'
 include ':shared:remote'
