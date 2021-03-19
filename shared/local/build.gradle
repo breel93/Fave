@@ -54,6 +54,10 @@ dependencies {
   testImplementation testDeps.junit
   testImplementation testDeps.googleTruth
   testImplementation testDeps.coroutines_test
-  testImplementation testDeps.mockitoVersion
+  testImplementation testDeps.junitExtension
   testImplementation testDeps.mockitoKotlin
+  testImplementation testDeps.runner
+  testImplementation testDeps.robolectric
+  testImplementation testDeps.roomTest
+  testImplementation testDeps.archTesting
 }
