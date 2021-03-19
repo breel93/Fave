@@ -1,9 +1,9 @@
-package com.example.data.di
+package com.kolaemiola.data.di
 
-import com.example.data.repository.BookMarkRepositoryImpl
-import com.example.data.repository.EverythingRepositoryImpl
-import com.example.data.repository.HeadLinesRepositoryImpl
-import com.example.data.repository.SourcesRepositoryImpl
+import com.kolaemiola.data.repository.BookMarkRepositoryImpl
+import com.kolaemiola.data.repository.EverythingRepositoryImpl
+import com.kolaemiola.data.repository.HeadLinesRepositoryImpl
+import com.kolaemiola.data.repository.SourcesRepositoryImpl
 import com.kolaemiola.domain.repository.BookMarkRepository
 import com.kolaemiola.domain.repository.EverythingRepository
 import com.kolaemiola.domain.repository.HeadLinesRepository

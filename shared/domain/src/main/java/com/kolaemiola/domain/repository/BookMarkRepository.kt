@@ -1,6 +1,6 @@
 package com.kolaemiola.domain.repository
 
-import com.example.core.model.Article
+import com.kolaemiola.core.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface BookMarkRepository {

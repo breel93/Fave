@@ -1,11 +1,12 @@
-package com.example.data.repository
+package com.kolaemiola.data.repository
 
 import arrow.core.Either
-import com.example.core.model.Article
-import com.example.core.model.Error
-import com.example.data.remote.SourcesRemote
+import com.kolaemiola.core.model.Error
+import com.kolaemiola.core.model.Source
+import com.kolaemiola.data.remote.SourcesRemote
 import com.kolaemiola.domain.repository.SourcesRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SourcesRepositoryImpl @Inject constructor(
@@ -15,8 +16,7 @@ class SourcesRepositoryImpl @Inject constructor(
     category: String,
     language: String,
     country: String
-  ): Flow<Either<Error, List<Article>>> {
-    TODO("Not yet implemented")
+  ): Flow<Either<Error, List<Source>>> = flow{
+    emit(sourcesRemote.getSources(category, language, country))
   }
-
 }

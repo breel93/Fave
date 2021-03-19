@@ -1,11 +1,12 @@
-package com.example.data.repository
+package com.kolaemiola.data.repository
 
 import arrow.core.Either
-import com.example.core.model.Article
-import com.example.core.model.Error
-import com.example.data.remote.HeadLinesRemote
+import com.kolaemiola.core.model.Article
+import com.kolaemiola.core.model.Error
+import com.kolaemiola.data.remote.HeadLinesRemote
 import com.kolaemiola.domain.repository.HeadLinesRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class HeadLinesRepositoryImpl @Inject constructor(
@@ -18,8 +19,9 @@ class HeadLinesRepositoryImpl @Inject constructor(
     query: String,
     pageSize: Int,
     page: Int
-  ): Flow<Either<Error, List<Article>>> {
-    TODO("Not yet implemented")
+  ): Flow<Either<Error, List<Article>>> = flow{
+    emit(headLinesRemote.getHeadLines(country = country, sources = sources, category = category,
+      query = query, pageSize = pageSize, page = page))
   }
 
 }

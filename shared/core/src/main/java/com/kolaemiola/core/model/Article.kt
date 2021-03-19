@@ -1,4 +1,4 @@
-package com.example.core.model
+package com.kolaemiola.core.model
 
 import java.util.Date
 

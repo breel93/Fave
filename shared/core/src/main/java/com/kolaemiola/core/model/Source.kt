@@ -1,4 +1,4 @@
-package com.example.core.model
+package com.kolaemiola.core.model
 
 data class Source(
     val id: String?,

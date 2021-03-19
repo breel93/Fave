@@ -1,8 +1,8 @@
-package com.example.data.remote
+package com.kolaemiola.data.remote
 
-import com.example.core.model.Article
+import com.kolaemiola.core.model.Article
 import arrow.core.Either
-import com.example.core.model.Error
+import com.kolaemiola.core.model.Error
 
 interface EverythingRemote {
   suspend fun getEverything(

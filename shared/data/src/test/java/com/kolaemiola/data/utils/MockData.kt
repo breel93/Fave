@@ -1,6 +1,6 @@
 package com.kolaemiola.data.utils
 
-import com.example.core.model.Article
+import com.kolaemiola.core.model.Article
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,6 +1,6 @@
-package com.example.data.local
+package com.kolaemiola.data.local
 
-import com.example.core.model.Article
+import com.kolaemiola.core.model.Article
 
 
 interface BookMarkLocal {
