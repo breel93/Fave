@@ -3,7 +3,7 @@ package com.kolaemiola.local.local
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kolaemiola.local.mapper.ArticleLocalMapper
 import com.kolaemiola.local.room.dao.ArticleDao
-import com.kolaemiola.data.utils.MockData
+import com.kolaemiola.local.utils.MockData
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import com.google.common.truth.Truth.assertThat

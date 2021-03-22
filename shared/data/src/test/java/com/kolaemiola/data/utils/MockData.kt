@@ -1,6 +1,8 @@
 package com.kolaemiola.data.utils
 
 import com.kolaemiola.core.model.Article
+import com.kolaemiola.core.model.CategoryArticle
+import com.kolaemiola.core.model.Source
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,6 +47,61 @@ object MockData {
     source = "CNBC"
   )
   val mockArticles = listOf(mockArticle0, mockArticle1, mockArticle2, mockArticle3)
+
+  val mockSource0 = Source(
+    id = "abc-news",
+    name = "ABC News",
+    description = "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com.",
+    url = "https://abcnews.go.com",
+    category = "general",
+    language = "en",
+    country = "us"
+  )
+  val mockSource1 = Source(
+    id = "abc-news-au",
+    name = "ABC News (AU)",
+    description = "Australia's most trusted source of local, national and world news. Comprehensive, independent, in-depth analysis, the latest business, sport, weather and more.",
+    url = "http://www.abc.net.au/news",
+    category = "general",
+    language = "en",
+    country = "au"
+  )
+  val mockSource2 = Source(
+    id = "aftenposten",
+    name = "Aftenposten",
+    description = "Norges ledende nettavis med alltid oppdaterte nyheter innenfor innenriks, utenriks, sport og kultur.",
+    url = "https://www.aftenposten.no",
+    category = "general",
+    language = "no",
+    country = "no"
+  )
+  val mockSource3 = Source(
+    id = "al-jazeera-english",
+    name = "Al Jazeera English",
+    description = "News, analysis from the Middle East and worldwide, multimedia and interactives, opinions, documentaries, podcasts, long reads and broadcast schedule.",
+    url = "http://www.aljazeera.com",
+    category = "general",
+    language = "en",
+    country = "us"
+  )
+
+  val mockSources = listOf(mockSource0, mockSource1, mockSource2, mockSource3)
+
+
+  val categoryArticle0 = CategoryArticle(
+    title = "business",
+    articles = mockArticles
+  )
+  val categoryArticle1 = CategoryArticle(
+    title = "entertainment",
+    articles = mockArticles
+  )
+  val categoryArticle2 = CategoryArticle(
+    title = "general",
+    articles = mockArticles
+  )
+  val categoryArticles = listOf(categoryArticle0,categoryArticle1,categoryArticle2)
+
 
   private fun date(theDate: String): Date {
     val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")

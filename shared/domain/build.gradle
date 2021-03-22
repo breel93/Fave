@@ -10,6 +10,7 @@ dependencies {
   implementation deps.coroutinesAndroid
   implementation deps.coroutines
   implementation deps.arrow
+  testImplementation testDeps.mockitoKotlin
   testImplementation testDeps.junit
   testImplementation testDeps.coroutines_test
   testImplementation testDeps.googleTruth

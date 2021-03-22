@@ -1,5 +1,10 @@
 package com.kolaemiola.domain.usecases
 
-import org.junit.Assert.*
+import com.kolaemiola.domain.repository.BookMarkRepository
+import com.nhaarman.mockitokotlin2.mock
 
-class BookMarkUseCaseTest
+
+class BookMarkUseCaseTest{
+
+  private val bookMarkRepository : BookMarkRepository = mock()
+}

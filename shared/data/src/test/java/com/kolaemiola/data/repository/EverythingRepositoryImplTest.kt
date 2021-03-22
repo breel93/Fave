@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 
@@ -26,16 +27,17 @@ class EverythingRepositoryImplTest{
     //given that we call get everything from remote
     val sources = "bleacher-reports,reuters,cnn,msnbc"
     whenever(everythingRemote.getEverything(
-      query = "", sources = sources, sortBy = "", from = "", to = "", language = "",
+      query = "", sources = "", sortBy = "", from = "", to = "", language = "",
       pageSize = 5, page = 1
     )).thenReturn(Either.right(MockData.mockArticles))
 
 
     //when repository calls get everything
     val sourcesList = listOf("bleacher-reports", "reuters", "cnn", "msnbc")
-    everythingRepository.getEverything(query = "", sources = sourcesList, sortBy = "", from = "",
+    val everything = everythingRepository.getEverything(query = "", sources = listOf(), sortBy = "", from = "",
       to = "", language = "", pageSize = 5, page = 1).first().orNull()
 
-
+    //then verify articles
+    assertThat(everything).isNotEmpty()
   }
 }
